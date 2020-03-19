@@ -1,7 +1,7 @@
 #pragma once
 class Texture;
 
-static const float m_Side;
+static const float m_Side{50};
 
 class Tile
 {
