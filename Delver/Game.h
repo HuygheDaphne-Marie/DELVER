@@ -3,6 +3,7 @@
 #include "BulletManager.h"
 #include "Gun.h"
 #include "Player.h"
+#include "Room.h"
 
 #include <vector>
 
@@ -42,4 +43,6 @@ private:
 
 	void TestBulletManager();
 	void InitPlayer();
+
+	Room m_TestRoom;
 };

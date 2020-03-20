@@ -7,6 +7,7 @@ Game::Game( const Window& window )
 	, m_Player{ Point2f{window.width / 2, window.height / 2} }
 	, m_BarrierVerticies{ Point2f{200, 200}, Point2f{400, 200}, Point2f{400, 400}, Point2f{200, 400} }
 	, m_MousePos{0, 0}
+	, m_TestRoom{ GridPos{0,0}, Point2f{50,50} }
 {
 	Initialize( );
 }
@@ -19,6 +20,9 @@ void Game::Initialize( )
 {
 	TestBulletManager();
 	InitPlayer();
+
+	m_TestRoom.SetConnection(true, true, true, true);
+	m_TestRoom.Generate();
 }
 void Game::Cleanup( )
 {
@@ -47,6 +51,9 @@ void Game::Update( float elapsedSec )
 void Game::Draw( ) const
 {
 	ClearBackground( );
+
+	m_TestRoom.Draw();
+
 	m_pBulletManager->DrawBullets();
 	m_Player.Draw();
 	//m_Gun.Draw();
@@ -57,7 +64,7 @@ void Game::Draw( ) const
 	utils::DrawLine(gun->GetAimPos(), gun->GetGunPos());
 	// up should be moved to gun
 
-	utils::DrawPolygon(m_BarrierVerticies, true);
+	//utils::DrawPolygon(m_BarrierVerticies, true);
 }
 
 void Game::ProcessKeyDownEvent( const SDL_KeyboardEvent & e )

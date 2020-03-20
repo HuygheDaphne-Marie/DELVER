@@ -18,7 +18,7 @@ Room::~Room()
 
 void Room::Generate()
 {
-	for (int i{}; i < m_RoomWidth * m_RoomHeight; i++)
+	for (int i{}; i < (m_RoomCols * m_RoomRows); i++)
 	{
 		GridPos tilePos{ GridPosFromIndex(i) };
 		m_Tiles.push_back(Tile(tilePos, Tile::Type::floor));
@@ -31,10 +31,13 @@ void Room::Generate()
 
 void Room::Draw() const
 {
+	glPushMatrix();
+	glTranslatef(m_BottomLeft.x, m_BottomLeft.y, 0);
 	for (Tile tile : m_Tiles)
 	{
 		tile.Draw();
 	}
+	glPopMatrix();
 }
 
 std::vector<Point2f> Room::GetBarriers() const
@@ -52,39 +55,60 @@ void Room::SetConnection(bool shouldTopOpen, bool shouldLeftOpen, bool shouldBot
 
 GridPos Room::GridPosFromIndex(int index) const
 {
-	return GridPos{ index % m_RoomWidth, index / m_RoomHeight };
+	return GridPos{ index % m_RoomCols, index / m_RoomCols };
 }
 int Room::IndexFromGridPos(const GridPos& tilePos) const
 {
-	return tilePos.y * m_RoomWidth + tilePos.x;
+	return tilePos.y * m_RoomCols + tilePos.x;
 }
 
 void Room::GenerateEdges()
 {
-
-	for (int i{}; i < m_RoomWidth; i++)
+	for (int i{}; i < m_RoomCols; i++)
 	{
 		m_Tiles[IndexFromGridPos(GridPos{ i, 0 })].SetType(Tile::Type::wall);
-		m_Tiles[IndexFromGridPos(GridPos{ i, m_RoomHeight - 1 })].SetType(Tile::Type::wall);
+		m_Tiles[IndexFromGridPos(GridPos{ i, m_RoomRows - 1 })].SetType(Tile::Type::wall);
+	}
+	for (int i{}; i < m_RoomRows; i++)
+	{
 		m_Tiles[IndexFromGridPos(GridPos{ 0, i })].SetType(Tile::Type::wall);
-		m_Tiles[IndexFromGridPos(GridPos{ m_RoomWidth - 1, i })].SetType(Tile::Type::wall);
+		m_Tiles[IndexFromGridPos(GridPos{ m_RoomCols - 1, i })].SetType(Tile::Type::wall);
 	}
 
-	//if (m_IsTopOpen)
-	//{
+	if (m_IsTopOpen)
+	{
+		GridPos hallwayTile{ (m_RoomCols - m_HallwayWidth + 1) / 2, m_RoomRows - 1 };
+		GenerateHallway(hallwayTile, true);
+	}
+	if (m_IsBottomOpen)
+	{
+		GridPos hallwayTile{ (m_RoomCols - m_HallwayWidth + 1) / 2, 0 };
+		GenerateHallway(hallwayTile, true);
+	}
 
-	//}
-	//if (m_IsBottomOpen)
-	//{
-	//	
-	//}
-
-	//if (m_IsLeftOpen)
-	//{
-
-	//}
-	//if (m_IsRightOpen)
-	//{
-
-	//}
+	if (m_IsLeftOpen)
+	{
+		GridPos hallwayTile{ 0, (m_RoomRows - m_HallwayWidth + 1) / 2 };
+		GenerateHallway(hallwayTile, false);
+	}
+	if (m_IsRightOpen)
+	{
+		GridPos hallwayTile{ m_RoomCols - 1, (m_RoomRows - m_HallwayWidth + 1) / 2 };
+		GenerateHallway(hallwayTile, false);
+	}
+}
+void Room::GenerateHallway(GridPos& hallwayStart, bool isHorizontal)
+{
+	for (int i{}; i < m_HallwayWidth; i++)
+	{
+		m_Tiles[IndexFromGridPos(hallwayStart)].SetType(Tile::Type::floor);
+		if (isHorizontal)
+		{
+			hallwayStart.x++;
+		}
+		else
+		{
+			hallwayStart.y++;
+		}
+	}
 }

@@ -2,8 +2,9 @@
 #include <vector>
 #include "Tile.h"
 
-static const int m_RoomWidth{ 10 }; // Can change this to make rooms of different sizes
-static const int m_RoomHeight{ 10 };
+static const int m_RoomCols{ 25 }; // Can change this to make rooms of different sizes
+static const int m_RoomRows{ 21 };
+static const int m_HallwayWidth{ 3 };
 
 class Room
 {
@@ -46,5 +47,6 @@ private:
 	int IndexFromGridPos(const GridPos& tilePos) const;
 
 	void GenerateEdges();
+	void GenerateHallway(GridPos& hallwayStart, bool isHorizontal);
 };
 
