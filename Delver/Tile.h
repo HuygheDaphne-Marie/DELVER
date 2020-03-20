@@ -1,10 +1,11 @@
 #pragma once
 class Texture;
 
-static const float m_Side{50};
+static const float m_Side{20};
 
 class Tile
 {
+public:
 	enum class Type
 	{
 		nothing,
@@ -12,7 +13,6 @@ class Tile
 		floor
 	};
 
-public:
 	Tile(const GridPos& pos, Type tileType = Type::nothing);
 	~Tile();
 
