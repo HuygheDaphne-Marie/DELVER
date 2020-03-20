@@ -24,7 +24,7 @@ class Room
 	//};
 
 public:
-	Room(const GridPos& position, const Point2f& bottomLeft);
+	Room(const GridPos& position);
 	~Room();
 	void Generate();
 	void Draw() const;

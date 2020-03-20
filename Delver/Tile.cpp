@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "Tile.h"
 
+const float Tile::m_Side = 20.f;
+
 Tile::Tile(const GridPos& pos, Type tileType)
 	: m_TilePos{pos}
 	, m_Type{}
@@ -55,10 +57,10 @@ void Tile::Draw() const
 		glColor3f(0, 0, 0);
 		break;
 	case Tile::Type::wall:
-		glColor3f(1, 0, 0);
+		glColor3f(0, 0.5f, 0.5f);
 		break;
 	case Tile::Type::floor:
-		glColor3f(0, 1, 0);
+		glColor3f(0.2f, 0.3f, 0);
 		break;
 	}
 	utils::FillRect(Point2f{m_TilePos.x * m_Side, m_TilePos.y * m_Side}, m_Side, m_Side);

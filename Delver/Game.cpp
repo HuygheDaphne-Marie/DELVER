@@ -7,7 +7,7 @@ Game::Game( const Window& window )
 	, m_Player{ Point2f{window.width / 2, window.height / 2} }
 	, m_BarrierVerticies{ Point2f{200, 200}, Point2f{400, 200}, Point2f{400, 400}, Point2f{200, 400} }
 	, m_MousePos{0, 0}
-	, m_TestRoom{ GridPos{0,0}, Point2f{50,50} }
+	, m_TestRoom{ GridPos{0,0} }
 {
 	Initialize( );
 }

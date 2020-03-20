@@ -1,11 +1,12 @@
 #pragma once
 class Texture;
 
-static const float m_Side{20};
+
 
 class Tile
 {
 public:
+	static const float m_Side;
 	enum class Type
 	{
 		nothing,

@@ -23,6 +23,15 @@ float GetDistance(const Point2f& p1, const Point2f& p2)
 	return sqrt(pow(p2.x - p1.x, 2) + pow(p2.y - p1.y, 2));
 }
 
+GridPos utils::GridPosFromIndex(int index, int cols)
+{
+	return GridPos{ index % cols, index / cols };
+}
+int utils::IndexFromGridPos(const GridPos& tilePos, int cols)
+{
+	return tilePos.y * cols + tilePos.x;
+}
+
 // Random //
 int utils::GetRand(int min, int max)
 {

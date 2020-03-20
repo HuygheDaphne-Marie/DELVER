@@ -13,6 +13,10 @@ namespace utils
 
 	float GetDistance(const Point2f& p1, const Point2f& p2);
 
+	GridPos GridPosFromIndex(int index, int cols);
+	int IndexFromGridPos(const GridPos& tilePos, int cols);
+
+
 	// Random //
 	int GetRand(int min, int max);
 #pragma endregion OwnUtils

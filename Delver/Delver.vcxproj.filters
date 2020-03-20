@@ -93,6 +93,9 @@
     <ClCompile Include="Room.cpp">
       <Filter>Game Files\Level</Filter>
     </ClCompile>
+    <ClCompile Include="Level.cpp">
+      <Filter>Game Files\Level</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -159,6 +162,9 @@
       <Filter>Game Files\Level</Filter>
     </ClInclude>
     <ClInclude Include="Room.h">
+      <Filter>Game Files\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="Level.h">
       <Filter>Game Files\Level</Filter>
     </ClInclude>
   </ItemGroup>
