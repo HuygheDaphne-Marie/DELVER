@@ -155,6 +155,7 @@
     <ClCompile Include="BounceEffect.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="BulletManager.cpp" />
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Core.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Gun.cpp" />
@@ -186,6 +187,7 @@
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="BulletManager.h" />
     <ClInclude Include="BulletType.h" />
+    <ClInclude Include="Camera.h" />
     <ClInclude Include="Core.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Gun.h" />

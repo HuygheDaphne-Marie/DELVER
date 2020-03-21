@@ -1,13 +1,13 @@
 #include "pch.h"
 #include "Game.h"
+#include "Room.h"
 
 Game::Game( const Window& window )
 	: m_Window{ window }
 	, m_pBulletManager{ BulletManager::GetInstance() }
 	, m_Player{ Point2f{window.width / 2, window.height / 2} }
-	, m_BarrierVerticies{ Point2f{200, 200}, Point2f{400, 200}, Point2f{400, 400}, Point2f{200, 400} }
 	, m_MousePos{0, 0}
-	//, m_TestRoom{ GridPos{0,0} }
+	, m_Camera{window.width, window.height}
 	, m_Level{ 3, 3 }
 
 {
@@ -55,6 +55,9 @@ void Game::Draw( ) const
 {
 	ClearBackground( );
 
+	glPushMatrix();
+	m_Camera.Transform(m_Player.GetPosition());
+
 	//m_TestRoom.Draw();
 	m_Level.Draw();
 
@@ -79,7 +82,7 @@ void Game::Draw( ) const
 			utils::DrawPolygon(wall, false);
 		}
 	}
-	
+	glPopMatrix();
 }
 
 void Game::ProcessKeyDownEvent( const SDL_KeyboardEvent & e )

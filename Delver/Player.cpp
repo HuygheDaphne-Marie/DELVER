@@ -7,6 +7,7 @@ Player::Player(const Point2f& pos, Gun* pGunEquiped)
 	: Actor(pos, Actor::Type::player)
 	, m_State{ State::waiting }
 	, m_IdxEquippedGun{ 0 }
+	, m_StartPosition{ pos }
 {
 	if (pGunEquiped != nullptr)
 	{
@@ -59,7 +60,9 @@ void Player::Update(float elapsedSec, const Point2f mousePos)
 	{
 		m_pGuns[m_IdxEquippedGun]->UpdateGun(elapsedSec);
 		m_pGuns[m_IdxEquippedGun]->UpdateGunPos(m_Position);
-		m_pGuns[m_IdxEquippedGun]->UpdateAimPos(mousePos);
+
+		Vector2f differenceFromStart{ m_StartPosition, GetPosition() };
+		m_pGuns[m_IdxEquippedGun]->UpdateAimPos(mousePos + differenceFromStart);
 	}
 }
 void Player::Draw() const

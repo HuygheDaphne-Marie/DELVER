@@ -29,5 +29,6 @@ private:
 	State m_State;
 	std::vector<Gun*> m_pGuns;
 	size_t m_IdxEquippedGun;
+	const Point2f m_StartPosition;
 };
 

@@ -96,6 +96,9 @@
     <ClCompile Include="Level.cpp">
       <Filter>Game Files\Level</Filter>
     </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Game Files\Actors</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -166,6 +169,9 @@
     </ClInclude>
     <ClInclude Include="Level.h">
       <Filter>Game Files\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Game Files\Actors</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

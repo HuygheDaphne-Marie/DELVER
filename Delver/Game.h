@@ -3,7 +3,7 @@
 #include "BulletManager.h"
 #include "Gun.h"
 #include "Player.h"
-#include "Room.h"
+#include "Camera.h"
 #include "Level.h"
 
 #include <vector>
@@ -33,9 +33,11 @@ private:
 	const Window m_Window;
 	BulletManager* m_pBulletManager;
 	Player m_Player;
-	std::vector<Point2f> m_BarrierVerticies;
 
 	Point2f m_MousePos;
+
+	Camera m_Camera;
+	Level m_Level;
 
 	// FUNCTIONS
 	void Initialize( );
@@ -44,7 +46,4 @@ private:
 
 	void TestBulletManager();
 	void InitPlayer();
-
-	//Room m_TestRoom;
-	Level m_Level;
 };
