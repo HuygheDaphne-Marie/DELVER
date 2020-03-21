@@ -25,7 +25,7 @@ float GetDistance(const Point2f& p1, const Point2f& p2)
 
 bool utils::GridPosValid(const GridPos& pos, int cols, int rows)
 {
-	return pos.x >= 0 && pos.x < cols || pos.y >= 0 && pos.y < rows;
+	return pos.x >= 0 && pos.x < cols && pos.y >= 0 && pos.y < rows;
 }
 GridPos utils::GridPosFromIndex(int index, int cols)
 {

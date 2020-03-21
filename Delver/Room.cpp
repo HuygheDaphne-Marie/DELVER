@@ -11,6 +11,7 @@ Room::Room(const GridPos& position)
 	, m_IsBottomOpen{false}
 	, m_IsRightOpen{false}
 	, m_IsGenerated{false}
+	, m_Barriers{}
 {
 }
 Room::~Room()
@@ -28,6 +29,7 @@ void Room::Generate()
 	GenerateEdges();
 
 	m_IsGenerated = true;
+	InitBarriers();
 }
 void Room::GenerateEdges()
 {
@@ -92,13 +94,17 @@ void Room::Draw() const
 	for (Tile tile : m_Tiles)
 	{
 		tile.Draw();
+		for (std::vector<Point2f> barrier : m_Barriers)
+		{
+			glColor3f(1.f, 1.f, 1.f);
+			utils::DrawPolygon(barrier, false);
+		}
 	}
 	glPopMatrix();
 }
 
-std::vector<std::vector<Point2f>> Room::GetBarriers() const
+void Room::InitBarriers()
 {
-	std::vector<std::vector<Point2f>> barriers();
 	for (Tile tile : m_Tiles)
 	{
 		if (!tile.IsWalkable())
@@ -106,32 +112,50 @@ std::vector<std::vector<Point2f>> Room::GetBarriers() const
 			std::vector<Point2f> tileBarrier{};
 			GridPos tilePos{ tile.GetTilePos() };
 			GridPos otherTilePos{ tilePos.x + 1, tilePos.y };
+
+			// Left & right
 			if (utils::GridPosValid(otherTilePos, m_RoomCols, m_RoomRows) && m_Tiles[utils::IndexFromGridPos(otherTilePos, m_RoomCols)].IsWalkable())
 			{
-				tileBarrier.push_back(Point2f{ tile.GetBottomLeft().x, tile.GetBottomLeft().y + Tile::m_Side });
+				// Barrier on right side
+				tileBarrier.push_back(Point2f{ tile.GetBottomLeft().x + Tile::m_Side, tile.GetBottomLeft().y });
 				tileBarrier.push_back(Point2f{ tile.GetBottomLeft().x + Tile::m_Side, tile.GetBottomLeft().y + Tile::m_Side });
 			}
 			otherTilePos.x = tilePos.x - 1;
 			if (utils::GridPosValid(otherTilePos, m_RoomCols, m_RoomRows) && m_Tiles[utils::IndexFromGridPos(otherTilePos, m_RoomCols)].IsWalkable())
 			{
-
+				// Barrier on left side
+				tileBarrier.push_back(tile.GetBottomLeft());
+				tileBarrier.push_back(Point2f{ tile.GetBottomLeft().x, tile.GetBottomLeft().y + Tile::m_Side });
 			}
+
 			otherTilePos.x = tilePos.x;
+
+			// Top & bottom
 			otherTilePos.y = tilePos.y + 1;
 			if (utils::GridPosValid(otherTilePos, m_RoomCols, m_RoomRows) && m_Tiles[utils::IndexFromGridPos(otherTilePos, m_RoomRows)].IsWalkable())
 			{
-
+				// Top side points
+				tileBarrier.push_back(Point2f{ tile.GetBottomLeft().x, tile.GetBottomLeft().y + Tile::m_Side });
+				tileBarrier.push_back(Point2f{ tile.GetBottomLeft().x + Tile::m_Side, tile.GetBottomLeft().y + Tile::m_Side });
 			}
 			otherTilePos.y = tilePos.y - 1;
 			if (utils::GridPosValid(otherTilePos, m_RoomCols, m_RoomRows) && m_Tiles[utils::IndexFromGridPos(otherTilePos, m_RoomRows)].IsWalkable())
 			{
+				// bottom points
+				tileBarrier.push_back(tile.GetBottomLeft());
+				tileBarrier.push_back(Point2f{ tile.GetBottomLeft().x + Tile::m_Side, tile.GetBottomLeft().y });
+			}
 
+			if (tileBarrier.size() > 0)
+			{
+				m_Barriers.push_back(tileBarrier);
 			}
 		}
 	}
-
-
-	return std::vector<std::vector<Point2f>>{}; // TEMP
+}
+std::vector<std::vector<Point2f>> Room::GetBarriers() const
+{
+	return m_Barriers;
 }
 GridPos Room::GetRoomPos() const
 {

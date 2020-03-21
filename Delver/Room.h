@@ -53,7 +53,10 @@ private:
 	bool m_IsRightOpen;
 	bool m_IsGenerated;
 
+	std::vector<std::vector<Point2f>> m_Barriers;
+
 	void GenerateEdges();
 	void GenerateHallway(GridPos& hallwayStart, bool isHorizontal);
+	void InitBarriers();
 };
 
