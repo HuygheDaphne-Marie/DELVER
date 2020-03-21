@@ -5,6 +5,7 @@
 Game::Game( const Window& window )
 	: m_Window{ window }
 	, m_pBulletManager{ BulletManager::GetInstance() }
+	, m_pTextureManager{ TextureManager::GetInstance() }
 	, m_Player{ Point2f{window.width / 2, window.height / 2} }
 	, m_MousePos{0, 0}
 	, m_Camera{window.width, window.height}
@@ -31,6 +32,9 @@ void Game::Cleanup( )
 {
 	delete m_pBulletManager;
 	m_pBulletManager = nullptr;
+
+	delete m_pTextureManager;
+	m_pTextureManager = nullptr;
 }
 
 void Game::Update( float elapsedSec )

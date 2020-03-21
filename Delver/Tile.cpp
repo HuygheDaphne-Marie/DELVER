@@ -1,5 +1,7 @@
 #include "pch.h"
 #include "Tile.h"
+#include "Texture.h"
+#include "TextureManager.h"
 
 const float Tile::m_Side = 20.f;
 
@@ -43,11 +45,11 @@ void Tile::SetType(Type newType)
 		m_IsWalkable = false;
 		break;
 	case Tile::Type::wall:
-		m_pTexture = nullptr; // Get wall texture from manager
+		m_pTexture = TextureManager::GetInstance()->GetTexture(TextureManager::WALL);
 		m_IsWalkable = false;
 		break;
 	case Tile::Type::floor:
-		m_pTexture = nullptr; // Get floor texture from manager
+		m_pTexture = TextureManager::GetInstance()->GetTexture(TextureManager::FLOOR);
 		m_IsWalkable = true;
 		break;
 	}
@@ -55,6 +57,12 @@ void Tile::SetType(Type newType)
 
 void Tile::Draw() const
 {
+	if (m_pTexture != nullptr)
+	{
+		m_pTexture->Draw(Rectf{ GetBottomLeft().x, GetBottomLeft().y, m_Side, m_Side });
+		return;
+	}
+
 	switch (m_Type) // Temp
 	{
 	case Tile::Type::nothing:

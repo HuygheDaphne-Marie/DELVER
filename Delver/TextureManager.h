@@ -6,7 +6,6 @@ class Texture;
 class TextureManager final
 {
 public:
-	static const std::string NO_TEXTURE;
 	static const std::string PLAYER;
 	static const std::string FLOOR;
 	static const std::string WALL;
@@ -23,6 +22,7 @@ public:
 	Texture* GetTexture(const std::string& textureName) const;
 
 private:
+	static const std::string NO_TEXTURE;
 	std::unordered_map<std::string, Texture*> m_Textures;
 
 	TextureManager();

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "BulletManager.h"
+#include "TextureManager.h"
 #include "Gun.h"
 #include "Player.h"
 #include "Camera.h"
@@ -32,6 +33,7 @@ private:
 	// DATA MEMBERS
 	const Window m_Window;
 	BulletManager* m_pBulletManager;
+	TextureManager* m_pTextureManager;
 	Player m_Player;
 
 	Point2f m_MousePos;
