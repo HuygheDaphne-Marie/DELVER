@@ -2,8 +2,8 @@
 #include <vector>
 #include "Tile.h"
 
-static const int m_RoomCols{ 25 }; // Can change this to make rooms of different sizes
-static const int m_RoomRows{ 21 };
+static const int m_RoomCols{ 9 }; // Can change this to make rooms of different sizes
+static const int m_RoomRows{ 9 };
 static const int m_HallwayWidth{ 3 };
 
 class Room
@@ -28,9 +28,19 @@ public:
 	~Room();
 	void Generate();
 	void Draw() const;
-	std::vector<Point2f> GetBarriers() const;
+	std::vector<std::vector<Point2f>> GetBarriers() const;
+	GridPos GetRoomPos() const;
+
+	bool IsTopOpen() const;
+	bool IsLeftOpen() const;
+	bool IsBottomOpen() const;
+	bool IsRightOpen() const;
 
 	void SetConnection(bool shouldTopOpen, bool shouldLeftOpen, bool shouldBottomOpen, bool shouldRightOpen);
+	void SetTopOpen(bool isOpen);
+	void SetLeftOpen(bool isOpen);
+	void SetBottomOpen(bool isOpen);
+	void SetRightOpen(bool isOpen);
 
 private:
 	const GridPos m_RoomPos;
@@ -42,9 +52,6 @@ private:
 	bool m_IsBottomOpen;
 	bool m_IsRightOpen;
 	bool m_IsGenerated;
-
-	GridPos GridPosFromIndex(int index) const;
-	int IndexFromGridPos(const GridPos& tilePos) const;
 
 	void GenerateEdges();
 	void GenerateHallway(GridPos& hallwayStart, bool isHorizontal);

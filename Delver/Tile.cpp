@@ -28,6 +28,10 @@ bool Tile::IsWalkable() const
 {
 	return m_IsWalkable;
 }
+Point2f Tile::GetBottomLeft() const
+{
+	return Point2f{ m_TilePos.x * Tile::m_Side, m_TilePos.y * Tile::m_Side };
+}
 
 void Tile::SetType(Type newType)
 {

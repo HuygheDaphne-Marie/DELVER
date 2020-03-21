@@ -4,6 +4,7 @@
 #include "Gun.h"
 #include "Player.h"
 #include "Room.h"
+#include "Level.h"
 
 #include <vector>
 
@@ -44,5 +45,6 @@ private:
 	void TestBulletManager();
 	void InitPlayer();
 
-	Room m_TestRoom;
+	//Room m_TestRoom;
+	Level m_Level;
 };

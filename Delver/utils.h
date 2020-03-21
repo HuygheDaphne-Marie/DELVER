@@ -13,8 +13,9 @@ namespace utils
 
 	float GetDistance(const Point2f& p1, const Point2f& p2);
 
+	bool GridPosValid(const GridPos& pos, int cols, int rows);
 	GridPos GridPosFromIndex(int index, int cols);
-	int IndexFromGridPos(const GridPos& tilePos, int cols);
+	int IndexFromGridPos(const GridPos& pos, int cols);
 
 
 	// Random //

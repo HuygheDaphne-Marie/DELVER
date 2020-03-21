@@ -11,6 +11,8 @@ public:
 	void GenerateNextLevel();
 	void Draw() const;
 
+	Room* GetRoomAt(const GridPos& pos) const;
+
 	void SetLevelDimensions(int width, int height);
 
 private:
@@ -20,8 +22,10 @@ private:
 	bool m_IsGenerated;
 
 	void Generate();
-	void GenerateStart(); // make start room which is open from all sides
-	bool GenerateRoomAt(const GridPos& position); // returns false if there is already a room there
+	Room* GenerateStart(); // make start room which is open from all sides
+	void GenerateAdjacentRoomsOfRoom(Room* room);
+	void ConnectRooms(Room* room1, Room* room2);
+	void GenerateRoomAt(const GridPos& newRoomPos, Room* parentRoom); // returns false if there is already a room there
 	void DestroyLevel(); // deletes all rooms
 };
 

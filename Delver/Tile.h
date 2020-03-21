@@ -20,6 +20,7 @@ public:
 	GridPos GetTilePos() const;
 	Type GetType() const;
 	bool IsWalkable() const;
+	Point2f GetBottomLeft() const;
 
 	void SetType(Type newType);
 

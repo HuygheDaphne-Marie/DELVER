@@ -96,9 +96,63 @@ void Room::Draw() const
 	glPopMatrix();
 }
 
-std::vector<Point2f> Room::GetBarriers() const
+std::vector<std::vector<Point2f>> Room::GetBarriers() const
 {
-	return std::vector<Point2f>{}; // TEMP
+	std::vector<std::vector<Point2f>> barriers();
+	for (Tile tile : m_Tiles)
+	{
+		if (!tile.IsWalkable())
+		{
+			std::vector<Point2f> tileBarrier{};
+			GridPos tilePos{ tile.GetTilePos() };
+			GridPos otherTilePos{ tilePos.x + 1, tilePos.y };
+			if (utils::GridPosValid(otherTilePos, m_RoomCols, m_RoomRows) && m_Tiles[utils::IndexFromGridPos(otherTilePos, m_RoomCols)].IsWalkable())
+			{
+				tileBarrier.push_back(Point2f{ tile.GetBottomLeft().x, tile.GetBottomLeft().y + Tile::m_Side });
+				tileBarrier.push_back(Point2f{ tile.GetBottomLeft().x + Tile::m_Side, tile.GetBottomLeft().y + Tile::m_Side });
+			}
+			otherTilePos.x = tilePos.x - 1;
+			if (utils::GridPosValid(otherTilePos, m_RoomCols, m_RoomRows) && m_Tiles[utils::IndexFromGridPos(otherTilePos, m_RoomCols)].IsWalkable())
+			{
+
+			}
+			otherTilePos.x = tilePos.x;
+			otherTilePos.y = tilePos.y + 1;
+			if (utils::GridPosValid(otherTilePos, m_RoomCols, m_RoomRows) && m_Tiles[utils::IndexFromGridPos(otherTilePos, m_RoomRows)].IsWalkable())
+			{
+
+			}
+			otherTilePos.y = tilePos.y - 1;
+			if (utils::GridPosValid(otherTilePos, m_RoomCols, m_RoomRows) && m_Tiles[utils::IndexFromGridPos(otherTilePos, m_RoomRows)].IsWalkable())
+			{
+
+			}
+		}
+	}
+
+
+	return std::vector<std::vector<Point2f>>{}; // TEMP
+}
+GridPos Room::GetRoomPos() const
+{
+	return m_RoomPos;
+}
+
+bool Room::IsTopOpen() const
+{
+	return m_IsTopOpen;
+}
+bool Room::IsLeftOpen() const
+{
+	return m_IsLeftOpen;
+}
+bool Room::IsBottomOpen() const
+{
+	return m_IsBottomOpen;
+}
+bool Room::IsRightOpen() const
+{
+	return m_IsRightOpen;
 }
 
 void Room::SetConnection(bool shouldTopOpen, bool shouldLeftOpen, bool shouldBottomOpen, bool shouldRightOpen)
@@ -107,4 +161,20 @@ void Room::SetConnection(bool shouldTopOpen, bool shouldLeftOpen, bool shouldBot
 	m_IsLeftOpen = shouldLeftOpen;
 	m_IsBottomOpen = shouldBottomOpen;
 	m_IsRightOpen = shouldRightOpen;
+}
+void Room::SetTopOpen(bool isOpen)
+{
+	m_IsTopOpen = isOpen;
+}
+void Room::SetLeftOpen(bool isOpen)
+{
+	m_IsLeftOpen = isOpen;
+}
+void Room::SetBottomOpen(bool isOpen)
+{
+	m_IsBottomOpen = isOpen;
+}
+void Room::SetRightOpen(bool isOpen)
+{
+	m_IsRightOpen = isOpen;
 }

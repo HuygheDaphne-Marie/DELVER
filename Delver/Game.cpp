@@ -7,7 +7,9 @@ Game::Game( const Window& window )
 	, m_Player{ Point2f{window.width / 2, window.height / 2} }
 	, m_BarrierVerticies{ Point2f{200, 200}, Point2f{400, 200}, Point2f{400, 400}, Point2f{200, 400} }
 	, m_MousePos{0, 0}
-	, m_TestRoom{ GridPos{0,0} }
+	//, m_TestRoom{ GridPos{0,0} }
+	, m_Level{ 3, 3 }
+
 {
 	Initialize( );
 }
@@ -21,8 +23,9 @@ void Game::Initialize( )
 	TestBulletManager();
 	InitPlayer();
 
-	m_TestRoom.SetConnection(true, true, true, true);
-	m_TestRoom.Generate();
+	//m_TestRoom.SetConnection(true, true, true, true);
+	//m_TestRoom.Generate();
+	m_Level.GenerateNextLevel();
 }
 void Game::Cleanup( )
 {
@@ -52,7 +55,8 @@ void Game::Draw( ) const
 {
 	ClearBackground( );
 
-	m_TestRoom.Draw();
+	//m_TestRoom.Draw();
+	m_Level.Draw();
 
 	m_pBulletManager->DrawBullets();
 	m_Player.Draw();
