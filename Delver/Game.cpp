@@ -68,7 +68,18 @@ void Game::Draw( ) const
 	utils::DrawLine(gun->GetAimPos(), gun->GetGunPos());
 	// up should be moved to gun
 
-	//utils::DrawPolygon(m_BarrierVerticies, true);
+
+	Room* playerRoom = m_Level.GetRoomAt(m_Player.GetPosition());
+	if (playerRoom != nullptr)
+	{
+		std::vector<std::vector<Point2f>> walls = playerRoom->GetBarriers();
+		for (std::vector<Point2f> wall : walls)
+		{
+			glColor3f(1.f, 1.f, 1.f);
+			utils::DrawPolygon(wall, false);
+		}
+	}
+	
 }
 
 void Game::ProcessKeyDownEvent( const SDL_KeyboardEvent & e )
