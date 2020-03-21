@@ -25,6 +25,9 @@
     <Filter Include="Game Files\Gunplay\Special Effects">
       <UniqueIdentifier>{7722ffc3-eada-4941-a719-904e46ad3dbb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game Files\Texture">
+      <UniqueIdentifier>{a0086f88-af76-4706-ad3b-bf32636b86c4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Core.cpp">
@@ -99,6 +102,9 @@
     <ClCompile Include="Camera.cpp">
       <Filter>Game Files\Actors</Filter>
     </ClCompile>
+    <ClCompile Include="TextureManager.cpp">
+      <Filter>Game Files\Texture</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -172,6 +178,9 @@
     </ClInclude>
     <ClInclude Include="Camera.h">
       <Filter>Game Files\Actors</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureManager.h">
+      <Filter>Game Files\Texture</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

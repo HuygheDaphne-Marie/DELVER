@@ -23,6 +23,7 @@ float GetDistance(const Point2f& p1, const Point2f& p2)
 	return sqrt(pow(p2.x - p1.x, 2) + pow(p2.y - p1.y, 2));
 }
 
+
 bool utils::GridPosValid(const GridPos& pos, int cols, int rows)
 {
 	return pos.x >= 0 && pos.x < cols && pos.y >= 0 && pos.y < rows;
@@ -35,6 +36,7 @@ int utils::IndexFromGridPos(const GridPos& pos, int cols)
 {
 	return pos.y * cols + pos.x;
 }
+
 
 // Random //
 int utils::GetRand(int min, int max)
@@ -251,7 +253,7 @@ void utils::DrawPolygon( const std::vector<Point2f>& vertices, bool closed, floa
 void utils::DrawPolygon( const Point2f* pVertices, size_t nrVertices, bool closed, float lineWidth )
 {
 	glLineWidth( lineWidth );
-	closed ? glBegin( GL_LINE_LOOP ) : glBegin( GL_LINE_STRIP );
+	closed ? glBegin( GL_LINE_LOOP ) : glBegin( GL_LINES );
 	{
 		for ( size_t idx{ 0 }; idx < nrVertices; ++idx )
 		{

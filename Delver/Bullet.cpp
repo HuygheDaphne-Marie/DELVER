@@ -69,7 +69,7 @@ bool Bullet::IsGoingToBeDestroyed() const
 void Bullet::Update(float elapsedSec, const std::vector<std::vector<Point2f>>& wallsVector)
 {
 	bool hasHitAWall{ false };
-	for (std::vector<Point2f> wall : wallsVector)
+	for (const std::vector<Point2f>& wall : wallsVector)
 	{
 		utils::HitInfo hitInfo{};
 		if (CheckCollision(wall, hitInfo, elapsedSec)) // check if hit walls

@@ -2,13 +2,13 @@
 #include "Room.h"
 #include "utils.h"
 
-const int Room::m_RoomCols = 9;
-const int Room::m_RoomRows = 9;
+const int Room::m_RoomCols = 19;
+const int Room::m_RoomRows = 19;
 const int Room::m_HallwayWidth = 3;
 
 Room::Room(const GridPos& position)
 	: m_RoomPos{position}
-	, m_BottomLeft{ position.x * (m_RoomCols * Tile::m_Side), position.y * (m_RoomCols * Tile::m_Side) }
+	, m_BottomLeft{ position.x * (m_RoomCols * Tile::m_Side), position.y * (m_RoomRows * Tile::m_Side) }
 	, m_Tiles{}
 	, m_IsTopOpen{false}
 	, m_IsLeftOpen{false}
@@ -98,11 +98,6 @@ void Room::Draw() const
 	for (Tile tile : m_Tiles)
 	{
 		tile.Draw();
-		//for (std::vector<Point2f> barrier : m_Barriers)
-		//{
-		//	glColor3f(1.f, 1.f, 1.f);
-		//	utils::DrawPolygon(barrier, false);
-		//}
 	}
 	glPopMatrix();
 }
@@ -117,38 +112,41 @@ void Room::InitBarriers()
 			GridPos tilePos{ tile.GetTilePos() };
 			GridPos otherTilePos{ tilePos.x + 1, tilePos.y };
 			Point2f bottomLeft{ tile.GetBottomLeft() };
-
-			// Left & right
+			
+			bottomLeft.x += m_BottomLeft.x;
+			bottomLeft.y += m_BottomLeft.y;
+			
+			//// Left & right
 			if (utils::GridPosValid(otherTilePos, m_RoomCols, m_RoomRows) && m_Tiles[utils::IndexFromGridPos(otherTilePos, m_RoomCols)].IsWalkable())
 			{
 				// Barrier on right side
-				tileBarrier.push_back(Point2f{ m_BottomLeft.x + bottomLeft.x + Tile::m_Side, m_BottomLeft.y + bottomLeft.y });
-				tileBarrier.push_back(Point2f{ m_BottomLeft.x + bottomLeft.x + Tile::m_Side, m_BottomLeft.y + bottomLeft.y + Tile::m_Side });
+				tileBarrier.push_back(Point2f{ bottomLeft.x + Tile::m_Side, bottomLeft.y });
+				tileBarrier.push_back(Point2f{ bottomLeft.x + Tile::m_Side, bottomLeft.y + Tile::m_Side });
 			}
 			otherTilePos.x = tilePos.x - 1;
 			if (utils::GridPosValid(otherTilePos, m_RoomCols, m_RoomRows) && m_Tiles[utils::IndexFromGridPos(otherTilePos, m_RoomCols)].IsWalkable())
 			{
 				// Barrier on left side
-				tileBarrier.push_back(Point2f{ m_BottomLeft.x + bottomLeft.x, m_BottomLeft.y + bottomLeft.y });
-				tileBarrier.push_back(Point2f{ m_BottomLeft.x + bottomLeft.x, m_BottomLeft.y + bottomLeft.y + Tile::m_Side });
+				tileBarrier.push_back(Point2f{ bottomLeft.x, bottomLeft.y });
+				tileBarrier.push_back(Point2f{ bottomLeft.x, bottomLeft.y + Tile::m_Side });
 			}
 
 			otherTilePos.x = tilePos.x;
 
 			// Top & bottom
 			otherTilePos.y = tilePos.y + 1;
-			if (utils::GridPosValid(otherTilePos, m_RoomCols, m_RoomRows) && m_Tiles[utils::IndexFromGridPos(otherTilePos, m_RoomRows)].IsWalkable())
+			if (utils::GridPosValid(otherTilePos, m_RoomCols, m_RoomRows) && m_Tiles[utils::IndexFromGridPos(otherTilePos, m_RoomCols)].IsWalkable())
 			{
 				// Top side points
-				tileBarrier.push_back(Point2f{ m_BottomLeft.x + bottomLeft.x, m_BottomLeft.y + bottomLeft.y + Tile::m_Side });
-				tileBarrier.push_back(Point2f{ m_BottomLeft.x + bottomLeft.x + Tile::m_Side, m_BottomLeft.y + bottomLeft.y + Tile::m_Side });
+				tileBarrier.push_back(Point2f{ bottomLeft.x, bottomLeft.y + Tile::m_Side });
+				tileBarrier.push_back(Point2f{ bottomLeft.x + Tile::m_Side, bottomLeft.y + Tile::m_Side });
 			}
 			otherTilePos.y = tilePos.y - 1;
-			if (utils::GridPosValid(otherTilePos, m_RoomCols, m_RoomRows) && m_Tiles[utils::IndexFromGridPos(otherTilePos, m_RoomRows)].IsWalkable())
+			if (utils::GridPosValid(otherTilePos, m_RoomCols, m_RoomRows) && m_Tiles[utils::IndexFromGridPos(otherTilePos, m_RoomCols)].IsWalkable())
 			{
 				// bottom points
-				tileBarrier.push_back(Point2f{ m_BottomLeft.x + bottomLeft.x, m_BottomLeft.y + bottomLeft.y });
-				tileBarrier.push_back(Point2f{ m_BottomLeft.x + bottomLeft.x + Tile::m_Side, m_BottomLeft.y + bottomLeft.y });
+				tileBarrier.push_back(Point2f{ bottomLeft.x, bottomLeft.y });
+				tileBarrier.push_back(Point2f{ bottomLeft.x + Tile::m_Side, bottomLeft.y });
 			}
 
 			if (tileBarrier.size() > 0)
