@@ -2,9 +2,8 @@
 #include <vector>
 #include "Tile.h"
 
-static const int m_RoomCols{ 9 }; // Can change this to make rooms of different sizes
-static const int m_RoomRows{ 9 };
-static const int m_HallwayWidth{ 3 };
+
+
 
 class Room
 {
@@ -24,6 +23,9 @@ class Room
 	//};
 
 public:
+	static const int m_RoomCols;
+	static const int m_RoomRows;
+
 	Room(const GridPos& position);
 	~Room();
 	void Generate();
@@ -43,6 +45,8 @@ public:
 	void SetRightOpen(bool isOpen);
 
 private:
+	static const int m_HallwayWidth;
+
 	const GridPos m_RoomPos;
 	const Point2f m_BottomLeft;
 	std::vector<Tile> m_Tiles;

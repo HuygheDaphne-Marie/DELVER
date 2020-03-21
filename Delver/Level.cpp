@@ -32,9 +32,23 @@ void Level::Draw() const
 	}
 }
 
+Room* Level::GetRoomAt(const Point2f& pos) const
+{
+	const GridPos gridPosOfPoint{ int( pos.x / (Room::m_RoomCols * Tile::m_Side) ), int( pos.y / (Room::m_RoomRows * Tile::m_Side)) };
+
+	if (utils::GridPosValid(gridPosOfPoint, m_LevelCols, m_LevelRows))
+	{
+		return m_Rooms[utils::IndexFromGridPos(gridPosOfPoint, m_LevelCols)];
+	}
+	return nullptr;
+}
 Room* Level::GetRoomAt(const GridPos& pos) const
 {
-	return m_Rooms[utils::IndexFromGridPos(pos, m_LevelCols)];
+	if (utils::GridPosValid(pos, m_LevelCols, m_LevelRows))
+	{
+		return m_Rooms[utils::IndexFromGridPos(pos, m_LevelCols)];
+	}
+	return nullptr;
 }
 
 void Level::SetLevelDimensions(int width, int height)
@@ -78,7 +92,7 @@ Room* Level::GenerateStart() // make start room which is open from all sides
 
 	return centerRoom;
 }
-void Level::GenerateAdjacentRoomsOfRoom(Room* room)
+void Level::GenerateAdjacentRoomsOfRoom(Room* room) // could do this when you try to connect but there is no room there, then you make it passing it's parent
 {
 	const GridPos roomPos{ room->GetRoomPos() };
 

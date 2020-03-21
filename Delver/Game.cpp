@@ -35,7 +35,7 @@ void Game::Cleanup( )
 
 void Game::Update( float elapsedSec )
 {
-	m_pBulletManager->UpdateBullets(elapsedSec);
+	m_pBulletManager->UpdateBullets(elapsedSec, m_Level);
 	m_Player.Update(elapsedSec, m_MousePos);
 	//m_Gun.UpdateGun(elapsedSec);
 

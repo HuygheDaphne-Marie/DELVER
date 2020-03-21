@@ -2,6 +2,7 @@
 #include <vector>
 #include "BulletType.h"
 #include "SpecialEffect.h"
+#include "Level.h"
 
 class Bullet;
 
@@ -19,7 +20,7 @@ public:
 	Bullet* GetBullet(const BulletType typeWanted, SpecialEffect::Type specialEffectWanted = SpecialEffect::Type::none);
 	void QueueForDestroy(Bullet* bullet);
 	
-	void UpdateBullets(float elapsedSec);
+	void UpdateBullets(float elapsedSec, const Level& currentLevel);
 	void DrawBullets() const;
 
 	size_t GetSize() const;

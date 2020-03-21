@@ -11,6 +11,7 @@ public:
 	void GenerateNextLevel();
 	void Draw() const;
 
+	Room* GetRoomAt(const Point2f& pos) const;
 	Room* GetRoomAt(const GridPos& pos) const;
 
 	void SetLevelDimensions(int width, int height);

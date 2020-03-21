@@ -66,18 +66,23 @@ bool Bullet::IsGoingToBeDestroyed() const
 	return m_IsGoingToBeDestroyed;
 }
 
-void Bullet::Update(float elapsedSec)
+void Bullet::Update(float elapsedSec, const std::vector<std::vector<Point2f>>& wallsVector)
 {
-	std::vector<Point2f> vecs{ Point2f{200, 200}, Point2f{400, 200}, Point2f{400, 400}, Point2f{200, 400} }; // TODO get wall vecs
-	utils::HitInfo hitInfo{};
-	if (CheckCollision(vecs, hitInfo, elapsedSec)) // check if hit walls
+	bool hasHitAWall{ false };
+	for (std::vector<Point2f> wall : wallsVector)
 	{
-		HandleCollision(hitInfo, elapsedSec);
+		utils::HitInfo hitInfo{};
+		if (CheckCollision(wall, hitInfo, elapsedSec)) // check if hit walls
+		{
+			HandleCollision(hitInfo, elapsedSec);
+			hasHitAWall = true;
+		}
 	}
-	else
+	if (!hasHitAWall)
 	{
 		m_Position += m_Velocity * elapsedSec;
 	}
+
 	// TODO: check colisions with non-walls and such
 }
 void Bullet::Draw() const

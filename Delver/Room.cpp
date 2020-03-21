@@ -2,6 +2,10 @@
 #include "Room.h"
 #include "utils.h"
 
+const int Room::m_RoomCols = 9;
+const int Room::m_RoomRows = 9;
+const int Room::m_HallwayWidth = 3;
+
 Room::Room(const GridPos& position)
 	: m_RoomPos{position}
 	, m_BottomLeft{ position.x * (m_RoomCols * Tile::m_Side), position.y * (m_RoomCols * Tile::m_Side) }

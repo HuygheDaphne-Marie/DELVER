@@ -5,6 +5,8 @@
 #include "BounceEffect.h"
 #include "WarpEffect.h"
 
+#include "Room.h"
+
 BulletManager* BulletManager::GetInstance()
 {
 	static BulletManager* instance;
@@ -84,12 +86,21 @@ void BulletManager::DestroyBullets()
 	m_BulletsToDelete.clear();
 }
 
-void BulletManager::UpdateBullets(float elapsedSec)
+void BulletManager::UpdateBullets(float elapsedSec, const Level& currentLevel)
 {
 	DestroyBullets();
 	for (Bullet* bullet : m_Bullets)
 	{
-		bullet->Update(elapsedSec);
+		Point2f bulletPos{ bullet->GetPosition() };
+		Room* roomAtPos{ currentLevel.GetRoomAt(bulletPos) };
+		if (roomAtPos != nullptr)
+		{
+			bullet->Update(elapsedSec, roomAtPos->GetBarriers());
+		}
+		else
+		{
+			QueueForDestroy(bullet);
+		}
 	}
 }
 void BulletManager::DrawBullets() const

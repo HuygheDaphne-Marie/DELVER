@@ -21,7 +21,7 @@ public:
 	Vector2f GetVelocity() const;
 	bool IsGoingToBeDestroyed() const;
 
-	void Update(float elapsedSec);
+	void Update(float elapsedSec, const std::vector<std::vector<Point2f>>& wallsVector);
 	void Draw() const;
 
 	
