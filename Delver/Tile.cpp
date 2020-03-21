@@ -3,7 +3,7 @@
 #include "Texture.h"
 #include "TextureManager.h"
 
-const float Tile::m_Side = 20.f;
+const float Tile::m_Side = 32.f;
 
 Tile::Tile(const GridPos& pos, Type tileType)
 	: m_TilePos{pos}
@@ -45,11 +45,11 @@ void Tile::SetType(Type newType)
 		m_IsWalkable = false;
 		break;
 	case Tile::Type::wall:
-		m_pTexture = TextureManager::GetInstance()->GetTexture(TextureManager::WALL);
+		m_pTexture = TextureManager::GetInstance()->GetTexture(TextureManager::WALLS);
 		m_IsWalkable = false;
 		break;
 	case Tile::Type::floor:
-		m_pTexture = TextureManager::GetInstance()->GetTexture(TextureManager::FLOOR);
+		m_pTexture = TextureManager::GetInstance()->GetTexture(TextureManager::FLOORS);
 		m_IsWalkable = true;
 		break;
 	}

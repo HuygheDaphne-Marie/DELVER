@@ -11,7 +11,7 @@ int main( int argc, char *argv[] )
 	{
 		StartHeapControl();
 
-		Core core{ Window{ "DELVER - Huyghe, Henri-Thibault - 1DAE09", 600.f, 600.0f } };
+		Core core{ Window{ "DELVER - Huyghe, Henri-Thibault - 1DAE09", 1000.f, 600.0f } };
 		core.Run();
 	}
 	DumpMemoryLeaks();
@@ -29,7 +29,7 @@ void StartHeapControl()
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 
 	// Set a breakpoint on the specified object allocation order number
-	//_CrtSetBreakAlloc( 186 );
+	//_CrtSetBreakAlloc(155);
 #endif
 }
 

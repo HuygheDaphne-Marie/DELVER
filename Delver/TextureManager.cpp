@@ -1,12 +1,33 @@
 #include "pch.h"
 #include "TextureManager.h"
 #include "Texture.h"
+#include "utils.h"
 
-const std::string TextureManager::NO_TEXTURE = "NO_TEXTURE";
-const std::string TextureManager::PLAYER = "PLAYER";
-const std::string TextureManager::FLOOR = "FLOOR";
-const std::string TextureManager::WALL = "WALL";
-const std::string TextureManager::BULLET = "BULLET";
+const std::string TextureManager::NO_TEXTURE = "Resources/Textures/noTexture.png";
+const std::string TextureManager::PLAYER = "Resources/Textures/Actors/";
+const std::string TextureManager::BULLET = "Resources/Textures/";
+
+// Level Textures
+const std::vector<std::string> TextureManager::FLOORS
+{
+	"Resources/Textures/Level/floor_1.png",
+	"Resources/Textures/Level/floor_2.png",
+	"Resources/Textures/Level/floor_3.png",
+	"Resources/Textures/Level/floor_4.png"
+};
+//const std::string TextureManager::FLOOR_1 = "Resources/Textures/Level/floor_1.png";
+//const std::string TextureManager::FLOOR_2 = "Resources/Textures/Level/floor_2.png";
+//const std::string TextureManager::FLOOR_3 = "Resources/Textures/Level/floor_3.png";
+//const std::string TextureManager::FLOOR_4 = "Resources/Textures/Level/floor_4.png";
+const std::vector<std::string> TextureManager::WALLS
+{
+	"Resources/Textures/Level/wall_1.png",
+	"Resources/Textures/Level/wall_2.png"
+};
+//const std::string TextureManager::WALL_1 = "Resources/Textures/Level/wall_1.png";
+//const std::string TextureManager::WALL_2 = "Resources/Textures/Level/wall_2.png";
+
+
 
 TextureManager::TextureManager()
 	: m_Textures{}
@@ -15,7 +36,7 @@ TextureManager::TextureManager()
 }
 TextureManager::~TextureManager()
 {
-	for (std::unordered_map<std::string, Texture*>::value_type& value : m_Textures)
+	for (auto value : m_Textures)
 	{
 		delete value.second;
 		value.second = nullptr;
@@ -24,11 +45,19 @@ TextureManager::~TextureManager()
 
 void TextureManager::InitializeTextures()
 {
-	m_Textures.insert({ NO_TEXTURE, new Texture{"Resources/Textures/noTexture.png"} });
+	m_Textures.insert({ NO_TEXTURE, new Texture{NO_TEXTURE} });
+
 	//m_Textures.insert({ PLAYER, new Texture{""} });
-	//m_Textures.insert({ FLOOR, new Texture{""} });
-	//m_Textures.insert({ WALL, new Texture{""} });
 	//m_Textures.insert({ BULLET, new Texture{""} });
+
+	for (const std::string& texture : FLOORS)
+	{
+		m_Textures.insert({ texture, new Texture{texture} });
+	}
+	for (const std::string& texture : WALLS)
+	{
+		m_Textures.insert({ texture, new Texture{texture} });
+	}
 }
 
 TextureManager* TextureManager::GetInstance()
@@ -41,6 +70,10 @@ TextureManager* TextureManager::GetInstance()
 	return instance;
 }
 
+Texture* TextureManager::GetTexture(const std::vector<std::string>& textureList) const
+{
+	return GetTexture(textureList[utils::GetRand(0, int(textureList.size() - 1))]);
+}
 Texture* TextureManager::GetTexture(const std::string& textureName) const
 {
 	auto pair{ m_Textures.find(textureName) };
