@@ -32,6 +32,7 @@ void Room::Generate()
 	}
 
 	GenerateEdges();
+	GenerateWallSides();
 
 	m_IsGenerated = true;
 	InitTiles();
@@ -87,6 +88,29 @@ void Room::GenerateHallway(GridPos& hallwayStart, bool isHorizontal)
 		}
 	}
 }
+void Room::GenerateWallSides()
+{
+	for (const Tile& tile : m_Tiles) // this will never apply to the first row, but it's nice to use a range
+	{
+		if (tile.GetType() == Tile::Type::wall)
+		{
+			GridPos tilePosBelow{ tile.GetTilePos() };
+			tilePosBelow.y--;
+			if (utils::GridPosValid(tilePosBelow, m_RoomCols, m_RoomRows))
+			{
+				Tile& tileBelow{ m_Tiles[utils::IndexFromGridPos(tilePosBelow, m_RoomCols)] };
+				if (tileBelow.GetType() != Tile::Type::wall)
+				{
+					tileBelow.SetType(Tile::Type::wallSide);
+					tileBelow.SetTexture(TextureManager::GetInstance()->GetTexture(TextureManager::GetInstance()->m_Wall_Side));
+				}
+			}
+		}
+	}
+}
+
+//void SetTile(Tile::Type tileType); would need an already made grid
+//void UpdateWallTexture(Tile& wallTile);
 
 void Room::Draw() const
 {

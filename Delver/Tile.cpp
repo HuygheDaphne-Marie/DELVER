@@ -46,6 +46,9 @@ void Tile::SetType(Type newType)
 	case Tile::Type::wall:
 		m_IsWalkable = false;
 		break;
+	case Tile::Type::wallSide:
+		m_IsWalkable = true;
+		break;
 	case Tile::Type::floor:
 		m_IsWalkable = true;
 		break;

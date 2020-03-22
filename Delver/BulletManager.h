@@ -4,6 +4,8 @@
 #include "SpecialEffect.h"
 #include "Level.h"
 
+// TODO: make into memory pool, save dat memory
+
 class Bullet;
 
 class BulletManager final

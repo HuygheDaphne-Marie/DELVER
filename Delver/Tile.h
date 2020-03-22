@@ -9,6 +9,7 @@ public:
 	{
 		nothing,
 		wall,
+		wallSide,
 		floor
 	};
 

@@ -52,6 +52,8 @@ TextureManager::TextureManager()
 	, m_Wall_Edge_Left{ "Resources/Textures/Level/wall_edge_left.png" }
 	, m_Wall_Edge_Bottom{ "Resources/Textures/Level/wall_edge_bottom.png" }
 	, m_Wall_Edge_Top{ "Resources/Textures/Level/wall_edge_top.png" }
+	// Wall side
+	, m_Wall_Side{ "Resources/Textures/Level/wall_side.png" }
 #pragma endregion
 	, m_NO_TEXTURE{ "Resources/Textures/noTexture.png" }
 {
@@ -77,18 +79,21 @@ void TextureManager::InitializeTextures()
 		m_Textures.insert({ texture, new Texture{texture} });
 	}
 #pragma region walls
+	// Normal Segments
 	m_Textures.insert({ m_Wall_Horizontal, new Texture{m_Wall_Horizontal} });
 	m_Textures.insert({ m_Wall_Vertical, new Texture{m_Wall_Vertical} });
-
+	// Corners
 	m_Textures.insert({ m_Wall_Corner_Top_Right, new Texture{m_Wall_Corner_Top_Right} });
 	m_Textures.insert({ m_Wall_Corner_Top_Left, new Texture{m_Wall_Corner_Top_Left} });
 	m_Textures.insert({ m_Wall_Corner_Bottom_Right, new Texture{m_Wall_Corner_Bottom_Right} });
 	m_Textures.insert({ m_Wall_Corner_Bottom_Left, new Texture{m_Wall_Corner_Bottom_Left} });
-
+	// Edge segments
 	m_Textures.insert({ m_Wall_Edge_Right, new Texture{m_Wall_Edge_Right} });
 	m_Textures.insert({ m_Wall_Edge_Left, new Texture{m_Wall_Edge_Left} });
 	m_Textures.insert({ m_Wall_Edge_Bottom, new Texture{m_Wall_Edge_Bottom} });
 	m_Textures.insert({ m_Wall_Edge_Top, new Texture{m_Wall_Edge_Top} });
+	// Wall side
+	m_Textures.insert({ m_Wall_Side, new Texture{m_Wall_Side} });
 #pragma endregion
 }
 

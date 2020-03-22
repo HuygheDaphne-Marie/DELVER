@@ -61,6 +61,7 @@ private:
 
 	void GenerateEdges();
 	void GenerateHallway(GridPos& hallwayStart, bool isHorizontal);
+	void GenerateWallSides();
 	void InitBarriers();
 	void InitTiles();
 	Texture* GetWallTextureForTile(const Tile& tile);

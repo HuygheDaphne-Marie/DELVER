@@ -27,6 +27,8 @@ public:
 	const std::string m_Wall_Edge_Left;
 	const std::string m_Wall_Edge_Bottom;
 	const std::string m_Wall_Edge_Top;
+	// Wall side
+	const std::string m_Wall_Side;
 #pragma endregion
 
 	TextureManager(const TextureManager& other) = delete;
