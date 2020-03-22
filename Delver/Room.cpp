@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "Room.h"
 #include "utils.h"
+#include "TextureManager.h"
 
 const int Room::m_RoomCols = 19;
 const int Room::m_RoomRows = 19;
@@ -33,6 +34,7 @@ void Room::Generate()
 	GenerateEdges();
 
 	m_IsGenerated = true;
+	InitTiles();
 	InitBarriers();
 }
 void Room::GenerateEdges()
@@ -102,9 +104,101 @@ void Room::Draw() const
 	glPopMatrix();
 }
 
+Texture* Room::GetWallTextureForTile(const Tile& tile)
+{
+	GridPos tilePos{ tile.GetTilePos() };
+	bool topIsWall{ CheckIfTileIsOfType(GridPos{tilePos.x, tilePos.y + 1}, Tile::Type::wall) };
+	bool bottomIsWall{ CheckIfTileIsOfType(GridPos{tilePos.x, tilePos.y - 1}, Tile::Type::wall) };
+	bool leftIsWall{ CheckIfTileIsOfType(GridPos{tilePos.x - 1, tilePos.y}, Tile::Type::wall) };
+	bool rightIsWall{ CheckIfTileIsOfType(GridPos{tilePos.x + 1, tilePos.y}, Tile::Type::wall) };
+	bool isAtTop{ !utils::GridPosValid(GridPos{ tilePos.x, tilePos.y + 1 }, m_RoomCols, m_RoomRows) };
+
+#pragma region wall_segments
+	if (leftIsWall && rightIsWall)
+	{
+		// check if it's the top of the room
+		if (isAtTop)
+		{
+			return TextureManager::GetInstance()->GetTexture(TextureManager::GetInstance()->m_Top_Wall_Left_Right);
+		}
+		return TextureManager::GetInstance()->GetTexture(TextureManager::GetInstance()->m_Wall_Left_Right);
+		
+	}
+	if (topIsWall && bottomIsWall) // side of the room
+	{
+		return TextureManager::GetInstance()->GetTexture(TextureManager::GetInstance()->m_Wall_Top_Bottom);
+	}
+#pragma endregion
+#pragma region corners
+	if (topIsWall && rightIsWall) // bottom left corner
+	{
+		return TextureManager::GetInstance()->GetTexture(TextureManager::GetInstance()->m_Wall_Bottom_Left);
+	}
+	if (topIsWall && leftIsWall) // bottom right corner
+	{
+		return TextureManager::GetInstance()->GetTexture(TextureManager::GetInstance()->m_Wall_Bottom_Right);
+	}
+
+	if (bottomIsWall && rightIsWall) // top left corner
+	{
+		return TextureManager::GetInstance()->GetTexture(TextureManager::GetInstance()->m_Top_Wall_Corner);
+	}
+	if (bottomIsWall && leftIsWall) // top right corner
+	{
+		return TextureManager::GetInstance()->GetTexture(TextureManager::GetInstance()->m_Top_Wall_Corner);
+	}
+#pragma endregion
+#pragma region wall_ends
+	if (topIsWall) // bottom edge
+	{
+		return TextureManager::GetInstance()->GetTexture(TextureManager::GetInstance()->m_Top_Wall_Left_Right);
+	}
+	if (bottomIsWall) // top edge
+	{
+		return TextureManager::GetInstance()->GetTexture(TextureManager::GetInstance()->m_Wall_Bottom_Edge);
+	}
+
+	if (rightIsWall) // left edge
+	{
+		if (isAtTop)
+		{
+			return TextureManager::GetInstance()->GetTexture(TextureManager::GetInstance()->m_Top_Wall_Left_Right);
+		}
+		return TextureManager::GetInstance()->GetTexture(TextureManager::GetInstance()->m_Wall_Right_Edge);
+	}
+	if (leftIsWall) // right edge
+	{
+		if (isAtTop)
+		{
+			return TextureManager::GetInstance()->GetTexture(TextureManager::GetInstance()->m_Top_Wall_Left_Right);
+		}
+		return TextureManager::GetInstance()->GetTexture(TextureManager::GetInstance()->m_Wall_Left_Edge);
+	}
+#pragma endregion
+
+	return TextureManager::GetInstance()->GetTexture("this will not give any texture");
+}
+void Room::InitTiles()
+{
+	for (Tile& tile : m_Tiles)
+	{
+		switch (tile.GetType())
+		{
+		case Tile::Type::nothing:
+			tile.SetTexture(nullptr);
+			break;
+		case Tile::Type::floor:
+			tile.SetTexture(TextureManager::GetInstance()->GetTexture(TextureManager::GetInstance()->m_FLOORS));
+			break;
+		case Tile::Type::wall:
+			tile.SetTexture(GetWallTextureForTile(tile));
+			break;
+		}
+	}
+}
 void Room::InitBarriers()
 {
-	for (Tile tile : m_Tiles)
+	for (const Tile& tile : m_Tiles)
 	{
 		if (!tile.IsWalkable())
 		{
@@ -204,4 +298,16 @@ void Room::SetBottomOpen(bool isOpen)
 void Room::SetRightOpen(bool isOpen)
 {
 	m_IsRightOpen = isOpen;
+}
+
+bool Room::CheckIfTileIsOfType(const GridPos& tilePos, const Tile::Type& type)
+{
+	if (utils::GridPosValid(tilePos, m_RoomCols, m_RoomRows))
+	{
+		return m_Tiles[utils::IndexFromGridPos(tilePos, m_RoomCols)].GetType() == type;
+	}
+	else
+	{
+		return false;
+	}
 }

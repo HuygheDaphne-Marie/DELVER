@@ -1,7 +1,7 @@
 #pragma once
 class Texture;
 
-class Tile
+class Tile final
 {
 public:
 	static const float m_Side;
@@ -21,21 +21,11 @@ public:
 	Point2f GetBottomLeft() const;
 
 	void SetType(Type newType);
+	void SetTexture(Texture* texture);
 
 	void Draw() const;
 
 private:
-	enum class WallConnection
-	{
-		all,
-
-		top_bottom,
-		left_right,
-
-		corner_left,
-		corner_right
-	};
-
 	const GridPos m_TilePos;
 	Type m_Type;
 	bool m_IsWalkable;

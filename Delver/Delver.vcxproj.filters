@@ -28,6 +28,9 @@
     <Filter Include="Game Files\Texture">
       <UniqueIdentifier>{a0086f88-af76-4706-ad3b-bf32636b86c4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game Files\Level\Tiles">
+      <UniqueIdentifier>{a3de1077-f563-4361-8f7d-66c73c9621d4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Core.cpp">
@@ -90,9 +93,6 @@
     <ClCompile Include="WarpEffect.cpp">
       <Filter>Game Files\Gunplay\Special Effects</Filter>
     </ClCompile>
-    <ClCompile Include="Tile.cpp">
-      <Filter>Game Files\Level</Filter>
-    </ClCompile>
     <ClCompile Include="Room.cpp">
       <Filter>Game Files\Level</Filter>
     </ClCompile>
@@ -104,6 +104,9 @@
     </ClCompile>
     <ClCompile Include="TextureManager.cpp">
       <Filter>Game Files\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="Tile.cpp">
+      <Filter>Game Files\Level\Tiles</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -167,9 +170,6 @@
     <ClInclude Include="WarpEffect.h">
       <Filter>Game Files\Gunplay\Special Effects</Filter>
     </ClInclude>
-    <ClInclude Include="Tile.h">
-      <Filter>Game Files\Level</Filter>
-    </ClInclude>
     <ClInclude Include="Room.h">
       <Filter>Game Files\Level</Filter>
     </ClInclude>
@@ -181,6 +181,9 @@
     </ClInclude>
     <ClInclude Include="TextureManager.h">
       <Filter>Game Files\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="Tile.h">
+      <Filter>Game Files\Level\Tiles</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

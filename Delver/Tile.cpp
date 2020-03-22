@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "Tile.h"
 #include "Texture.h"
-#include "TextureManager.h"
+
 
 const float Tile::m_Side = 32.f;
 
@@ -41,18 +41,19 @@ void Tile::SetType(Type newType)
 	switch (m_Type)
 	{
 	case Tile::Type::nothing:
-		m_pTexture = nullptr;
 		m_IsWalkable = false;
 		break;
 	case Tile::Type::wall:
-		m_pTexture = TextureManager::GetInstance()->GetTexture(TextureManager::GetInstance()->m_WALLS);
 		m_IsWalkable = false;
 		break;
 	case Tile::Type::floor:
-		m_pTexture = TextureManager::GetInstance()->GetTexture(TextureManager::GetInstance()->m_FLOORS);
 		m_IsWalkable = true;
 		break;
 	}
+}
+void Tile::SetTexture(Texture* texture)
+{
+	m_pTexture = texture;
 }
 
 void Tile::Draw() const
@@ -77,3 +78,5 @@ void Tile::Draw() const
 	}
 	utils::FillRect(Point2f{m_TilePos.x * m_Side, m_TilePos.y * m_Side}, m_Side, m_Side);
 }
+
+

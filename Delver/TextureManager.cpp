@@ -38,11 +38,25 @@ TextureManager::TextureManager()
 		"Resources/Textures/Level/floor_3.png",
 		"Resources/Textures/Level/floor_4.png"
 	}
-	, m_WALLS
-	{
-		"Resources/Textures/Level/wall_1.png",
-		"Resources/Textures/Level/wall_2.png"
-	}
+#pragma region walls
+	// Normal Segments
+	, m_Wall_Left_Right{ "Resources/Textures/Level/wall_left_right.png" }
+	, m_Wall_Top_Bottom{ "Resources/Textures/Level/wall_top_bottom.png" }
+
+	// Top Segments
+	, m_Top_Wall_Left_Right{ "Resources/Textures/Level/top_wall.png" }
+
+	// Corners
+	, m_Top_Wall_Corner{ "Resources/Textures/Level/wall_bottom.png" }
+	, m_Wall_Bottom_Right{ "Resources/Textures/Level/wall_corner_bottom_right.png" }
+	, m_Wall_Bottom_Left{ "Resources/Textures/Level/wall_corner_bottom_left.png" }
+
+	// Edge segments
+	, m_Wall_Left_Edge{ "Resources/Textures/Level/wall_left.png" }
+	, m_Wall_Right_Edge{ "Resources/Textures/Level/wall_right.png" }
+	, m_Wall_Top_Edge{ "Resources/Textures/Level/wall_top.png" }
+	, m_Wall_Bottom_Edge{ "Resources/Textures/Level/wall_bottom.png" }
+#pragma endregion
 	, m_NO_TEXTURE{ "Resources/Textures/noTexture.png" }
 {
 	InitializeTextures();
@@ -56,23 +70,32 @@ TextureManager::~TextureManager()
 	}
 
 	m_Textures.clear();
+
 }
 
 void TextureManager::InitializeTextures()
 {
 	m_Textures.insert({ m_NO_TEXTURE, new Texture{m_NO_TEXTURE} });
 
-	////m_Textures.insert({ PLAYER, new Texture{""} });
-	////m_Textures.insert({ BULLET, new Texture{""} });
-
 	for (const std::string& texture : m_FLOORS)
 	{
 		m_Textures.insert({ texture, new Texture{texture} });
 	}
-	for (const std::string& texture : m_WALLS)
-	{
-		m_Textures.insert({ texture, new Texture{texture} });
-	}
+#pragma region walls
+	m_Textures.insert({ m_Wall_Left_Right, new Texture{m_Wall_Left_Right} });
+	m_Textures.insert({ m_Wall_Top_Bottom, new Texture{m_Wall_Top_Bottom} });
+
+	m_Textures.insert({ m_Top_Wall_Left_Right, new Texture{m_Top_Wall_Left_Right} });
+
+	m_Textures.insert({ m_Top_Wall_Corner, new Texture{m_Top_Wall_Corner} });
+	m_Textures.insert({ m_Wall_Bottom_Right, new Texture{m_Wall_Bottom_Right} });
+	m_Textures.insert({ m_Wall_Bottom_Left, new Texture{m_Wall_Bottom_Left} });
+
+	m_Textures.insert({ m_Wall_Left_Edge, new Texture{m_Wall_Left_Edge} });
+	m_Textures.insert({ m_Wall_Right_Edge, new Texture{m_Wall_Right_Edge} });
+	m_Textures.insert({ m_Wall_Top_Edge, new Texture{m_Wall_Top_Edge} });
+	m_Textures.insert({ m_Wall_Bottom_Edge, new Texture{m_Wall_Bottom_Edge} });
+#pragma endregion
 }
 
 TextureManager* TextureManager::GetInstance()
