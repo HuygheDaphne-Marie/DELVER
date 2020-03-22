@@ -8,18 +8,11 @@ class Texture;
 class TextureManager final
 {
 public:
-	static const std::string PLAYER;
-	static const std::string BULLET;
+	const std::string m_PLAYER;
+	const std::string m_BULLET;
 
-	static const std::vector<std::string> FLOORS;
-	static const std::vector<std::string> WALLS;
-
-	//static const std::string FLOOR_1; 
-	//static const std::string FLOOR_2;
-	//static const std::string FLOOR_3;
-	//static const std::string FLOOR_4;
-	//static const std::string WALL_1;
-	//static const std::string WALL_2;
+	const std::vector<std::string> m_FLOORS;
+	const std::vector<std::string> m_WALLS;
 
 	TextureManager(const TextureManager& other) = delete;
 	TextureManager& operator=(const TextureManager& other) = delete;
@@ -33,7 +26,7 @@ public:
 	Texture* GetTexture(const std::string& textureName) const;
 
 private:
-	static const std::string NO_TEXTURE;
+	const std::string m_NO_TEXTURE;
 	std::unordered_map<std::string, Texture*> m_Textures;
 
 	TextureManager();

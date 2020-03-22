@@ -1,8 +1,6 @@
 #pragma once
 class Texture;
 
-
-
 class Tile
 {
 public:
@@ -27,6 +25,17 @@ public:
 	void Draw() const;
 
 private:
+	enum class WallConnection
+	{
+		all,
+
+		top_bottom,
+		left_right,
+
+		corner_left,
+		corner_right
+	};
+
 	const GridPos m_TilePos;
 	Type m_Type;
 	bool m_IsWalkable;

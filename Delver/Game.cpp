@@ -21,11 +21,9 @@ Game::~Game( )
 
 void Game::Initialize( )
 {
-	TestBulletManager();
+	//TestBulletManager();
 	InitPlayer();
 
-	//m_TestRoom.SetConnection(true, true, true, true);
-	//m_TestRoom.Generate();
 	m_Level.GenerateNextLevel();
 }
 void Game::Cleanup( )
@@ -41,7 +39,6 @@ void Game::Update( float elapsedSec )
 {
 	m_pBulletManager->UpdateBullets(elapsedSec, m_Level);
 	m_Player.Update(elapsedSec, m_MousePos);
-	//m_Gun.UpdateGun(elapsedSec);
 
 	// Check keyboard state
 	//const Uint8 *pStates = SDL_GetKeyboardState( nullptr );
@@ -62,12 +59,10 @@ void Game::Draw( ) const
 	glPushMatrix();
 	m_Camera.Transform(m_Player.GetPosition());
 
-	//m_TestRoom.Draw();
 	m_Level.Draw();
 
 	m_pBulletManager->DrawBullets();
 	m_Player.Draw();
-	//m_Gun.Draw();
 
 	// below should be moved to gun
 	Gun* gun{ m_Player.GetEquippedGun() };
@@ -171,5 +166,5 @@ void Game::TestBulletManager()
 }
 void Game::InitPlayer()
 {
-	m_Player.EquipGun(new Gun(0.5f, 80.f, 0.01f, nullptr, BulletType::light, SpecialEffect::Type::bounce));
+	m_Player.EquipGun(new Gun(0.5f, 250.f, 0.05f, nullptr, BulletType::light, SpecialEffect::Type::bounce));
 }
