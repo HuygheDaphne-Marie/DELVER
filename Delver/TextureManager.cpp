@@ -40,22 +40,18 @@ TextureManager::TextureManager()
 	}
 #pragma region walls
 	// Normal Segments
-	, m_Wall_Left_Right{ "Resources/Textures/Level/wall_left_right.png" }
-	, m_Wall_Top_Bottom{ "Resources/Textures/Level/wall_top_bottom.png" }
-
-	// Top Segments
-	, m_Top_Wall_Left_Right{ "Resources/Textures/Level/top_wall.png" }
-
+	, m_Wall_Horizontal{ "Resources/Textures/Level/wall_horizontal.png" }
+	, m_Wall_Vertical{ "Resources/Textures/Level/wall_vertical.png" }
 	// Corners
-	, m_Top_Wall_Corner{ "Resources/Textures/Level/wall_bottom.png" }
-	, m_Wall_Bottom_Right{ "Resources/Textures/Level/wall_corner_bottom_right.png" }
-	, m_Wall_Bottom_Left{ "Resources/Textures/Level/wall_corner_bottom_left.png" }
-
+	, m_Wall_Corner_Top_Right{ "Resources/Textures/Level/wall_corner_top_right.png" }
+	, m_Wall_Corner_Top_Left{ "Resources/Textures/Level/wall_corner_top_left.png" }
+	, m_Wall_Corner_Bottom_Right{ "Resources/Textures/Level/wall_corner_bottom_right.png" }
+	, m_Wall_Corner_Bottom_Left{ "Resources/Textures/Level/wall_corner_bottom_left.png" }
 	// Edge segments
-	, m_Wall_Left_Edge{ "Resources/Textures/Level/wall_left.png" }
-	, m_Wall_Right_Edge{ "Resources/Textures/Level/wall_right.png" }
-	, m_Wall_Top_Edge{ "Resources/Textures/Level/wall_top.png" }
-	, m_Wall_Bottom_Edge{ "Resources/Textures/Level/wall_bottom.png" }
+	, m_Wall_Edge_Right{ "Resources/Textures/Level/wall_edge_right.png" }
+	, m_Wall_Edge_Left{ "Resources/Textures/Level/wall_edge_left.png" }
+	, m_Wall_Edge_Bottom{ "Resources/Textures/Level/wall_edge_bottom.png" }
+	, m_Wall_Edge_Top{ "Resources/Textures/Level/wall_edge_top.png" }
 #pragma endregion
 	, m_NO_TEXTURE{ "Resources/Textures/noTexture.png" }
 {
@@ -63,14 +59,13 @@ TextureManager::TextureManager()
 }
 TextureManager::~TextureManager()
 {
-	for (std::unordered_map<std::string, Texture*>::iterator itr = m_Textures.begin(); itr != m_Textures.end(); itr++)
+	for (std::unordered_map<std::string, Texture*>::value_type& value : m_Textures)
 	{
-		delete itr->second;
-		itr->second = nullptr;
+		delete value.second;
+		value.second = nullptr;
 	}
 
 	m_Textures.clear();
-
 }
 
 void TextureManager::InitializeTextures()
@@ -82,19 +77,18 @@ void TextureManager::InitializeTextures()
 		m_Textures.insert({ texture, new Texture{texture} });
 	}
 #pragma region walls
-	m_Textures.insert({ m_Wall_Left_Right, new Texture{m_Wall_Left_Right} });
-	m_Textures.insert({ m_Wall_Top_Bottom, new Texture{m_Wall_Top_Bottom} });
+	m_Textures.insert({ m_Wall_Horizontal, new Texture{m_Wall_Horizontal} });
+	m_Textures.insert({ m_Wall_Vertical, new Texture{m_Wall_Vertical} });
 
-	m_Textures.insert({ m_Top_Wall_Left_Right, new Texture{m_Top_Wall_Left_Right} });
+	m_Textures.insert({ m_Wall_Corner_Top_Right, new Texture{m_Wall_Corner_Top_Right} });
+	m_Textures.insert({ m_Wall_Corner_Top_Left, new Texture{m_Wall_Corner_Top_Left} });
+	m_Textures.insert({ m_Wall_Corner_Bottom_Right, new Texture{m_Wall_Corner_Bottom_Right} });
+	m_Textures.insert({ m_Wall_Corner_Bottom_Left, new Texture{m_Wall_Corner_Bottom_Left} });
 
-	m_Textures.insert({ m_Top_Wall_Corner, new Texture{m_Top_Wall_Corner} });
-	m_Textures.insert({ m_Wall_Bottom_Right, new Texture{m_Wall_Bottom_Right} });
-	m_Textures.insert({ m_Wall_Bottom_Left, new Texture{m_Wall_Bottom_Left} });
-
-	m_Textures.insert({ m_Wall_Left_Edge, new Texture{m_Wall_Left_Edge} });
-	m_Textures.insert({ m_Wall_Right_Edge, new Texture{m_Wall_Right_Edge} });
-	m_Textures.insert({ m_Wall_Top_Edge, new Texture{m_Wall_Top_Edge} });
-	m_Textures.insert({ m_Wall_Bottom_Edge, new Texture{m_Wall_Bottom_Edge} });
+	m_Textures.insert({ m_Wall_Edge_Right, new Texture{m_Wall_Edge_Right} });
+	m_Textures.insert({ m_Wall_Edge_Left, new Texture{m_Wall_Edge_Left} });
+	m_Textures.insert({ m_Wall_Edge_Bottom, new Texture{m_Wall_Edge_Bottom} });
+	m_Textures.insert({ m_Wall_Edge_Top, new Texture{m_Wall_Edge_Top} });
 #pragma endregion
 }
 

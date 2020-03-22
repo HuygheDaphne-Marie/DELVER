@@ -11,7 +11,7 @@ int main( int argc, char *argv[] )
 	{
 		StartHeapControl();
 
-		Core core{ Window{ "DELVER - Huyghe, Henri-Thibault - 1DAE09", 1000.f, 600.0f } };
+		Core core{ Window{ "DELVER - Huyghe, Henri-Thibault - 1DAE09", 1200.f, 800.0f } };
 		core.Run();
 	}
 	DumpMemoryLeaks();

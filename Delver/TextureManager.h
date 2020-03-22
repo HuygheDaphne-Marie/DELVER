@@ -12,21 +12,21 @@ public:
 	const std::string m_BULLET;
 
 	const std::vector<std::string> m_FLOORS;
+
 #pragma region walls
 	// Wall
-	const std::string m_Wall_Left_Right;
-	const std::string m_Wall_Top_Bottom;
-	// Wall top
-	const std::string m_Top_Wall_Left_Right;
+	const std::string m_Wall_Horizontal;
+	const std::string m_Wall_Vertical;
 	// Wall corners
-	const std::string m_Top_Wall_Corner;
-	const std::string m_Wall_Bottom_Right;
-	const std::string m_Wall_Bottom_Left;
+	const std::string m_Wall_Corner_Top_Right;
+	const std::string m_Wall_Corner_Top_Left;
+	const std::string m_Wall_Corner_Bottom_Right;
+	const std::string m_Wall_Corner_Bottom_Left;
 	// Edge segments
-	const std::string m_Wall_Left_Edge;
-	const std::string m_Wall_Right_Edge;
-	const std::string m_Wall_Top_Edge;
-	const std::string m_Wall_Bottom_Edge;
+	const std::string m_Wall_Edge_Right;
+	const std::string m_Wall_Edge_Left;
+	const std::string m_Wall_Edge_Bottom;
+	const std::string m_Wall_Edge_Top;
 #pragma endregion
 
 	TextureManager(const TextureManager& other) = delete;

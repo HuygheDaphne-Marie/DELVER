@@ -111,68 +111,53 @@ Texture* Room::GetWallTextureForTile(const Tile& tile)
 	bool bottomIsWall{ CheckIfTileIsOfType(GridPos{tilePos.x, tilePos.y - 1}, Tile::Type::wall) };
 	bool leftIsWall{ CheckIfTileIsOfType(GridPos{tilePos.x - 1, tilePos.y}, Tile::Type::wall) };
 	bool rightIsWall{ CheckIfTileIsOfType(GridPos{tilePos.x + 1, tilePos.y}, Tile::Type::wall) };
-	bool isAtTop{ !utils::GridPosValid(GridPos{ tilePos.x, tilePos.y + 1 }, m_RoomCols, m_RoomRows) };
 
 #pragma region wall_segments
 	if (leftIsWall && rightIsWall)
 	{
-		// check if it's the top of the room
-		if (isAtTop)
-		{
-			return TextureManager::GetInstance()->GetTexture(TextureManager::GetInstance()->m_Top_Wall_Left_Right);
-		}
-		return TextureManager::GetInstance()->GetTexture(TextureManager::GetInstance()->m_Wall_Left_Right);
-		
+		return TextureManager::GetInstance()->GetTexture(TextureManager::GetInstance()->m_Wall_Horizontal);
 	}
 	if (topIsWall && bottomIsWall) // side of the room
 	{
-		return TextureManager::GetInstance()->GetTexture(TextureManager::GetInstance()->m_Wall_Top_Bottom);
+		return TextureManager::GetInstance()->GetTexture(TextureManager::GetInstance()->m_Wall_Vertical);
 	}
 #pragma endregion
 #pragma region corners
 	if (topIsWall && rightIsWall) // bottom left corner
 	{
-		return TextureManager::GetInstance()->GetTexture(TextureManager::GetInstance()->m_Wall_Bottom_Left);
+		return TextureManager::GetInstance()->GetTexture(TextureManager::GetInstance()->m_Wall_Corner_Bottom_Left);
 	}
 	if (topIsWall && leftIsWall) // bottom right corner
 	{
-		return TextureManager::GetInstance()->GetTexture(TextureManager::GetInstance()->m_Wall_Bottom_Right);
+		return TextureManager::GetInstance()->GetTexture(TextureManager::GetInstance()->m_Wall_Corner_Bottom_Right);
 	}
 
 	if (bottomIsWall && rightIsWall) // top left corner
 	{
-		return TextureManager::GetInstance()->GetTexture(TextureManager::GetInstance()->m_Top_Wall_Corner);
+		return TextureManager::GetInstance()->GetTexture(TextureManager::GetInstance()->m_Wall_Corner_Top_Left);
 	}
 	if (bottomIsWall && leftIsWall) // top right corner
 	{
-		return TextureManager::GetInstance()->GetTexture(TextureManager::GetInstance()->m_Top_Wall_Corner);
+		return TextureManager::GetInstance()->GetTexture(TextureManager::GetInstance()->m_Wall_Corner_Top_Right);
 	}
 #pragma endregion
 #pragma region wall_ends
 	if (topIsWall) // bottom edge
 	{
-		return TextureManager::GetInstance()->GetTexture(TextureManager::GetInstance()->m_Top_Wall_Left_Right);
+		return TextureManager::GetInstance()->GetTexture(TextureManager::GetInstance()->m_Wall_Edge_Bottom);
 	}
 	if (bottomIsWall) // top edge
 	{
-		return TextureManager::GetInstance()->GetTexture(TextureManager::GetInstance()->m_Wall_Bottom_Edge);
+		return TextureManager::GetInstance()->GetTexture(TextureManager::GetInstance()->m_Wall_Edge_Top);
 	}
 
 	if (rightIsWall) // left edge
 	{
-		if (isAtTop)
-		{
-			return TextureManager::GetInstance()->GetTexture(TextureManager::GetInstance()->m_Top_Wall_Left_Right);
-		}
-		return TextureManager::GetInstance()->GetTexture(TextureManager::GetInstance()->m_Wall_Right_Edge);
+		return TextureManager::GetInstance()->GetTexture(TextureManager::GetInstance()->m_Wall_Edge_Left);
 	}
 	if (leftIsWall) // right edge
 	{
-		if (isAtTop)
-		{
-			return TextureManager::GetInstance()->GetTexture(TextureManager::GetInstance()->m_Top_Wall_Left_Right);
-		}
-		return TextureManager::GetInstance()->GetTexture(TextureManager::GetInstance()->m_Wall_Left_Edge);
+		return TextureManager::GetInstance()->GetTexture(TextureManager::GetInstance()->m_Wall_Edge_Right);
 	}
 #pragma endregion
 
