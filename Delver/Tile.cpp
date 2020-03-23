@@ -34,6 +34,10 @@ Point2f Tile::GetBottomLeft() const
 {
 	return Point2f{ m_TilePos.x * Tile::m_Side, m_TilePos.y * Tile::m_Side };
 }
+Texture* Tile::GetTexture() const
+{
+	return m_pTexture;
+}
 
 void Tile::SetType(Type newType)
 {

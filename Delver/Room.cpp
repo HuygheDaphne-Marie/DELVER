@@ -130,12 +130,16 @@ void Room::Draw() const
 
 Texture* Room::GetWallTextureForTile(const Tile& tile)
 {
-	GridPos tilePos{ tile.GetTilePos() };
+	const GridPos tilePos{ tile.GetTilePos() };
 	bool topIsWall{ CheckIfTileIsOfType(GridPos{tilePos.x, tilePos.y + 1}, Tile::Type::wall) };
 	bool bottomIsWall{ CheckIfTileIsOfType(GridPos{tilePos.x, tilePos.y - 1}, Tile::Type::wall) };
 	bool leftIsWall{ CheckIfTileIsOfType(GridPos{tilePos.x - 1, tilePos.y}, Tile::Type::wall) };
 	bool rightIsWall{ CheckIfTileIsOfType(GridPos{tilePos.x + 1, tilePos.y}, Tile::Type::wall) };
 
+	return GetWallTextureForTile(topIsWall, bottomIsWall, leftIsWall, rightIsWall);
+}
+Texture* Room::GetWallTextureForTile(bool topIsWall, bool bottomIsWall, bool leftIsWall, bool rightIsWall)
+{
 #pragma region wall_segments
 	if (leftIsWall && rightIsWall)
 	{
@@ -318,5 +322,49 @@ bool Room::CheckIfTileIsOfType(const GridPos& tilePos, const Tile::Type& type)
 	else
 	{
 		return false;
+	}
+}
+
+void Room::UpdateWallTextures(Tile& wallTile)
+{
+	if (wallTile.GetType() != Tile::Type::wall)
+	{
+		return;
+	}
+	const GridPos tilePos{ wallTile.GetTilePos() };
+
+	const GridPos TopPos{ tilePos.x, tilePos.y + 1 };
+	const GridPos BottomPos{ tilePos.x, tilePos.y - 1 };
+	const GridPos LeftPos{ tilePos.x - 1, tilePos.y };
+	const GridPos RightPos{ tilePos.x + 1, tilePos.y };
+	bool topIsWall{ CheckIfTileIsOfType(TopPos, Tile::Type::wall) };
+	bool bottomIsWall{ CheckIfTileIsOfType(BottomPos, Tile::Type::wall) };
+	bool leftIsWall{ CheckIfTileIsOfType(LeftPos, Tile::Type::wall) };
+	bool rightIsWall{ CheckIfTileIsOfType(RightPos, Tile::Type::wall) };
+
+	Texture* textureToChangeTo{ GetWallTextureForTile(topIsWall, bottomIsWall, leftIsWall, rightIsWall) };
+	if (wallTile.GetTexture() == textureToChangeTo)
+	{
+		// We can assume that if it doesn't need to change, then it's neighbours are already correct
+		// This will help not checking all walls if really only a limited amount need changing 
+		return; 
+	}
+	wallTile.SetTexture(textureToChangeTo);
+
+	if (topIsWall)
+	{
+		UpdateWallTextures(m_Tiles[utils::IndexFromGridPos(TopPos, m_RoomCols)]);
+	}
+	if (bottomIsWall)
+	{
+		UpdateWallTextures(m_Tiles[utils::IndexFromGridPos(BottomPos, m_RoomCols)]);
+	}
+	if (leftIsWall)
+	{
+		UpdateWallTextures(m_Tiles[utils::IndexFromGridPos(LeftPos, m_RoomCols)]);
+	}
+	if (rightIsWall)
+	{
+		UpdateWallTextures(m_Tiles[utils::IndexFromGridPos(RightPos, m_RoomCols)]);
 	}
 }

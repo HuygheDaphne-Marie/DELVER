@@ -44,6 +44,8 @@ public:
 	void SetBottomOpen(bool isOpen);
 	void SetRightOpen(bool isOpen);
 
+	//void SetTile(const GridPos& pos, Tile::Type tileType); // would need an already made grid
+
 private:
 	static const int m_HallwayWidth;
 
@@ -65,6 +67,10 @@ private:
 	void InitBarriers();
 	void InitTiles();
 	Texture* GetWallTextureForTile(const Tile& tile);
+	Texture* GetWallTextureForTile(bool topIsWall, bool bottomIsWall, bool leftIsWall, bool rightIsWall);
 	bool CheckIfTileIsOfType(const GridPos& tilePos, const Tile::Type& type);
+
+	
+	void UpdateWallTextures(Tile& wallTile);
 };
 

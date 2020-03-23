@@ -20,6 +20,7 @@ public:
 	Type GetType() const;
 	bool IsWalkable() const;
 	Point2f GetBottomLeft() const;
+	Texture* GetTexture() const;
 
 	void SetType(Type newType);
 	void SetTexture(Texture* texture);
