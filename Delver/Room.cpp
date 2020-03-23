@@ -131,10 +131,10 @@ void Room::Draw() const
 Texture* Room::GetWallTextureForTile(const Tile& tile)
 {
 	const GridPos tilePos{ tile.GetTilePos() };
-	bool topIsWall{ CheckIfTileIsOfType(GridPos{tilePos.x, tilePos.y + 1}, Tile::Type::wall) };
-	bool bottomIsWall{ CheckIfTileIsOfType(GridPos{tilePos.x, tilePos.y - 1}, Tile::Type::wall) };
-	bool leftIsWall{ CheckIfTileIsOfType(GridPos{tilePos.x - 1, tilePos.y}, Tile::Type::wall) };
-	bool rightIsWall{ CheckIfTileIsOfType(GridPos{tilePos.x + 1, tilePos.y}, Tile::Type::wall) };
+	bool topIsWall{ CheckTileIsOfType(GridPos{tilePos.x, tilePos.y + 1}, Tile::Type::wall) };
+	bool bottomIsWall{ CheckTileIsOfType(GridPos{tilePos.x, tilePos.y - 1}, Tile::Type::wall) };
+	bool leftIsWall{ CheckTileIsOfType(GridPos{tilePos.x - 1, tilePos.y}, Tile::Type::wall) };
+	bool rightIsWall{ CheckTileIsOfType(GridPos{tilePos.x + 1, tilePos.y}, Tile::Type::wall) };
 
 	return GetWallTextureForTile(topIsWall, bottomIsWall, leftIsWall, rightIsWall);
 }
@@ -313,7 +313,7 @@ void Room::SetRightOpen(bool isOpen)
 	m_IsRightOpen = isOpen;
 }
 
-bool Room::CheckIfTileIsOfType(const GridPos& tilePos, const Tile::Type& type)
+bool Room::CheckTileIsOfType(const GridPos& tilePos, const Tile::Type& type)
 {
 	if (utils::GridPosValid(tilePos, m_RoomCols, m_RoomRows))
 	{
@@ -337,10 +337,10 @@ void Room::UpdateWallTextures(Tile& wallTile)
 	const GridPos BottomPos{ tilePos.x, tilePos.y - 1 };
 	const GridPos LeftPos{ tilePos.x - 1, tilePos.y };
 	const GridPos RightPos{ tilePos.x + 1, tilePos.y };
-	bool topIsWall{ CheckIfTileIsOfType(TopPos, Tile::Type::wall) };
-	bool bottomIsWall{ CheckIfTileIsOfType(BottomPos, Tile::Type::wall) };
-	bool leftIsWall{ CheckIfTileIsOfType(LeftPos, Tile::Type::wall) };
-	bool rightIsWall{ CheckIfTileIsOfType(RightPos, Tile::Type::wall) };
+	bool topIsWall{ CheckTileIsOfType(TopPos, Tile::Type::wall) };
+	bool bottomIsWall{ CheckTileIsOfType(BottomPos, Tile::Type::wall) };
+	bool leftIsWall{ CheckTileIsOfType(LeftPos, Tile::Type::wall) };
+	bool rightIsWall{ CheckTileIsOfType(RightPos, Tile::Type::wall) };
 
 	Texture* textureToChangeTo{ GetWallTextureForTile(topIsWall, bottomIsWall, leftIsWall, rightIsWall) };
 	if (wallTile.GetTexture() == textureToChangeTo)

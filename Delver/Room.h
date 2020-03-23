@@ -68,7 +68,7 @@ private:
 	void InitTiles();
 	Texture* GetWallTextureForTile(const Tile& tile);
 	Texture* GetWallTextureForTile(bool topIsWall, bool bottomIsWall, bool leftIsWall, bool rightIsWall);
-	bool CheckIfTileIsOfType(const GridPos& tilePos, const Tile::Type& type);
+	bool CheckTileIsOfType(const GridPos& tilePos, const Tile::Type& type);
 
 	
 	void UpdateWallTextures(Tile& wallTile);
