@@ -29,6 +29,7 @@ public:
 	Room(const GridPos& position);
 	~Room();
 	void Generate();
+	void Initialize();
 	void Draw() const;
 	std::vector<std::vector<Point2f>> GetBarriers() const;
 	GridPos GetRoomPos() const;
@@ -44,14 +45,14 @@ public:
 	void SetBottomOpen(bool isOpen);
 	void SetRightOpen(bool isOpen);
 
-	//void SetTile(const GridPos& pos, Tile::Type tileType); // would need an already made grid
+	
 
 private:
 	static const int m_HallwayWidth;
 
 	const GridPos m_RoomPos;
 	const Point2f m_BottomLeft;
-	std::vector<Tile> m_Tiles;
+	std::vector<Tile*> m_Tiles;
 	//Connection m_Connection; // This is really a pain to set
 	bool m_IsTopOpen;
 	bool m_IsLeftOpen;
@@ -63,14 +64,22 @@ private:
 
 	void GenerateEdges();
 	void GenerateHallway(GridPos& hallwayStart, bool isHorizontal);
-	void GenerateWallSides();
-	void InitBarriers();
-	void InitTiles();
-	Texture* GetWallTextureForTile(const Tile& tile);
-	Texture* GetWallTextureForTile(bool topIsWall, bool bottomIsWall, bool leftIsWall, bool rightIsWall);
-	bool CheckTileIsOfType(const GridPos& tilePos, const Tile::Type& type);
 
-	
-	void UpdateWallTextures(Tile& wallTile);
+	void InitBarriers();
+
+	Texture* GetWallTextureForTile(const Tile& tile) const;
+	Texture* GetWallTextureForTile(bool topIsWall, bool bottomIsWall, bool leftIsWall, bool rightIsWall) const;
+	bool CheckTileIsOfType(const GridPos& tilePos, const Tile::Type& type) const;
+	bool CheckTileIsOneOfTypes(const GridPos& tilePos, const std::vector<Tile::Type>& types) const;
+
+	void UpdateWallTexture(Tile& wallTile);
+
+	void SetTile(const GridPos& pos, Tile::Type tileType);
+	void UpdateNeighbourTiles(Tile& tile, Tile::Type oldType);
+
+	Tile* GetTileAbove(const GridPos& pos);
+	Tile* GetTileBelow(const GridPos& pos);
+	Tile* GetTileRight(const GridPos& pos);
+	Tile* GetTileLeft(const GridPos& pos);
 };
 

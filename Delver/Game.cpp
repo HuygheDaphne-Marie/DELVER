@@ -77,8 +77,8 @@ void Game::Draw( ) const
 		std::vector<std::vector<Point2f>> walls = playerRoom->GetBarriers();
 		for (std::vector<Point2f> wall : walls)
 		{
-			glColor3f(1.f, 1.f, 1.f);
-			utils::DrawPolygon(wall, false);
+			glColor3f(1.f, 0.f, 0.f);
+			utils::DrawPolygon(wall);
 		}
 	}
 	glPopMatrix();

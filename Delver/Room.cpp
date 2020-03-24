@@ -10,7 +10,7 @@ const int Room::m_HallwayWidth = 3;
 Room::Room(const GridPos& position)
 	: m_RoomPos{position}
 	, m_BottomLeft{ position.x * (m_RoomCols * Tile::m_Side), position.y * (m_RoomRows * Tile::m_Side) }
-	, m_Tiles{}
+	, m_Tiles{m_RoomCols * m_RoomRows, nullptr}
 	, m_IsTopOpen{false}
 	, m_IsLeftOpen{false}
 	, m_IsBottomOpen{false}
@@ -21,6 +21,11 @@ Room::Room(const GridPos& position)
 }
 Room::~Room()
 {
+	for (Tile* tile : m_Tiles)
+	{
+		delete tile;
+		tile = nullptr;
+	}
 }
 
 void Room::Generate()
@@ -28,27 +33,98 @@ void Room::Generate()
 	for (int i{}; i < (m_RoomCols * m_RoomRows); i++)
 	{
 		GridPos tilePos{ utils::GridPosFromIndex(i, m_RoomCols) };
-		m_Tiles.push_back(Tile(tilePos, Tile::Type::floor));
+		m_Tiles[utils::IndexFromGridPos(tilePos, m_RoomCols)] = new Tile(tilePos);
+		SetTile(tilePos, Tile::Type::floor);
 	}
 
 	GenerateEdges();
-	GenerateWallSides();
 
 	m_IsGenerated = true;
-	InitTiles();
+	Initialize();
+}
+void Room::Initialize()
+{
 	InitBarriers();
 }
+
+void Room::Draw() const
+{
+	if (!m_IsGenerated)
+	{
+		return;
+	}
+
+	glPushMatrix();
+	glTranslatef(m_BottomLeft.x, m_BottomLeft.y, 0);
+	for (Tile* tile : m_Tiles)
+	{
+		tile->Draw();
+	}
+	glPopMatrix();
+}
+
+std::vector<std::vector<Point2f>> Room::GetBarriers() const
+{
+	return m_Barriers;
+}
+GridPos Room::GetRoomPos() const
+{
+	return m_RoomPos;
+}
+bool Room::IsTopOpen() const
+{
+	return m_IsTopOpen;
+}
+bool Room::IsLeftOpen() const
+{
+	return m_IsLeftOpen;
+}
+bool Room::IsBottomOpen() const
+{
+	return m_IsBottomOpen;
+}
+bool Room::IsRightOpen() const
+{
+	return m_IsRightOpen;
+}
+
+void Room::SetConnection(bool shouldTopOpen, bool shouldLeftOpen, bool shouldBottomOpen, bool shouldRightOpen)
+{
+	m_IsTopOpen = shouldTopOpen;
+	m_IsLeftOpen = shouldLeftOpen;
+	m_IsBottomOpen = shouldBottomOpen;
+	m_IsRightOpen = shouldRightOpen;
+}
+void Room::SetTopOpen(bool isOpen)
+{
+	m_IsTopOpen = isOpen;
+}
+void Room::SetLeftOpen(bool isOpen)
+{
+	m_IsLeftOpen = isOpen;
+}
+void Room::SetBottomOpen(bool isOpen)
+{
+	m_IsBottomOpen = isOpen;
+}
+void Room::SetRightOpen(bool isOpen)
+{
+	m_IsRightOpen = isOpen;
+}
+
+
+// PRIVATE FUNCTIONS //
 void Room::GenerateEdges()
 {
 	for (int i{}; i < m_RoomCols; i++)
 	{
-		m_Tiles[utils::IndexFromGridPos(GridPos{ i, 0 }, m_RoomCols)].SetType(Tile::Type::wall);
-		m_Tiles[utils::IndexFromGridPos(GridPos{ i, m_RoomRows - 1 }, m_RoomCols)].SetType(Tile::Type::wall);
+		SetTile(GridPos{ i, 0 }, Tile::Type::wall);
+		SetTile(GridPos{ i, m_RoomRows - 1 }, Tile::Type::wall);
 	}
 	for (int i{}; i < m_RoomRows; i++)
 	{
-		m_Tiles[utils::IndexFromGridPos(GridPos{ 0, i }, m_RoomCols)].SetType(Tile::Type::wall);
-		m_Tiles[utils::IndexFromGridPos(GridPos{ m_RoomCols - 1, i }, m_RoomCols)].SetType(Tile::Type::wall);
+		SetTile(GridPos{ 0, i }, Tile::Type::wall);
+		SetTile(GridPos{ m_RoomCols - 1, i }, Tile::Type::wall);
 	}
 
 	if (m_IsTopOpen)
@@ -77,7 +153,7 @@ void Room::GenerateHallway(GridPos& hallwayStart, bool isHorizontal)
 {
 	for (int i{}; i < m_HallwayWidth; i++)
 	{
-		m_Tiles[utils::IndexFromGridPos(hallwayStart, m_RoomCols)].SetType(Tile::Type::floor);
+		SetTile(hallwayStart, Tile::Type::floor);
 		if (isHorizontal)
 		{
 			hallwayStart.x++;
@@ -88,47 +164,29 @@ void Room::GenerateHallway(GridPos& hallwayStart, bool isHorizontal)
 		}
 	}
 }
-void Room::GenerateWallSides()
+
+void Room::InitBarriers()
 {
-	for (const Tile& tile : m_Tiles) // this will never apply to the first row, but it's nice to use a range
+	for (const Tile* tile : m_Tiles)
 	{
-		if (tile.GetType() == Tile::Type::wall)
+		if (CheckTileIsOneOfTypes(tile->GetTilePos(), { Tile::Type::wall, Tile::Type::wallSide }))
 		{
-			GridPos tilePosBelow{ tile.GetTilePos() };
-			tilePosBelow.y--;
-			if (utils::GridPosValid(tilePosBelow, m_RoomCols, m_RoomRows))
+			std::vector<Point2f> tileBarrier{ tile->GetBarrier() };
+
+			if (tileBarrier.size() > 0)
 			{
-				Tile& tileBelow{ m_Tiles[utils::IndexFromGridPos(tilePosBelow, m_RoomCols)] };
-				if (tileBelow.GetType() != Tile::Type::wall)
+				for (Point2f& point : tileBarrier)
 				{
-					tileBelow.SetType(Tile::Type::wallSide);
-					tileBelow.SetTexture(TextureManager::GetInstance()->GetTexture(TextureManager::GetInstance()->m_Wall_Side));
+					point.x += m_BottomLeft.x;
+					point.y += m_BottomLeft.y;
 				}
+				m_Barriers.push_back(tileBarrier);
 			}
 		}
 	}
 }
 
-//void SetTile(Tile::Type tileType); would need an already made grid
-//void UpdateWallTexture(Tile& wallTile);
-
-void Room::Draw() const
-{
-	if (!m_IsGenerated)
-	{
-		return;
-	}
-
-	glPushMatrix();
-	glTranslatef(m_BottomLeft.x, m_BottomLeft.y, 0);
-	for (Tile tile : m_Tiles)
-	{
-		tile.Draw();
-	}
-	glPopMatrix();
-}
-
-Texture* Room::GetWallTextureForTile(const Tile& tile)
+Texture* Room::GetWallTextureForTile(const Tile& tile) const
 {
 	const GridPos tilePos{ tile.GetTilePos() };
 	bool topIsWall{ CheckTileIsOfType(GridPos{tilePos.x, tilePos.y + 1}, Tile::Type::wall) };
@@ -138,7 +196,7 @@ Texture* Room::GetWallTextureForTile(const Tile& tile)
 
 	return GetWallTextureForTile(topIsWall, bottomIsWall, leftIsWall, rightIsWall);
 }
-Texture* Room::GetWallTextureForTile(bool topIsWall, bool bottomIsWall, bool leftIsWall, bool rightIsWall)
+Texture* Room::GetWallTextureForTile(bool topIsWall, bool bottomIsWall, bool leftIsWall, bool rightIsWall) const
 {
 #pragma region wall_segments
 	if (leftIsWall && rightIsWall)
@@ -191,141 +249,32 @@ Texture* Room::GetWallTextureForTile(bool topIsWall, bool bottomIsWall, bool lef
 
 	return TextureManager::GetInstance()->GetTexture("this will not give any texture");
 }
-void Room::InitTiles()
-{
-	for (Tile& tile : m_Tiles)
-	{
-		switch (tile.GetType())
-		{
-		case Tile::Type::nothing:
-			tile.SetTexture(nullptr);
-			break;
-		case Tile::Type::floor:
-			tile.SetTexture(TextureManager::GetInstance()->GetTexture(TextureManager::GetInstance()->m_FLOORS));
-			break;
-		case Tile::Type::wall:
-			tile.SetTexture(GetWallTextureForTile(tile));
-			break;
-		}
-	}
-}
-void Room::InitBarriers()
-{
-	for (const Tile& tile : m_Tiles)
-	{
-		if (!tile.IsWalkable())
-		{
-			std::vector<Point2f> tileBarrier{};
-			GridPos tilePos{ tile.GetTilePos() };
-			GridPos otherTilePos{ tilePos.x + 1, tilePos.y };
-			Point2f bottomLeft{ tile.GetBottomLeft() };
-			
-			bottomLeft.x += m_BottomLeft.x;
-			bottomLeft.y += m_BottomLeft.y;
-			
-			//// Left & right
-			if (utils::GridPosValid(otherTilePos, m_RoomCols, m_RoomRows) && m_Tiles[utils::IndexFromGridPos(otherTilePos, m_RoomCols)].IsWalkable())
-			{
-				// Barrier on right side
-				tileBarrier.push_back(Point2f{ bottomLeft.x + Tile::m_Side, bottomLeft.y });
-				tileBarrier.push_back(Point2f{ bottomLeft.x + Tile::m_Side, bottomLeft.y + Tile::m_Side });
-			}
-			otherTilePos.x = tilePos.x - 1;
-			if (utils::GridPosValid(otherTilePos, m_RoomCols, m_RoomRows) && m_Tiles[utils::IndexFromGridPos(otherTilePos, m_RoomCols)].IsWalkable())
-			{
-				// Barrier on left side
-				tileBarrier.push_back(Point2f{ bottomLeft.x, bottomLeft.y });
-				tileBarrier.push_back(Point2f{ bottomLeft.x, bottomLeft.y + Tile::m_Side });
-			}
 
-			otherTilePos.x = tilePos.x;
-
-			// Top & bottom
-			otherTilePos.y = tilePos.y + 1;
-			if (utils::GridPosValid(otherTilePos, m_RoomCols, m_RoomRows) && m_Tiles[utils::IndexFromGridPos(otherTilePos, m_RoomCols)].IsWalkable())
-			{
-				// Top side points
-				tileBarrier.push_back(Point2f{ bottomLeft.x, bottomLeft.y + Tile::m_Side });
-				tileBarrier.push_back(Point2f{ bottomLeft.x + Tile::m_Side, bottomLeft.y + Tile::m_Side });
-			}
-			otherTilePos.y = tilePos.y - 1;
-			if (utils::GridPosValid(otherTilePos, m_RoomCols, m_RoomRows) && m_Tiles[utils::IndexFromGridPos(otherTilePos, m_RoomCols)].IsWalkable())
-			{
-				// bottom points
-				tileBarrier.push_back(Point2f{ bottomLeft.x, bottomLeft.y });
-				tileBarrier.push_back(Point2f{ bottomLeft.x + Tile::m_Side, bottomLeft.y });
-			}
-
-			if (tileBarrier.size() > 0)
-			{
-				m_Barriers.push_back(tileBarrier);
-			}
-		}
-	}
-}
-std::vector<std::vector<Point2f>> Room::GetBarriers() const
-{
-	return m_Barriers;
-}
-GridPos Room::GetRoomPos() const
-{
-	return m_RoomPos;
-}
-
-bool Room::IsTopOpen() const
-{
-	return m_IsTopOpen;
-}
-bool Room::IsLeftOpen() const
-{
-	return m_IsLeftOpen;
-}
-bool Room::IsBottomOpen() const
-{
-	return m_IsBottomOpen;
-}
-bool Room::IsRightOpen() const
-{
-	return m_IsRightOpen;
-}
-
-void Room::SetConnection(bool shouldTopOpen, bool shouldLeftOpen, bool shouldBottomOpen, bool shouldRightOpen)
-{
-	m_IsTopOpen = shouldTopOpen;
-	m_IsLeftOpen = shouldLeftOpen;
-	m_IsBottomOpen = shouldBottomOpen;
-	m_IsRightOpen = shouldRightOpen;
-}
-void Room::SetTopOpen(bool isOpen)
-{
-	m_IsTopOpen = isOpen;
-}
-void Room::SetLeftOpen(bool isOpen)
-{
-	m_IsLeftOpen = isOpen;
-}
-void Room::SetBottomOpen(bool isOpen)
-{
-	m_IsBottomOpen = isOpen;
-}
-void Room::SetRightOpen(bool isOpen)
-{
-	m_IsRightOpen = isOpen;
-}
-
-bool Room::CheckTileIsOfType(const GridPos& tilePos, const Tile::Type& type)
+bool Room::CheckTileIsOfType(const GridPos& tilePos, const Tile::Type& type) const
 {
 	if (utils::GridPosValid(tilePos, m_RoomCols, m_RoomRows))
 	{
-		return m_Tiles[utils::IndexFromGridPos(tilePos, m_RoomCols)].GetType() == type;
+		return m_Tiles[utils::IndexFromGridPos(tilePos, m_RoomCols)]->GetType() == type;
 	}
 	else
 	{
 		return false;
 	}
 }
+bool Room::CheckTileIsOneOfTypes(const GridPos& tilePos, const std::vector<Tile::Type>& types) const
+{
+	bool isOneOfTypes{ false };
+	for (const Tile::Type& type : types)
+	{
+		if (CheckTileIsOfType(tilePos, type))
+		{
+			isOneOfTypes = true;
+		}
+	}
+	return isOneOfTypes;
+}
 
-void Room::UpdateWallTextures(Tile& wallTile)
+void Room::UpdateWallTexture(Tile& wallTile)
 {
 	if (wallTile.GetType() != Tile::Type::wall)
 	{
@@ -353,18 +302,163 @@ void Room::UpdateWallTextures(Tile& wallTile)
 
 	if (topIsWall)
 	{
-		UpdateWallTextures(m_Tiles[utils::IndexFromGridPos(TopPos, m_RoomCols)]);
+		UpdateWallTexture(*m_Tiles[utils::IndexFromGridPos(TopPos, m_RoomCols)]);
 	}
 	if (bottomIsWall)
 	{
-		UpdateWallTextures(m_Tiles[utils::IndexFromGridPos(BottomPos, m_RoomCols)]);
+		UpdateWallTexture(*m_Tiles[utils::IndexFromGridPos(BottomPos, m_RoomCols)]);
 	}
 	if (leftIsWall)
 	{
-		UpdateWallTextures(m_Tiles[utils::IndexFromGridPos(LeftPos, m_RoomCols)]);
+		UpdateWallTexture(*m_Tiles[utils::IndexFromGridPos(LeftPos, m_RoomCols)]);
 	}
 	if (rightIsWall)
 	{
-		UpdateWallTextures(m_Tiles[utils::IndexFromGridPos(RightPos, m_RoomCols)]);
+		UpdateWallTexture(*m_Tiles[utils::IndexFromGridPos(RightPos, m_RoomCols)]);
 	}
+}
+
+void Room::SetTile(const GridPos& pos, Tile::Type tileType)
+{
+	if (!utils::GridPosValid(pos, m_RoomCols, m_RoomRows))
+	{
+		return;
+	}
+
+	Tile* tile{ m_Tiles[utils::IndexFromGridPos(pos, m_RoomCols)] };
+	if (tile->GetType() == tileType)
+	{
+		return;
+	}
+
+	Tile::Type oldType{ tile->GetType() };
+	tile->SetType(tileType);
+
+	switch (tile->GetType())
+	{
+	case Tile::Type::nothing:
+		tile->SetTexture(nullptr);
+		break;
+	case Tile::Type::wall:
+		UpdateWallTexture(*tile);
+
+		break;
+	case Tile::Type::wallSide:
+		tile->SetTexture(TextureManager::GetInstance()->GetTexture(TextureManager::GetInstance()->m_Wall_Side));
+		break;
+	case Tile::Type::floor:
+		tile->SetTexture(TextureManager::GetInstance()->GetTexture(TextureManager::GetInstance()->m_FLOORS));
+		break;
+	}
+	UpdateNeighbourTiles(*tile, oldType);
+}
+void Room::UpdateNeighbourTiles(Tile& tile, Tile::Type oldType)
+{
+	if (oldType == Tile::Type::wall)
+	{
+		const GridPos& tilePos{ tile.GetTilePos() };
+		Tile* tileTop{ GetTileAbove(tilePos) };
+		if (tileTop != nullptr)
+		{
+			if (tileTop->GetType() == Tile::Type::wall)
+			{
+				UpdateWallTexture(*tileTop);
+			}
+		}
+
+		Tile* tileLeft{ GetTileLeft(tilePos) };
+		if (tileLeft != nullptr)
+		{
+			if (tileLeft->GetType() == Tile::Type::wall)
+			{
+				UpdateWallTexture(*tileLeft);
+			}
+		}
+
+		Tile* tileRight{ GetTileRight(tilePos) };
+		if (tileRight != nullptr)
+		{
+			if (tileRight->GetType() == Tile::Type::wall)
+			{
+				UpdateWallTexture(*tileRight);
+			}
+		}
+
+		Tile* tileBelow{ GetTileBelow(tilePos) };
+		if (tileBelow != nullptr)
+		{
+			if (tileBelow->GetType() == Tile::Type::wall)
+			{
+				UpdateWallTexture(*tileBelow);
+			}
+
+			if (tileBelow->GetType() != Tile::Type::wall)
+			{
+				SetTile(tileBelow->GetTilePos(), Tile::Type::floor);
+			}
+		}
+
+
+	}
+	if (tile.GetType() == Tile::Type::wall)
+	{
+		// make sure walls have sides under them
+		Tile* tileBelow{ GetTileBelow(tile.GetTilePos()) };
+		if (tileBelow != nullptr)
+		{
+			if (tileBelow->GetType() != Tile::Type::wall)
+			{
+				SetTile(tileBelow->GetTilePos(), Tile::Type::wallSide);
+			}
+		}
+	}
+
+
+	// if new is a floor and old above was wall make new above wallSide
+	if (tile.GetType() != Tile::Type::wall && tile.GetType() != Tile::Type::wallSide)
+	{
+		GridPos pos{ tile.GetTilePos() };
+		Tile* tileAbove{ GetTileAbove(pos) };
+		if (tileAbove != nullptr && tileAbove->GetType() == Tile::Type::wall)
+		{
+			SetTile(tileAbove->GetTilePos(), Tile::Type::wallSide);
+		}
+	}
+}
+
+Tile* Room::GetTileAbove(const GridPos& pos)
+{
+	GridPos posAbove{ pos.x, pos.y + 1 };
+	if (utils::GridPosValid(posAbove, m_RoomCols, m_RoomRows))
+	{
+		return m_Tiles[utils::IndexFromGridPos(posAbove, m_RoomCols)];
+	}
+	return nullptr;
+}
+Tile* Room::GetTileBelow(const GridPos& pos)
+{
+	GridPos posBelow{ pos.x, pos.y - 1 };
+	if (utils::GridPosValid(posBelow, m_RoomCols, m_RoomRows))
+	{
+		return m_Tiles[utils::IndexFromGridPos(posBelow, m_RoomCols)];
+	}
+	return nullptr;
+}
+Tile* Room::GetTileRight(const GridPos& pos)
+{
+	GridPos posRight{ pos.x + 1, pos.y };
+	if (utils::GridPosValid(posRight, m_RoomCols, m_RoomRows))
+	{
+		return m_Tiles[utils::IndexFromGridPos(posRight, m_RoomCols)];
+	}
+	return nullptr;
+}
+Tile* Room::GetTileLeft(const GridPos& pos)
+{
+	GridPos posLeft{ pos.x - 1, pos.y  };
+	if (utils::GridPosValid(posLeft, m_RoomCols, m_RoomRows))
+	{
+		return m_Tiles[utils::IndexFromGridPos(posLeft, m_RoomCols)];
+	}
+	return nullptr;
 }

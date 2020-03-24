@@ -8,7 +8,7 @@ const float Tile::m_Side = 32.f;
 Tile::Tile(const GridPos& pos, Type tileType)
 	: m_TilePos{pos}
 	, m_Type{}
-	, m_IsWalkable{}
+	, m_IsBarrier{}
 	, m_pTexture{}
 {
 	SetType(tileType);
@@ -26,9 +26,9 @@ Tile::Type Tile::GetType() const
 {
 	return m_Type;
 }
-bool Tile::IsWalkable() const
+bool Tile::IsBarrier() const
 {
-	return m_IsWalkable;
+	return m_IsBarrier;
 }
 Point2f Tile::GetBottomLeft() const
 {
@@ -38,6 +38,41 @@ Texture* Tile::GetTexture() const
 {
 	return m_pTexture;
 }
+std::vector<Point2f> Tile::GetBarrier() const
+{
+	std::vector<Point2f> barrier{};
+	const Point2f bottomLeft{ GetBottomLeft() };
+	const float halfSide{ m_Side / 2 };
+	switch (m_Type)
+	{
+	case Tile::Type::wall:
+		{
+			Point2f bottomRight{ bottomLeft.x + m_Side, bottomLeft.y };
+			Point2f topRight{ bottomLeft.x + m_Side, bottomLeft.y + m_Side };
+			Point2f topLeft{ bottomLeft.x, bottomLeft.y + m_Side };
+
+			barrier.push_back(bottomLeft);
+			barrier.push_back(bottomRight);
+			barrier.push_back(topRight);
+			barrier.push_back(topLeft);
+		}
+		break;
+	case Tile::Type::wallSide:
+		{
+			Point2f topRight{ bottomLeft.x + m_Side, bottomLeft.y + m_Side };
+			Point2f topLeft{ bottomLeft.x, bottomLeft.y + m_Side };
+			Point2f middleLeft{ bottomLeft.x, bottomLeft.y + halfSide };
+			Point2f middleRight{ bottomLeft.x + m_Side, bottomLeft.y + halfSide };
+
+			barrier.push_back(middleLeft);
+			barrier.push_back(middleRight);
+			barrier.push_back(topRight);
+			barrier.push_back(topLeft);
+		}
+		break;
+	}
+	return barrier;
+}
 
 void Tile::SetType(Type newType)
 {
@@ -45,16 +80,16 @@ void Tile::SetType(Type newType)
 	switch (m_Type)
 	{
 	case Tile::Type::nothing:
-		m_IsWalkable = false;
+		m_IsBarrier = false;
 		break;
 	case Tile::Type::wall:
-		m_IsWalkable = false;
+		m_IsBarrier = false;
 		break;
 	case Tile::Type::wallSide:
-		m_IsWalkable = true;
+		m_IsBarrier = true;
 		break;
 	case Tile::Type::floor:
-		m_IsWalkable = true;
+		m_IsBarrier = true;
 		break;
 	}
 }
@@ -85,5 +120,3 @@ void Tile::Draw() const
 	}
 	utils::FillRect(Point2f{m_TilePos.x * m_Side, m_TilePos.y * m_Side}, m_Side, m_Side);
 }
-
-

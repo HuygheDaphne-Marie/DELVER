@@ -18,9 +18,10 @@ public:
 
 	GridPos GetTilePos() const;
 	Type GetType() const;
-	bool IsWalkable() const;
+	bool IsBarrier() const;
 	Point2f GetBottomLeft() const;
 	Texture* GetTexture() const;
+	std::vector<Point2f> GetBarrier() const;
 
 	void SetType(Type newType);
 	void SetTexture(Texture* texture);
@@ -30,7 +31,7 @@ public:
 private:
 	const GridPos m_TilePos;
 	Type m_Type;
-	bool m_IsWalkable;
+	bool m_IsBarrier;
 	Texture* m_pTexture;
 };
 
