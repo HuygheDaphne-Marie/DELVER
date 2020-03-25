@@ -50,6 +50,10 @@ Room* Level::GetRoomAt(const GridPos& pos) const
 	}
 	return nullptr;
 }
+Point2f Level::GetPlayerSpawnPoint() const
+{
+	return m_PlayerSpawn;
+}
 
 void Level::SetLevelDimensions(int width, int height)
 {
@@ -89,6 +93,8 @@ Room* Level::GenerateStart() // make start room which is open from all sides
 	int idx = utils::IndexFromGridPos(center, m_LevelCols);
 	m_Rooms[idx] = centerRoom;
 	centerRoom->SetConnection(true, true, true, true);
+
+	m_PlayerSpawn = centerRoom->GetBottomLeft();
 
 	return centerRoom;
 }
@@ -185,6 +191,49 @@ void Level::GenerateRoomAt(const GridPos& newRoomPos, Room* parentRoom) // retur
 	ConnectRooms(parentRoom, newRoom);
 
 	// then make adjacent rooms for this one
+	GenerateNewRoomOpenings(newRoom);
+	GenerateAdjacentRoomsOfRoom(newRoom);
+}
+void Level::GenerateNewRoomOpenings(Room* room)
+{
+	int maxAmountOfNewOpenings{ utils::GetRand(0, 3) };
+	const int chanceToGetNewOpening{ 50 }; // make this static const probably
+	if (!room->IsTopOpen() && maxAmountOfNewOpenings > 0) // check if not parent or already generated
+	{
+		int chance{ utils::GetRand(0, 100) }; // make this function
+		if (chance < chanceToGetNewOpening)
+		{
+			room->SetTopOpen(true);
+			maxAmountOfNewOpenings--;
+		}
+	}
+	if (!room->IsLeftOpen() && maxAmountOfNewOpenings > 0)
+	{
+		int chance{ utils::GetRand(0, 100) };
+		if (chance < chanceToGetNewOpening)
+		{
+			room->SetLeftOpen(true);
+			maxAmountOfNewOpenings--;
+		}
+	}
+	if (!room->IsBottomOpen() && maxAmountOfNewOpenings > 0)
+	{
+		int chance{ utils::GetRand(0, 100) };
+		if (chance < chanceToGetNewOpening)
+		{
+			room->SetBottomOpen(true);
+			maxAmountOfNewOpenings--;
+		}
+	}
+	if (!room->IsRightOpen() && maxAmountOfNewOpenings > 0)
+	{
+		int chance{ utils::GetRand(0, 100) };
+		if (chance < chanceToGetNewOpening)
+		{
+			room->SetRightOpen(true);
+			maxAmountOfNewOpenings--;
+		}
+	}
 }
 
 void Level::DestroyLevel()

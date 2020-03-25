@@ -71,6 +71,10 @@ GridPos Room::GetRoomPos() const
 {
 	return m_RoomPos;
 }
+Point2f Room::GetBottomLeft() const
+{
+	return Point2f{ m_RoomPos.x * m_RoomCols * Tile::m_Side, m_RoomPos.y * m_RoomRows * Tile::m_Side };
+}
 bool Room::IsTopOpen() const
 {
 	return m_IsTopOpen;

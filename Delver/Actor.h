@@ -11,7 +11,7 @@ public:
 		player
 	};
 
-	Actor(const Point2f& pos, Type type = Type::enemy, Texture* texture = nullptr, float speed = 100.f);
+	Actor(const Point2f& pos, Type type = Type::enemy, Texture* texture = nullptr, float speed = 500.f);
 	virtual ~Actor();
 
 	virtual void Update(float elapsedSec);

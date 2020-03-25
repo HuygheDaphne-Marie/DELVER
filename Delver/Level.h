@@ -13,6 +13,7 @@ public:
 
 	Room* GetRoomAt(const Point2f& pos) const;
 	Room* GetRoomAt(const GridPos& pos) const;
+	Point2f GetPlayerSpawnPoint() const;
 
 	void SetLevelDimensions(int width, int height);
 
@@ -22,11 +23,16 @@ private:
 	int m_LevelRows;
 	bool m_IsGenerated;
 
+	Point2f m_PlayerSpawn;
+
 	void Generate();
 	Room* GenerateStart(); // make start room which is open from all sides
 	void GenerateAdjacentRoomsOfRoom(Room* room);
-	void ConnectRooms(Room* room1, Room* room2);
 	void GenerateRoomAt(const GridPos& newRoomPos, Room* parentRoom); // returns false if there is already a room there
+	void GenerateNewRoomOpenings(Room* room);
+	
+	void ConnectRooms(Room* room1, Room* room2);
+
 	void DestroyLevel(); // deletes all rooms
 };
 

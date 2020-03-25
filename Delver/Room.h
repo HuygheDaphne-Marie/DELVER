@@ -33,6 +33,7 @@ public:
 	void Draw() const;
 	std::vector<std::vector<Point2f>> GetBarriers() const;
 	GridPos GetRoomPos() const;
+	Point2f GetBottomLeft() const;
 
 	bool IsTopOpen() const;
 	bool IsLeftOpen() const;

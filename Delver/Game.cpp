@@ -9,7 +9,7 @@ Game::Game( const Window& window )
 	, m_Player{ Point2f{window.width / 2, window.height / 2} }
 	, m_MousePos{0, 0}
 	, m_Camera{window.width, window.height}
-	, m_Level{ 3, 3 }
+	, m_Level{ 9, 9 }
 
 {
 	Initialize( );
@@ -22,9 +22,10 @@ Game::~Game( )
 void Game::Initialize( )
 {
 	//TestBulletManager();
-	InitPlayer();
-
 	m_Level.GenerateNextLevel();
+	InitPlayer();
+	m_Player.SetPosition(m_Level.GetPlayerSpawnPoint());
+	
 }
 void Game::Cleanup( )
 {
