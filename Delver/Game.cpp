@@ -39,7 +39,7 @@ void Game::Cleanup( )
 void Game::Update( float elapsedSec )
 {
 	m_pBulletManager->UpdateBullets(elapsedSec, m_Level);
-	m_Player.Update(elapsedSec, m_MousePos);
+	m_Player.Update(elapsedSec, m_Level, m_MousePos);
 
 	// Check keyboard state
 	//const Uint8 *pStates = SDL_GetKeyboardState( nullptr );

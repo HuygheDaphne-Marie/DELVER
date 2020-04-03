@@ -23,39 +23,36 @@ Player::~Player()
 	}
 }
 
-void Player::Update(float elapsedSec)
+void Player::Update(float elapsedSec, const Level& level, const Point2f mousePos)
 {
-	Update(elapsedSec, Point2f{ 0, 0 });
-}
-void Player::Update(float elapsedSec, const Point2f mousePos)
-{
-	m_Velocity.x = 0;
-	m_Velocity.y = 0;
 	m_State = State::waiting;
 
 	const Uint8 *pStates = SDL_GetKeyboardState( nullptr );
 	if ( pStates[SDL_SCANCODE_A] )
 	{
-		m_Velocity.x = -m_Speed;
+		m_Velocity.x += -m_Speed * elapsedSec;
 		m_State = State::moving;
 	}
 	if ( pStates[SDL_SCANCODE_D])
 	{
-		m_Velocity.x = m_Speed;
+		m_Velocity.x += m_Speed * elapsedSec;
 		m_State = State::moving;
 	}
 	if (pStates[SDL_SCANCODE_W])
 	{
-		m_Velocity.y = m_Speed;
+		m_Velocity.y += m_Speed * elapsedSec;
 		m_State = State::moving;
 	}
 	if (pStates[SDL_SCANCODE_S])
 	{
-		m_Velocity.y = -m_Speed;
+		m_Velocity.y += -m_Speed * elapsedSec;
 		m_State = State::moving;
 	}
 
-	Actor::Update(elapsedSec);
+	Actor::Update(elapsedSec, level);
+
+
+
 	if (m_pGuns[m_IdxEquippedGun] != nullptr)
 	{
 		m_pGuns[m_IdxEquippedGun]->UpdateGun(elapsedSec);

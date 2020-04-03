@@ -95,6 +95,8 @@ Room* Level::GenerateStart() // make start room which is open from all sides
 	centerRoom->SetConnection(true, true, true, true);
 
 	m_PlayerSpawn = centerRoom->GetBottomLeft();
+	m_PlayerSpawn.x += Room::m_RoomCols * Tile::m_Side / 2;
+	m_PlayerSpawn.y += Room::m_RoomRows * Tile::m_Side / 2;
 
 	return centerRoom;
 }

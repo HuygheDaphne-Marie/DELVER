@@ -17,8 +17,8 @@ public:
 	Player(const Point2f& pos, Gun* pGunEquiped = nullptr);
 	~Player();
 
-	void Update(float elapsedSec) override;
-	void Update(float elapsedSec, const Point2f mousePos);
+	//void Update(float elapsedSec, const Level& level) override;
+	void Update(float elapsedSec, const Level& level, const Point2f mousePos);
 	void Draw() const override;
 
 	void EquipGun(Gun* pGunToEquip);
