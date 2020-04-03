@@ -4,8 +4,8 @@
 #include "Texture.h"
 #include "Room.h"
 
-Actor::Actor(const Point2f& pos, Type type, Texture* texture, float speed, float frictionFactor)
-	: m_Speed{ speed }
+Actor::Actor(const Point2f& pos, Type type, Texture* texture, float acceleration, float frictionFactor)
+	: m_Acceleration{ acceleration }
 	, m_FrictionFactor{ frictionFactor }
 	, m_Position{ pos }
 	, m_Velocity{ 0, 0 }
@@ -30,11 +30,10 @@ Actor::~Actor()
 
 void Actor::Update(float elapsedSec, const Level& level)
 {
-	//m_Position += m_Velocity;
 	Room* roomIAmIn{ level.GetRoomAt(m_Position) };
 	if (roomIAmIn != nullptr)
 	{
-		HandleMovementCollision(roomIAmIn->GetBarriers());
+		HandleMovementCollision(roomIAmIn->GetBarriers(), elapsedSec);
 	}
 	m_Velocity *= m_FrictionFactor;
 }
@@ -73,7 +72,7 @@ void Actor::SetVelocity(const Vector2f& velocity)
 }
 
 
-void Actor::HandleMovementCollision(const std::vector<std::vector<Point2f>>& vertecies)
+void Actor::HandleMovementCollision(const std::vector<std::vector<Point2f>>& vertecies, float elapsedSec)
 {
 	bool hasVerticalCollided{ false };
 	bool hasHorizontalCollided{ false };
@@ -81,13 +80,13 @@ void Actor::HandleMovementCollision(const std::vector<std::vector<Point2f>>& ver
 	for (const std::vector<Point2f>& vertex : vertecies)
 	{
 		utils::HitInfo hitInfo{};
-		if (CheckVerticalCollision(vertex, hitInfo))
+		if (CheckVerticalCollision(vertex, hitInfo, elapsedSec))
 		{
 			m_Velocity.y = 0;
 			hasVerticalCollided = true;
 		}
 
-		if (CheckHorizontalCollision(vertex, hitInfo))
+		if (CheckHorizontalCollision(vertex, hitInfo, elapsedSec))
 		{
 			m_Velocity.x = 0;
 			hasHorizontalCollided = true;
@@ -96,14 +95,14 @@ void Actor::HandleMovementCollision(const std::vector<std::vector<Point2f>>& ver
 
 	if (!hasVerticalCollided)
 	{
-		m_Position.y += m_Velocity.y;
+		m_Position.y += m_Velocity.y * elapsedSec;
 	}
 	if (!hasHorizontalCollided)
 	{
-		m_Position.x += m_Velocity.x;
+		m_Position.x += m_Velocity.x * elapsedSec;
 	}
 }
-bool Actor::CheckVerticalCollision(const std::vector<Point2f>& vertex, utils::HitInfo& hitInfo) const
+bool Actor::CheckVerticalCollision(const std::vector<Point2f>& vertex, utils::HitInfo& hitInfo, float elapsedSec) const
 {
 	float heightAdjustment{ m_Height / 2 };
 	if (m_Velocity.y < -0.1f)
@@ -112,14 +111,14 @@ bool Actor::CheckVerticalCollision(const std::vector<Point2f>& vertex, utils::Hi
 	}
 
 	const Point2f leftStart{ m_Position.x - m_Width / 2, m_Position.y };
-	const Point2f leftEnd{ leftStart.x, leftStart.y + m_Velocity.y + heightAdjustment };
+	const Point2f leftEnd{ leftStart.x, leftStart.y + (m_Velocity.y * elapsedSec) + heightAdjustment };
 	if (utils::Raycast(vertex, leftStart, leftEnd, hitInfo))
 	{
 		return true;
 	}
 
 	const Point2f rightStart{ m_Position.x + m_Width / 2, m_Position.y  };
-	const Point2f rightEnd{ rightStart.x, rightStart.y + m_Velocity.y + heightAdjustment };
+	const Point2f rightEnd{ rightStart.x, rightStart.y + (m_Velocity.y * elapsedSec) + heightAdjustment };
 	if (utils::Raycast(vertex, rightStart, rightEnd, hitInfo))
 	{
 		return true;
@@ -127,7 +126,7 @@ bool Actor::CheckVerticalCollision(const std::vector<Point2f>& vertex, utils::Hi
 
 	return false;
 }
-bool Actor::CheckHorizontalCollision(const std::vector<Point2f>& vertex, utils::HitInfo& hitInfo) const
+bool Actor::CheckHorizontalCollision(const std::vector<Point2f>& vertex, utils::HitInfo& hitInfo, float elapsedSec) const
 {
 	float widthAdjustment{ m_Width / 2 };
 	if (m_Velocity.x < -0.1f)
@@ -136,14 +135,14 @@ bool Actor::CheckHorizontalCollision(const std::vector<Point2f>& vertex, utils::
 	}
 
 	const Point2f topStart{ m_Position.x, m_Position.y + m_Height / 2 };
-	const Point2f topEnd{ topStart.x + m_Velocity.x + widthAdjustment, topStart.y };
+	const Point2f topEnd{ topStart.x + (m_Velocity.x * elapsedSec) + widthAdjustment, topStart.y };
 	if (utils::Raycast(vertex, topStart, topEnd, hitInfo))
 	{
 		return true;
 	}
 
 	const Point2f bottomStart{ m_Position.x, m_Position.y - m_Height / 2 };
-	const Point2f bottomEnd{ bottomStart.x + m_Velocity.x + widthAdjustment, bottomStart.y };
+	const Point2f bottomEnd{ bottomStart.x + (m_Velocity.x * elapsedSec) + widthAdjustment, bottomStart.y };
 	if (utils::Raycast(vertex, bottomStart, bottomEnd, hitInfo))
 	{
 		return true;

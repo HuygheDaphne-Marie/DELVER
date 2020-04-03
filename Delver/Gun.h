@@ -4,6 +4,7 @@
 
 class BulletManager;
 class Texture;
+class Actor;
 
 class Gun
 {
@@ -19,6 +20,7 @@ public:
 	Point2f GetAimPos() const;
 	Point2f GetGunPos() const;
 
+	void SetHolder(Actor* holder);
 
 	void StartFiring();
 	void StopFiring();
@@ -37,10 +39,11 @@ private:
 	Texture* m_pGunTexture;
 	Point2f m_AimPos;
 	Point2f m_GunPos;
+	Actor* m_pHolder;
 
 	BulletType m_TypeOfBulletLoaded;
 	SpecialEffect::Type m_TypeOfSpecialEffectLoaded;
 
-	void Fire();
+	void Fire(float elapsedSec);
 };
 

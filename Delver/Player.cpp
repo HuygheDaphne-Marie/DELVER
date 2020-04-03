@@ -30,28 +30,26 @@ void Player::Update(float elapsedSec, const Level& level, const Point2f mousePos
 	const Uint8 *pStates = SDL_GetKeyboardState( nullptr );
 	if ( pStates[SDL_SCANCODE_A] )
 	{
-		m_Velocity.x += -m_Speed * elapsedSec;
+		m_Velocity.x += -m_Acceleration * elapsedSec;
 		m_State = State::moving;
 	}
 	if ( pStates[SDL_SCANCODE_D])
 	{
-		m_Velocity.x += m_Speed * elapsedSec;
+		m_Velocity.x += m_Acceleration * elapsedSec;
 		m_State = State::moving;
 	}
 	if (pStates[SDL_SCANCODE_W])
 	{
-		m_Velocity.y += m_Speed * elapsedSec;
+		m_Velocity.y += m_Acceleration * elapsedSec;
 		m_State = State::moving;
 	}
 	if (pStates[SDL_SCANCODE_S])
 	{
-		m_Velocity.y += -m_Speed * elapsedSec;
+		m_Velocity.y += -m_Acceleration * elapsedSec;
 		m_State = State::moving;
 	}
 
 	Actor::Update(elapsedSec, level);
-
-
 
 	if (m_pGuns[m_IdxEquippedGun] != nullptr)
 	{
@@ -95,10 +93,12 @@ void Player::EquipGun(Gun* pGunToEquip)
 	if (m_pGuns.size() == 1)
 	{
 		m_IdxEquippedGun = 0;
+		m_pGuns[m_IdxEquippedGun]->SetHolder(this);
 	}
 }
 void Player::SwapGun(bool swappingToNext)
 {
+	m_pGuns[m_IdxEquippedGun]->SetHolder(nullptr);
 	if (swappingToNext)
 	{
 		m_IdxEquippedGun++;
@@ -107,6 +107,7 @@ void Player::SwapGun(bool swappingToNext)
 	{
 		m_IdxEquippedGun--;
 	}
+	m_pGuns[m_IdxEquippedGun]->SetHolder(this);
 
 	if (m_IdxEquippedGun >= m_pGuns.size())
 	{

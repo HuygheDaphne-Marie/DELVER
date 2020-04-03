@@ -102,7 +102,7 @@ void Bullet::Draw() const
 	else
 	{
 		glColor3f(1.f, 0.f, 0.f);
-		utils::FillCircle(Circlef{ m_Position, 2.f });
+		utils::FillCircle(Circlef{ m_Position, 3.f });
 	}
 }
 

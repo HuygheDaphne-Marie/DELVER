@@ -167,5 +167,5 @@ void Game::TestBulletManager()
 }
 void Game::InitPlayer()
 {
-	m_Player.EquipGun(new Gun(0.5f, 250.f, 0.05f, nullptr, BulletType::light, SpecialEffect::Type::bounce));
+	m_Player.EquipGun(new Gun(0.5f, 400.f, 0.05f, nullptr, BulletType::light, SpecialEffect::Type::bounce));
 }

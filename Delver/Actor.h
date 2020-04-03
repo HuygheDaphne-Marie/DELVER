@@ -12,7 +12,7 @@ public:
 		player
 	};
 
-	Actor(const Point2f& pos, Type type = Type::enemy, Texture* texture = nullptr, float speed = 40.f, float frictionFactor = 0.9f);
+	Actor(const Point2f& pos, Type type = Type::enemy, Texture* texture = nullptr, float acceleration = 2000.f, float frictionFactor = 0.9f);
 	virtual ~Actor();
 
 	virtual void Update(float elapsedSec, const Level& level);
@@ -24,7 +24,7 @@ public:
 	void SetVelocity(const Vector2f& velocity);
 
 protected:
-	float m_Speed;
+	float m_Acceleration;
 	float m_FrictionFactor;
 	Point2f m_Position;
 	Vector2f m_Velocity;
@@ -33,8 +33,8 @@ protected:
 	float m_Width;
 	float m_Height;
 
-	void HandleMovementCollision(const std::vector<std::vector<Point2f>>& vertecies);
-	bool CheckVerticalCollision(const std::vector<Point2f>& vertex, utils::HitInfo& hitInfo) const;
-	bool CheckHorizontalCollision(const std::vector<Point2f>& vertex, utils::HitInfo& hitInfo) const;
+	void HandleMovementCollision(const std::vector<std::vector<Point2f>>& vertecies, float elapsedSec);
+	bool CheckVerticalCollision(const std::vector<Point2f>& vertex, utils::HitInfo& hitInfo, float elapsedSec) const;
+	bool CheckHorizontalCollision(const std::vector<Point2f>& vertex, utils::HitInfo& hitInfo, float elapsedSec) const;
 };
 

@@ -7,6 +7,7 @@
 
 #include "Room.h"
 
+
 BulletManager* BulletManager::GetInstance()
 {
 	static BulletManager* instance;

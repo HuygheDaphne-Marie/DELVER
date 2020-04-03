@@ -4,6 +4,7 @@
 #include "BulletManager.h"
 #include "Texture.h"
 #include "Bullet.h"
+#include "Actor.h"
 
 #include <iostream>
 
@@ -19,6 +20,7 @@ Gun::Gun(float recoilResist, float bulletSpeed, float fireRate, Texture* texture
 	, m_pGunTexture{ texture }
 	, m_AimPos{ 0, 0 }
 	, m_GunPos{ 0, 0 }
+	, m_pHolder{ nullptr }
 	, m_TypeOfBulletLoaded{ typeBullet }
 	, m_TypeOfSpecialEffectLoaded{ typeSpecial }
 {
@@ -40,7 +42,7 @@ void Gun::UpdateGun(float elapsedSec)
 	}
 	else if (m_IsFiring)
 	{
-		Fire();
+		Fire(elapsedSec);
 	}
 }
 void Gun::UpdateAimPos(const Point2f& aimPos)
@@ -61,6 +63,11 @@ Point2f Gun::GetGunPos() const
 	return m_GunPos;
 }
 
+void Gun::SetHolder(Actor* holder)
+{
+	m_pHolder = holder;
+}
+
 void Gun::StartFiring()
 {
 	m_IsFiring = true;
@@ -69,7 +76,7 @@ void Gun::StopFiring()
 {
 	m_IsFiring = false;
 }
-void Gun::Fire()
+void Gun::Fire(float elapsedSec)
 {
 	if (!m_CanFire)
 	{
@@ -90,6 +97,7 @@ void Gun::Fire()
 	Vector2f trajectory{ Vector2f{m_GunPos, m_AimPos}.Normalized() };
 	bulletToFire->SetVelocity(trajectory * m_BulletSpeed);
 	bulletToFire->SetPosition(m_GunPos);
+
 	m_CanFire = false;
 	std::cout << "Bullets flying: " << m_pBulletManager->GetSize() << std::endl;
 
