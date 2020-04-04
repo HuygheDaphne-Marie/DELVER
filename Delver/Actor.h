@@ -12,7 +12,7 @@ public:
 		player
 	};
 
-	Actor(const Point2f& pos, Type type = Type::enemy, Texture* texture = nullptr, float acceleration = 2000.f, float frictionFactor = 0.9f);
+	Actor(const Point2f& pos, Type type = Type::enemy, Texture* texture = nullptr, float collisionWidth = -1, float collisionHeight = -1, float acceleration = 2000.f, float frictionFactor = 0.9f);
 	virtual ~Actor();
 
 	virtual void Update(float elapsedSec, const Level& level);

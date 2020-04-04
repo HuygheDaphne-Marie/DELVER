@@ -2,9 +2,10 @@
 #include "Player.h"
 #include "Texture.h"
 #include "Gun.h"
+#include "TextureManager.h"
 
 Player::Player(const Point2f& pos, Gun* pGunEquiped)
-	: Actor(pos, Actor::Type::player)
+	: Actor(pos, Actor::Type::player, TextureManager::GetInstance()->GetTexture(TextureManager::GetInstance()->m_PLAYER))
 	, m_State{ State::waiting }
 	, m_IdxEquippedGun{ 0 }
 	, m_StartPosition{ pos }

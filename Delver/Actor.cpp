@@ -4,23 +4,28 @@
 #include "Texture.h"
 #include "Room.h"
 
-Actor::Actor(const Point2f& pos, Type type, Texture* texture, float acceleration, float frictionFactor)
+Actor::Actor(const Point2f& pos, Type type, Texture* texture, float collisionWidth, float collisionHeight, float acceleration, float frictionFactor)
 	: m_Acceleration{ acceleration }
 	, m_FrictionFactor{ frictionFactor }
 	, m_Position{ pos }
 	, m_Velocity{ 0, 0 }
 	, m_Type{ type }
 	, m_pTexture{ texture }
+	, m_Width{ collisionWidth }
+	, m_Height{ collisionHeight }
 {
-	if (m_pTexture != nullptr)
+	if (m_Width == -1 && m_Height == -1) // Magic number but, negatives do not make any sense for dimensions anyway
 	{
-		m_Height = m_pTexture->GetHeight();
-		m_Width = m_pTexture->GetWidth();
-	}
-	else
-	{
-		m_Height = 20.f;
-		m_Width = 20.f;
+		if (m_pTexture != nullptr)
+		{
+			m_Height = m_pTexture->GetHeight();
+			m_Width = m_pTexture->GetWidth();
+		}
+		else
+		{
+			m_Height = 20.f;
+			m_Width = 20.f;
+		}
 	}
 }
 Actor::~Actor()

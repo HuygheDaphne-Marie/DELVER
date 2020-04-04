@@ -29,7 +29,7 @@
 
 TextureManager::TextureManager()
 	: m_Textures{}
-	, m_PLAYER{ "Resources/Textures/Actors/" }
+	, m_PLAYER{ "Resources/Textures/Actors/player_temp.png" }
 	, m_BULLET{ "Resources/Textures/" }
 	, m_FLOORS
 	{
@@ -73,6 +73,8 @@ TextureManager::~TextureManager()
 void TextureManager::InitializeTextures()
 {
 	m_Textures.insert({ m_NO_TEXTURE, new Texture{m_NO_TEXTURE} });
+
+	m_Textures[m_PLAYER] = new Texture{ m_PLAYER };
 
 	for (const std::string& texture : m_FLOORS)
 	{
