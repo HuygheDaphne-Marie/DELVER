@@ -28,25 +28,27 @@ void Player::Update(float elapsedSec, const Level& level, const Point2f mousePos
 {
 	m_State = State::waiting;
 
+	const float deltaVelocity{ m_Acceleration * elapsedSec };
+
 	const Uint8 *pStates = SDL_GetKeyboardState( nullptr );
 	if ( pStates[SDL_SCANCODE_A] )
 	{
-		m_Velocity.x += -m_Acceleration * elapsedSec;
+		MoveLeft(deltaVelocity);
 		m_State = State::moving;
 	}
 	if ( pStates[SDL_SCANCODE_D])
 	{
-		m_Velocity.x += m_Acceleration * elapsedSec;
+		MoveRight(deltaVelocity);
 		m_State = State::moving;
 	}
 	if (pStates[SDL_SCANCODE_W])
 	{
-		m_Velocity.y += m_Acceleration * elapsedSec;
+		MoveUp(deltaVelocity);
 		m_State = State::moving;
 	}
 	if (pStates[SDL_SCANCODE_S])
 	{
-		m_Velocity.y += -m_Acceleration * elapsedSec;
+		MoveDown(deltaVelocity);
 		m_State = State::moving;
 	}
 

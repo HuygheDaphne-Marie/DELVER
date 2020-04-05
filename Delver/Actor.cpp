@@ -76,6 +76,22 @@ void Actor::SetVelocity(const Vector2f& velocity)
 	m_Velocity = velocity;
 }
 
+void Actor::MoveUp(float deltaVelocity)
+{
+	m_Velocity.y += deltaVelocity;
+}
+void Actor::MoveDown(float deltaVelocity)
+{
+	m_Velocity.y -= deltaVelocity;
+}
+void Actor::MoveLeft(float deltaVelocity)
+{
+	m_Velocity.x -= deltaVelocity;
+}
+void Actor::MoveRight(float deltaVelocity)
+{
+	m_Velocity.x += deltaVelocity;
+}
 
 void Actor::HandleMovementCollision(const std::vector<std::vector<Point2f>>& vertecies, float elapsedSec)
 {

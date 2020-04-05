@@ -23,6 +23,11 @@ public:
 	Vector2f GetVelocity() const;
 	void SetVelocity(const Vector2f& velocity);
 
+	void MoveUp(float deltaVelocity);
+	void MoveDown(float deltaVelocity);
+	void MoveLeft(float deltaVelocity);
+	void MoveRight(float deltaVelocity);
+
 protected:
 	float m_Acceleration;
 	float m_FrictionFactor;
