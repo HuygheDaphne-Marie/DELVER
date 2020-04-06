@@ -39,8 +39,8 @@ protected:
 	Vector2f m_Velocity;
 	Type m_Type;
 	Texture* m_pTexture;
-	float m_Width;
-	float m_Height;
+	float m_CollisionWidth;
+	float m_CollisionHeight;
 
 	Controller* m_pController;
 
