@@ -2,6 +2,7 @@
 #include "Vector2f.h"
 #include "Level.h"
 class Texture;
+class Controller;
 
 class Actor
 {
@@ -22,11 +23,14 @@ public:
 	void SetPosition(const Point2f& pos);
 	Vector2f GetVelocity() const;
 	void SetVelocity(const Vector2f& velocity);
+	float GetAcceleration() const;
+	Controller* GetController() const;
+	void SetController(Controller* controller);
 
-	void MoveUp(float deltaVelocity);
-	void MoveDown(float deltaVelocity);
-	void MoveLeft(float deltaVelocity);
-	void MoveRight(float deltaVelocity);
+	void MoveUp(float elapsedSec);
+	void MoveDown(float elapsedSec);
+	void MoveLeft(float elapsedSec);
+	void MoveRight(float elapsedSec);
 
 protected:
 	float m_Acceleration;
@@ -37,6 +41,8 @@ protected:
 	Texture* m_pTexture;
 	float m_Width;
 	float m_Height;
+
+	Controller* m_pController;
 
 	void HandleMovementCollision(const std::vector<std::vector<Point2f>>& vertecies, float elapsedSec);
 	bool CheckVerticalCollision(const std::vector<Point2f>& vertex, utils::HitInfo& hitInfo, float elapsedSec) const;

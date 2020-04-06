@@ -25,6 +25,8 @@ public:
 	void SwapGun(bool swappingToNext);
 	Gun* GetEquippedGun() const;
 
+	void SetState(const State& newstate);
+
 private:
 	State m_State;
 	std::vector<Gun*> m_pGuns;

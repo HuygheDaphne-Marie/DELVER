@@ -31,6 +31,9 @@
     <Filter Include="Game Files\Level\Tiles">
       <UniqueIdentifier>{a3de1077-f563-4361-8f7d-66c73c9621d4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game Files\Actors\Controllers">
+      <UniqueIdentifier>{753079dc-1c70-4481-b107-2dd187de7da1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Core.cpp">
@@ -108,6 +111,12 @@
     <ClCompile Include="Tile.cpp">
       <Filter>Game Files\Level\Tiles</Filter>
     </ClCompile>
+    <ClCompile Include="Controller.cpp">
+      <Filter>Game Files\Actors\Controllers</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerKeyboardController.cpp">
+      <Filter>Game Files\Actors\Controllers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -184,6 +193,12 @@
     </ClInclude>
     <ClInclude Include="Tile.h">
       <Filter>Game Files\Level\Tiles</Filter>
+    </ClInclude>
+    <ClInclude Include="Controller.h">
+      <Filter>Game Files\Actors\Controllers</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerKeyboardController.h">
+      <Filter>Game Files\Actors\Controllers</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

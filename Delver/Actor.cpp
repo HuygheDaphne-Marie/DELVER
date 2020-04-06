@@ -3,6 +3,7 @@
 #include <vector>
 #include "Texture.h"
 #include "Room.h"
+#include "Controller.h"
 
 Actor::Actor(const Point2f& pos, Type type, Texture* texture, float collisionWidth, float collisionHeight, float acceleration, float frictionFactor)
 	: m_Acceleration{ acceleration }
@@ -13,6 +14,7 @@ Actor::Actor(const Point2f& pos, Type type, Texture* texture, float collisionWid
 	, m_pTexture{ texture }
 	, m_Width{ collisionWidth }
 	, m_Height{ collisionHeight }
+	, m_pController{ nullptr }
 {
 	if (m_Width == -1 && m_Height == -1) // Magic number but, negatives do not make any sense for dimensions anyway
 	{
@@ -31,6 +33,11 @@ Actor::Actor(const Point2f& pos, Type type, Texture* texture, float collisionWid
 Actor::~Actor()
 {
 	m_pTexture = nullptr;
+	if (m_pController != nullptr)
+	{
+		delete m_pController;
+		m_pController = nullptr;
+	}
 }
 
 void Actor::Update(float elapsedSec, const Level& level)
@@ -75,22 +82,39 @@ void Actor::SetVelocity(const Vector2f& velocity)
 {
 	m_Velocity = velocity;
 }
+float Actor::GetAcceleration() const
+{
+	return m_Acceleration;
+}
+Controller* Actor::GetController() const
+{
+	return m_pController;
+}
+void Actor::SetController(Controller* controller)
+{
+	if (m_pController != nullptr)
+	{
+		delete m_pController;
+		m_pController = nullptr;
+	}
+	m_pController = controller;
+}
 
-void Actor::MoveUp(float deltaVelocity)
+void Actor::MoveUp(float elapsedSec)
 {
-	m_Velocity.y += deltaVelocity;
+	m_Velocity.y += m_Acceleration * elapsedSec;
 }
-void Actor::MoveDown(float deltaVelocity)
+void Actor::MoveDown(float elapsedSec)
 {
-	m_Velocity.y -= deltaVelocity;
+	m_Velocity.y -= m_Acceleration * elapsedSec;
 }
-void Actor::MoveLeft(float deltaVelocity)
+void Actor::MoveLeft(float elapsedSec)
 {
-	m_Velocity.x -= deltaVelocity;
+	m_Velocity.x -= m_Acceleration * elapsedSec;
 }
-void Actor::MoveRight(float deltaVelocity)
+void Actor::MoveRight(float elapsedSec)
 {
-	m_Velocity.x += deltaVelocity;
+	m_Velocity.x += m_Acceleration * elapsedSec;
 }
 
 void Actor::HandleMovementCollision(const std::vector<std::vector<Point2f>>& vertecies, float elapsedSec)

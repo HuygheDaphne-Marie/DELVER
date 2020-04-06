@@ -156,9 +156,11 @@
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="BulletManager.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Controller.cpp" />
     <ClCompile Include="Core.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Gun.cpp" />
+    <ClCompile Include="PlayerKeyboardController.cpp" />
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="TextureManager.cpp" />
@@ -189,9 +191,11 @@
     <ClInclude Include="BulletManager.h" />
     <ClInclude Include="BulletType.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="Controller.h" />
     <ClInclude Include="Core.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Gun.h" />
+    <ClInclude Include="PlayerKeyboardController.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="TextureManager.h" />
     <ClInclude Include="Matrix2x3.h" />

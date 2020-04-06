@@ -3,6 +3,7 @@
 #include "Texture.h"
 #include "Gun.h"
 #include "TextureManager.h"
+#include "PlayerKeyboardController.h"
 
 Player::Player(const Point2f& pos, Gun* pGunEquiped)
 	: Actor(pos, Actor::Type::player, TextureManager::GetInstance()->GetTexture(TextureManager::GetInstance()->m_PLAYER))
@@ -14,6 +15,7 @@ Player::Player(const Point2f& pos, Gun* pGunEquiped)
 	{
 		EquipGun(pGunEquiped);
 	}
+	SetController(new PlayerKeyboardController(this));
 }
 Player::~Player()
 {
@@ -30,27 +32,32 @@ void Player::Update(float elapsedSec, const Level& level, const Point2f mousePos
 
 	const float deltaVelocity{ m_Acceleration * elapsedSec };
 
-	const Uint8 *pStates = SDL_GetKeyboardState( nullptr );
-	if ( pStates[SDL_SCANCODE_A] )
+	if (m_pController != nullptr)
 	{
-		MoveLeft(deltaVelocity);
-		m_State = State::moving;
+		m_pController->Update(elapsedSec);
 	}
-	if ( pStates[SDL_SCANCODE_D])
-	{
-		MoveRight(deltaVelocity);
-		m_State = State::moving;
-	}
-	if (pStates[SDL_SCANCODE_W])
-	{
-		MoveUp(deltaVelocity);
-		m_State = State::moving;
-	}
-	if (pStates[SDL_SCANCODE_S])
-	{
-		MoveDown(deltaVelocity);
-		m_State = State::moving;
-	}
+
+	//const Uint8 *pStates = SDL_GetKeyboardState( nullptr );
+	//if ( pStates[SDL_SCANCODE_A] )
+	//{
+	//	MoveLeft(deltaVelocity);
+	//	m_State = State::moving;
+	//}
+	//if ( pStates[SDL_SCANCODE_D])
+	//{
+	//	MoveRight(deltaVelocity);
+	//	m_State = State::moving;
+	//}
+	//if (pStates[SDL_SCANCODE_W])
+	//{
+	//	MoveUp(deltaVelocity);
+	//	m_State = State::moving;
+	//}
+	//if (pStates[SDL_SCANCODE_S])
+	//{
+	//	MoveDown(deltaVelocity);
+	//	m_State = State::moving;
+	//}
 
 	Actor::Update(elapsedSec, level);
 
@@ -124,4 +131,9 @@ void Player::SwapGun(bool swappingToNext)
 Gun* Player::GetEquippedGun() const
 {
 	return m_pGuns[m_IdxEquippedGun];
+}
+
+void Player::SetState(const State& newstate)
+{
+	m_State = newstate;
 }
