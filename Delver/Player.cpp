@@ -37,28 +37,6 @@ void Player::Update(float elapsedSec, const Level& level, const Point2f mousePos
 		m_pController->Update(elapsedSec);
 	}
 
-	//const Uint8 *pStates = SDL_GetKeyboardState( nullptr );
-	//if ( pStates[SDL_SCANCODE_A] )
-	//{
-	//	MoveLeft(deltaVelocity);
-	//	m_State = State::moving;
-	//}
-	//if ( pStates[SDL_SCANCODE_D])
-	//{
-	//	MoveRight(deltaVelocity);
-	//	m_State = State::moving;
-	//}
-	//if (pStates[SDL_SCANCODE_W])
-	//{
-	//	MoveUp(deltaVelocity);
-	//	m_State = State::moving;
-	//}
-	//if (pStates[SDL_SCANCODE_S])
-	//{
-	//	MoveDown(deltaVelocity);
-	//	m_State = State::moving;
-	//}
-
 	Actor::Update(elapsedSec, level);
 
 	if (m_pGuns[m_IdxEquippedGun] != nullptr)

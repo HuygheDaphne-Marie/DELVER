@@ -54,11 +54,6 @@ void Actor::Draw() const
 	Rectf dstRect{ -m_Width / 2, -m_Height / 2, m_Width, m_Height };
 	glPushMatrix();
 	glTranslatef(m_Position.x, m_Position.y, 0);
-	if (m_pTexture != nullptr)
-	{
-		m_pTexture->Draw(dstRect);
-	}
-	else
 	{
 		glColor3f(1.f, 1.f, 0.f);
 		utils::FillRect(dstRect);
