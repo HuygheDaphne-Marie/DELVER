@@ -9,7 +9,7 @@ Game::Game( const Window& window )
 	, m_Player{ Point2f{window.width / 2, window.height / 2} }
 	, m_MousePos{0, 0}
 	, m_Camera{window.width, window.height}
-	, m_Level{ 9, 9 }
+	, m_Level{ 4, 4 }
 
 {
 	Initialize( );

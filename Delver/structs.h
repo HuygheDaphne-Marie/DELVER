@@ -75,6 +75,11 @@ struct Ellipsef
 
 struct GridPos
 {
+	GridPos operator+(const GridPos& other) const
+	{
+		return GridPos{ x + other.x, y + other.y };
+	}
+
 	int x;
 	int y;
 };

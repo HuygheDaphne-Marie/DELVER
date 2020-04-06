@@ -116,6 +116,14 @@ void Room::SetRightOpen(bool isOpen)
 	m_IsRightOpen = isOpen;
 }
 
+void Room::MakeRoomNavMap(const GridPos& roomLeftBottom, std::vector<bool>& navMap, const int navMapCols)
+{
+	for (Tile* tile : m_Tiles)
+	{
+		navMap[utils::IndexFromGridPos((roomLeftBottom + tile->GetTilePos()), navMapCols)] = !tile->IsBarrier();
+	}
+}
+
 
 // PRIVATE FUNCTIONS //
 void Room::GenerateEdges()

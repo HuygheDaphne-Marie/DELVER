@@ -80,16 +80,16 @@ void Tile::SetType(Type newType)
 	switch (m_Type)
 	{
 	case Tile::Type::nothing:
-		m_IsBarrier = false;
+		m_IsBarrier = true;
 		break;
 	case Tile::Type::wall:
-		m_IsBarrier = false;
+		m_IsBarrier = true;
 		break;
 	case Tile::Type::wallSide:
 		m_IsBarrier = true;
 		break;
 	case Tile::Type::floor:
-		m_IsBarrier = true;
+		m_IsBarrier = false;
 		break;
 	}
 }

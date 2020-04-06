@@ -8,6 +8,8 @@ Level::Level(int width, int height)
 	, m_LevelCols{width}
 	, m_LevelRows{height}
 	, m_IsGenerated{false}
+	, m_PlayerSpawn{0, 0}
+	, m_NavMap{}
 {
 	
 }
@@ -29,6 +31,31 @@ void Level::Draw() const
 		{
 			room->Draw();
 		}
+	}
+
+	const int navCols{ m_LevelCols * Room::m_RoomCols };
+	float xPos{ 0 };
+	float yPos{ 0 };
+	for (int i{0}; i < m_NavMap.size(); i++)
+	{
+		if (m_NavMap[i])
+		{
+			glColor4f(0.f, 1.f, 0.f, 0.5f);
+		}
+		else
+		{
+			glColor4f(1.f, 0.f, 0.f, 0.5f);
+		}
+		
+		const GridPos pos{ utils::GridPosFromIndex(i, navCols) };
+		utils::FillRect(pos.x * Tile::m_Side, pos.y * Tile::m_Side, Tile::m_Side, Tile::m_Side);
+
+		//xPos += Tile::m_Side;
+		//if (i != 0 && i % (navCols-1) == 0)
+		//{
+		//	xPos = 0;
+		//	yPos += Tile::m_Side;
+		//}
 	}
 }
 
@@ -85,6 +112,8 @@ void Level::Generate()
 		}
 	}
 	m_IsGenerated = true;
+
+	ConstructNavMap();
 }
 Room* Level::GenerateStart() // make start room which is open from all sides
 {
@@ -234,6 +263,25 @@ void Level::GenerateNewRoomOpenings(Room* room)
 		{
 			room->SetRightOpen(true);
 			maxAmountOfNewOpenings--;
+		}
+	}
+}
+
+void Level::ConstructNavMap()
+{
+	int levelTileCount{ ((m_LevelCols * Room::m_RoomCols) * (m_LevelRows * Room::m_RoomRows)) };
+	m_NavMap = std::vector<bool>(levelTileCount, false);
+
+	const int navMapCols{ (m_LevelCols * Room::m_RoomCols) };
+
+	for (Room* room : m_Rooms)
+	{
+		if (room != nullptr)
+		{
+			GridPos roomBottomLeft{ room->GetRoomPos() };
+			roomBottomLeft.x *= Room::m_RoomCols;
+			roomBottomLeft.y *= Room::m_RoomRows;
+			room->MakeRoomNavMap(roomBottomLeft, m_NavMap, navMapCols);
 		}
 	}
 }

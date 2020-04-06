@@ -25,11 +25,15 @@ private:
 
 	Point2f m_PlayerSpawn;
 
+	std::vector<bool> m_NavMap;
+
 	void Generate();
 	Room* GenerateStart(); // make start room which is open from all sides
 	void GenerateAdjacentRoomsOfRoom(Room* room);
 	void GenerateRoomAt(const GridPos& newRoomPos, Room* parentRoom); // returns false if there is already a room there
 	void GenerateNewRoomOpenings(Room* room);
+
+	void ConstructNavMap(); // makes the array used for navigation by the AI
 	
 	void ConnectRooms(Room* room1, Room* room2);
 
