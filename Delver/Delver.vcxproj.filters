@@ -117,6 +117,9 @@
     <ClCompile Include="PlayerKeyboardController.cpp">
       <Filter>Game Files\Actors\Controllers</Filter>
     </ClCompile>
+    <ClCompile Include="NavMap.cpp">
+      <Filter>Game Files\Level</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -199,6 +202,9 @@
     </ClInclude>
     <ClInclude Include="PlayerKeyboardController.h">
       <Filter>Game Files\Actors\Controllers</Filter>
+    </ClInclude>
+    <ClInclude Include="NavMap.h">
+      <Filter>Game Files\Level</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

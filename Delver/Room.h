@@ -46,7 +46,7 @@ public:
 	void SetBottomOpen(bool isOpen);
 	void SetRightOpen(bool isOpen);
 
-	void MakeRoomNavMap(const GridPos& roomLeftBottom, std::vector<bool>& navMap, const int navMapCols); // could use a better name (ApplyRoomToNavMap??) idk yet
+	void MakeRoomNavMap(const GridPos& roomLeftBottom, std::vector<bool>& navMap, const int navMapCols) const; // could use a better name (ApplyRoomToNavMap??) idk yet
 
 private:
 	static const int m_HallwayWidth;

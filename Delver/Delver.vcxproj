@@ -160,6 +160,7 @@
     <ClCompile Include="Core.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Gun.cpp" />
+    <ClCompile Include="NavMap.cpp" />
     <ClCompile Include="PlayerKeyboardController.cpp" />
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="main.cpp" />
@@ -195,6 +196,7 @@
     <ClInclude Include="Core.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Gun.h" />
+    <ClInclude Include="NavMap.h" />
     <ClInclude Include="PlayerKeyboardController.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="TextureManager.h" />

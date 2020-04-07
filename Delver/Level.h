@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include "NavMap.h"
 
 class Room;
 
@@ -11,9 +12,13 @@ public:
 	void GenerateNextLevel();
 	void Draw() const;
 
+	const std::vector<Room*>& GetAllRooms() const;
 	Room* GetRoomAt(const Point2f& pos) const;
 	Room* GetRoomAt(const GridPos& pos) const;
 	Point2f GetPlayerSpawnPoint() const;
+
+	int GetLevelWidth() const;
+	int GetLevelHeight() const;
 
 	void SetLevelDimensions(int width, int height);
 
@@ -25,15 +30,13 @@ private:
 
 	Point2f m_PlayerSpawn;
 
-	std::vector<bool> m_NavMap;
+	NavMap m_NavMap;
 
 	void Generate();
 	Room* GenerateStart(); // make start room which is open from all sides
 	void GenerateAdjacentRoomsOfRoom(Room* room);
 	void GenerateRoomAt(const GridPos& newRoomPos, Room* parentRoom); // returns false if there is already a room there
 	void GenerateNewRoomOpenings(Room* room);
-
-	void ConstructNavMap(); // makes the array used for navigation by the AI
 	
 	void ConnectRooms(Room* room1, Room* room2);
 

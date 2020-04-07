@@ -116,7 +116,7 @@ void Room::SetRightOpen(bool isOpen)
 	m_IsRightOpen = isOpen;
 }
 
-void Room::MakeRoomNavMap(const GridPos& roomLeftBottom, std::vector<bool>& navMap, const int navMapCols)
+void Room::MakeRoomNavMap(const GridPos& roomLeftBottom, std::vector<bool>& navMap, const int navMapCols) const
 {
 	for (Tile* tile : m_Tiles)
 	{
