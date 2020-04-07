@@ -120,6 +120,9 @@
     <ClCompile Include="NavMap.cpp">
       <Filter>Game Files\Level</Filter>
     </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>Game Files\Actors</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -205,6 +208,9 @@
     </ClInclude>
     <ClInclude Include="NavMap.h">
       <Filter>Game Files\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>Game Files\Actors</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

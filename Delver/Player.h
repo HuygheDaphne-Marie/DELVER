@@ -4,7 +4,7 @@
 
 class Gun;
 
-class Player : public Actor
+class Player final : public Actor
 {
 public: 
 	enum class State

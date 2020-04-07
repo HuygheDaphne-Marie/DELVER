@@ -55,7 +55,15 @@ void Actor::Draw() const
 	glPushMatrix();
 	glTranslatef(m_Position.x, m_Position.y, 0);
 	{
-		glColor3f(1.f, 1.f, 0.f);
+		if (m_Type == Type::player)
+		{
+			glColor3f(1.f, 1.f, 0.f);
+		}
+		else
+		{
+			glColor3f(1.f, 0.f, 0.f);
+		}
+		
 		utils::FillRect(dstRect);
 	}
 	glPopMatrix();

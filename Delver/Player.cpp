@@ -30,8 +30,6 @@ void Player::Update(float elapsedSec, const Level& level, const Point2f mousePos
 {
 	m_State = State::waiting;
 
-	const float deltaVelocity{ m_Acceleration * elapsedSec };
-
 	if (m_pController != nullptr)
 	{
 		m_pController->Update(elapsedSec);
