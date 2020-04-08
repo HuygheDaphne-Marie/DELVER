@@ -147,6 +147,9 @@
     <ClCompile Include="TurretBehaviour.cpp">
       <Filter>Game Files\Actors\AIBehaviour\Fighting</Filter>
     </ClCompile>
+    <ClCompile Include="Animation.cpp">
+      <Filter>Game Files\Texture</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -250,6 +253,9 @@
     </ClInclude>
     <ClInclude Include="TurretBehaviour.h">
       <Filter>Game Files\Actors\AIBehaviour\Fighting</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation.h">
+      <Filter>Game Files\Texture</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
