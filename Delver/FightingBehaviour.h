@@ -1,4 +1,7 @@
 #pragma once
+
+class Enemy;
+
 class FightingBehaviour
 {
 public:

@@ -12,9 +12,8 @@ public:
 	const int m_MaxHitPoints;
 	int m_CurrentHitpoints;
 	float m_DetectionRange;
-	Gun* m_Gun;
 
-	Enemy(const Point2f& pos, float detectionRange, int hitPoints);
+	Enemy(const Point2f& pos, float detectionRange, int hitPoints, MovementBehaviour* movementBehaviour = nullptr, FightingBehaviour* fightingBehaviour = nullptr);
 	virtual ~Enemy();
 
 	virtual void Update(float elapsedSec, const Level& level) override;
@@ -26,6 +25,6 @@ public:
 	void HandleDeath();
 
 protected:
-	MovementBehaviour& m_MovementBehavior;
-	FightingBehaviour& m_FightingBehaviour;
+	MovementBehaviour* m_pMovementBehavior;
+	FightingBehaviour* m_pFightingBehaviour;
 };

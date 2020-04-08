@@ -164,6 +164,7 @@
     <ClCompile Include="Gun.cpp" />
     <ClCompile Include="MovementBehaviour.cpp" />
     <ClCompile Include="NavMap.cpp" />
+    <ClCompile Include="PeacefulBehaviour.cpp" />
     <ClCompile Include="PlayerKeyboardController.cpp" />
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="main.cpp" />
@@ -204,6 +205,7 @@
     <ClInclude Include="Gun.h" />
     <ClInclude Include="MovementBehaviour.h" />
     <ClInclude Include="NavMap.h" />
+    <ClInclude Include="PeacefulBehaviour.h" />
     <ClInclude Include="PlayerKeyboardController.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="StationaryBeheviour.h" />

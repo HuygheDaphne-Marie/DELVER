@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "FightingBehaviour.h"
 
-class Enemy;
+#include "Enemy.h"
 
 FightingBehaviour::FightingBehaviour(Enemy* pEnemy)
 	: m_pEnemy{pEnemy}
