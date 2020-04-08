@@ -1,23 +1,31 @@
 #pragma once
 #include "Actor.h"
 #include <vector>
+#include "MovementBehaviour.h"
+#include "FightingBehaviour.h"
 
 class Gun;
 
 class Enemy : public Actor
 {
 public:
+	const int m_MaxHitPoints;
+	int m_CurrentHitpoints;
+	float m_DetectionRange;
+	Gun* m_Gun;
+
 	Enemy(const Point2f& pos, float detectionRange, int hitPoints);
 	virtual ~Enemy();
 
 	virtual void Update(float elapsedSec, const Level& level) override;
 	virtual void Draw() const override;
 
-	bool IsATargetInRange(const Actor& target) const;
+	bool IsTargetInRange(const Actor& target) const;
 
-private:
-	float m_DetectionRange;
-	int m_CurrentHitpoints;
-	const int m_MaxHitPoints;
+	bool IsDead() const;
+	void HandleDeath();
+
+protected:
+	MovementBehaviour& m_MovementBehavior;
+	FightingBehaviour& m_FightingBehaviour;
 };
-

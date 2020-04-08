@@ -18,7 +18,7 @@ double utils::CartesianYFromPolar(float radius, float angle)
 	float rad{ float(angle * g_Pi / 180) };
 	return radius * sin(rad);
 }
-float GetDistance(const Point2f& p1, const Point2f& p2)
+float utils::GetDistance(const Point2f& p1, const Point2f& p2)
 {
 	return sqrt(pow(p2.x - p1.x, 2) + pow(p2.y - p1.y, 2));
 }

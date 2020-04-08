@@ -16,6 +16,9 @@ Enemy::~Enemy()
 
 void Enemy::Update(float elapsedSec, const Level& level)
 {
+	m_MovementBehavior.Update(elapsedSec);
+	m_FightingBehaviour.Update(elapsedSec);
+
 	Actor::Update(elapsedSec, level);
 }
 void Enemy::Draw() const
@@ -30,7 +33,16 @@ void Enemy::Draw() const
 	}
 }
 
-bool Enemy::IsATargetInRange(const Actor& target) const
+bool Enemy::IsTargetInRange(const Actor& target) const
 {
 	return utils::GetDistance(m_Position, target.GetPosition()) < m_DetectionRange;
+}
+
+bool Enemy::IsDead() const
+{
+	return m_CurrentHitpoints <= 0;
+}
+void Enemy::HandleDeath()
+{
+	// TODO
 }

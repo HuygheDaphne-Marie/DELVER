@@ -34,6 +34,15 @@
     <Filter Include="Game Files\Actors\Controllers">
       <UniqueIdentifier>{753079dc-1c70-4481-b107-2dd187de7da1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game Files\Actors\AIBehaviour">
+      <UniqueIdentifier>{12d328b0-15d5-436a-abbe-5c9935b6e579}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game Files\Actors\AIBehaviour\Movement">
+      <UniqueIdentifier>{3bf71205-ed31-4995-9192-cbdac0d0c985}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game Files\Actors\AIBehaviour\Fighting">
+      <UniqueIdentifier>{97a41afa-e31d-4716-a416-9c12af28003b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Core.cpp">
@@ -123,6 +132,15 @@
     <ClCompile Include="Enemy.cpp">
       <Filter>Game Files\Actors</Filter>
     </ClCompile>
+    <ClCompile Include="MovementBehaviour.cpp">
+      <Filter>Game Files\Actors\AIBehaviour\Movement</Filter>
+    </ClCompile>
+    <ClCompile Include="FightingBehaviour.cpp">
+      <Filter>Game Files\Actors\AIBehaviour\Fighting</Filter>
+    </ClCompile>
+    <ClCompile Include="StationaryBeheviour.cpp">
+      <Filter>Game Files\Actors\AIBehaviour\Movement</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -211,6 +229,15 @@
     </ClInclude>
     <ClInclude Include="Enemy.h">
       <Filter>Game Files\Actors</Filter>
+    </ClInclude>
+    <ClInclude Include="MovementBehaviour.h">
+      <Filter>Game Files\Actors\AIBehaviour\Movement</Filter>
+    </ClInclude>
+    <ClInclude Include="FightingBehaviour.h">
+      <Filter>Game Files\Actors\AIBehaviour\Fighting</Filter>
+    </ClInclude>
+    <ClInclude Include="StationaryBeheviour.h">
+      <Filter>Game Files\Actors\AIBehaviour\Movement</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

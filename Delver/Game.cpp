@@ -7,6 +7,7 @@ Game::Game( const Window& window )
 	, m_pBulletManager{ BulletManager::GetInstance() }
 	, m_pTextureManager{ TextureManager::GetInstance() }
 	, m_Player{ Point2f{window.width / 2, window.height / 2} }
+	, m_TestEnemy{ Point2f{ 0, 0 }, 50.f, 1 }
 	, m_MousePos{0, 0}
 	, m_Camera{window.width, window.height}
 	, m_Level{ 4, 4 }
@@ -25,7 +26,8 @@ void Game::Initialize( )
 	m_Level.GenerateNextLevel();
 	InitPlayer();
 	m_Player.SetPosition(m_Level.GetPlayerSpawnPoint());
-	
+
+	m_TestEnemy.SetPosition(m_Level.GetPlayerSpawnPoint());
 }
 void Game::Cleanup( )
 {
@@ -40,6 +42,8 @@ void Game::Update( float elapsedSec )
 {
 	m_pBulletManager->UpdateBullets(elapsedSec, m_Level);
 	m_Player.Update(elapsedSec, m_Level, m_MousePos);
+
+	m_TestEnemy.Update(elapsedSec, m_Level);
 
 	// Check keyboard state
 	//const Uint8 *pStates = SDL_GetKeyboardState( nullptr );
@@ -62,8 +66,10 @@ void Game::Draw( ) const
 
 	m_Level.Draw();
 
-	m_pBulletManager->DrawBullets();
+	m_TestEnemy.Draw();
 	m_Player.Draw();
+
+	m_pBulletManager->DrawBullets();
 
 	// below should be moved to gun
 	Gun* gun{ m_Player.GetEquippedGun() };

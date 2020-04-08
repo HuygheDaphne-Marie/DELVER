@@ -6,6 +6,7 @@
 #include "Player.h"
 #include "Camera.h"
 #include "Level.h"
+#include "Enemy.h"
 
 #include <vector>
 
@@ -35,6 +36,7 @@ private:
 	BulletManager* m_pBulletManager;
 	TextureManager* m_pTextureManager;
 	Player m_Player;
+	Enemy m_TestEnemy;
 
 	Point2f m_MousePos;
 
