@@ -9,7 +9,6 @@ public:
 	virtual ~FightingBehaviour();
 
 	virtual void Update(float elapsedSec) = 0;
-
 protected:
 	Enemy* m_pEnemy;
 };

@@ -5,14 +5,23 @@
 #include "StationaryBeheviour.h"
 #include "PeacefulBehaviour.h"
 
-Enemy::Enemy(const Point2f& pos, float detectionRange, int hitPoints, MovementBehaviour* movementBehaviour, FightingBehaviour* fightingBehaviour)
+#include "Gun.h"
+
+Enemy::Enemy(const Point2f& pos, float detectionRange, int hitPoints, Gun* gun, MovementBehaviour* movementBehaviour, FightingBehaviour* fightingBehaviour)
 	: Actor(pos, Actor::Type::enemy)
 	, m_DetectionRange{ detectionRange }
 	, m_MaxHitPoints{ hitPoints }
 	, m_CurrentHitpoints{ hitPoints }
 	, m_pMovementBehavior{ movementBehaviour }
 	, m_pFightingBehaviour{ fightingBehaviour }
+	, m_pEquippedGun{ gun }
+	, m_State{ State::idle }
 {
+	if (m_pEquippedGun != nullptr)
+	{
+		m_pEquippedGun->SetHolder(this);
+		m_pEquippedGun->UpdateGunPos(pos);
+	}
 }
 Enemy::~Enemy()
 {
@@ -26,6 +35,12 @@ Enemy::~Enemy()
 		delete m_pFightingBehaviour;
 		m_pFightingBehaviour = nullptr;
 	}
+
+	if (m_pEquippedGun != nullptr)
+	{
+		delete m_pEquippedGun;
+		m_pEquippedGun = nullptr;
+	}
 }
 
 void Enemy::Update(float elapsedSec, const Level& level)
@@ -37,6 +52,11 @@ void Enemy::Update(float elapsedSec, const Level& level)
 	if (m_pFightingBehaviour != nullptr)
 	{
 		m_pFightingBehaviour->Update(elapsedSec);
+	}
+
+	if (m_pEquippedGun != nullptr)
+	{
+		m_pEquippedGun->UpdateGun(elapsedSec);
 	}
 
 	Actor::Update(elapsedSec, level);
@@ -65,4 +85,35 @@ bool Enemy::IsDead() const
 void Enemy::HandleDeath()
 {
 	// TODO
+}
+
+void Enemy::SetMovementBehaviour(MovementBehaviour* newBehaviour)
+{
+	if (m_pMovementBehavior != nullptr)
+	{
+		delete m_pMovementBehavior;
+	}
+	m_pMovementBehavior = newBehaviour;
+}
+void Enemy::SetFightingBehaviour(FightingBehaviour* newBehaviour)
+{
+	if (m_pFightingBehaviour != nullptr)
+	{
+		delete m_pFightingBehaviour;
+	}
+	m_pFightingBehaviour = newBehaviour;
+}
+
+void Enemy::EquipGun(Gun* gun)
+{
+	if (m_pEquippedGun != nullptr)
+	{
+		delete m_pEquippedGun;
+	}
+	m_pEquippedGun = gun;
+	m_pEquippedGun->UpdateGunPos(GetPosition());
+}
+Gun* Enemy::GetEquippedGun() const
+{
+	return m_pEquippedGun;
 }

@@ -144,6 +144,9 @@
     <ClCompile Include="PeacefulBehaviour.cpp">
       <Filter>Game Files\Actors\AIBehaviour\Fighting</Filter>
     </ClCompile>
+    <ClCompile Include="TurretBehaviour.cpp">
+      <Filter>Game Files\Actors\AIBehaviour\Fighting</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -243,6 +246,9 @@
       <Filter>Game Files\Actors\AIBehaviour\Movement</Filter>
     </ClInclude>
     <ClInclude Include="PeacefulBehaviour.h">
+      <Filter>Game Files\Actors\AIBehaviour\Fighting</Filter>
+    </ClInclude>
+    <ClInclude Include="TurretBehaviour.h">
       <Filter>Game Files\Actors\AIBehaviour\Fighting</Filter>
     </ClInclude>
   </ItemGroup>

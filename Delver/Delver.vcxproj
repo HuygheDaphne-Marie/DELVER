@@ -186,6 +186,7 @@
     <ClCompile Include="SVGParser.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Tile.cpp" />
+    <ClCompile Include="TurretBehaviour.cpp" />
     <ClCompile Include="utils.cpp" />
     <ClCompile Include="Vector2f.cpp" />
     <ClCompile Include="WarpEffect.cpp" />
@@ -221,6 +222,7 @@
     <ClInclude Include="SVGParser.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Tile.h" />
+    <ClInclude Include="TurretBehaviour.h" />
     <ClInclude Include="utils.h" />
     <ClInclude Include="Vector2f.h" />
     <ClInclude Include="WarpEffect.h" />

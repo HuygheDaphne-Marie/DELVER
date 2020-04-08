@@ -11,6 +11,6 @@ public:
 
 	virtual void Update(float elapsedSec) override;
 
-private:
+protected:
 };
 
