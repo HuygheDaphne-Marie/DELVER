@@ -5,28 +5,28 @@
 #include "Room.h"
 #include "Controller.h"
 
-Actor::Actor(const Point2f& pos, Type type, Texture* texture, float collisionWidth, float collisionHeight, float acceleration, float frictionFactor)
+Actor::Actor(const Point2f& pos, Type type, Texture* texture, float width, float height, float acceleration, float frictionFactor)
 	: m_Acceleration{ acceleration }
 	, m_FrictionFactor{ frictionFactor }
 	, m_Position{ pos }
 	, m_Velocity{ 0, 0 }
 	, m_Type{ type }
 	, m_pTexture{ texture }
-	, m_CollisionWidth{ collisionWidth }
-	, m_CollisionHeight{ collisionHeight }
+	, m_Width{ width }
+	, m_Height{ height }
 	, m_pController{ nullptr }
 {
-	if (m_CollisionWidth == -1 && m_CollisionHeight == -1) // Magic number but, negatives do not make any sense for dimensions anyway
+	if (m_Width == -1 && m_Height == -1) // Magic number but, negatives do not make any sense for dimensions anyway
 	{
 		if (m_pTexture != nullptr)
 		{
-			m_CollisionHeight = m_pTexture->GetHeight();
-			m_CollisionWidth = m_pTexture->GetWidth();
+			m_Height = m_pTexture->GetHeight();
+			m_Width = m_pTexture->GetWidth();
 		}
 		else
 		{
-			m_CollisionHeight = 20.f;
-			m_CollisionWidth = 20.f;
+			m_Height = 20.f;
+			m_Width = 20.f;
 		}
 	}
 }
@@ -51,7 +51,7 @@ void Actor::Update(float elapsedSec, const Level& level)
 }
 void Actor::Draw() const
 {
-	Rectf dstRect{ -m_CollisionWidth / 2, -m_CollisionHeight / 2, m_CollisionWidth, m_CollisionHeight };
+	Rectf dstRect{ -m_Width / 2, -m_Height / 2, m_Width, m_Height };
 	glPushMatrix();
 	glTranslatef(m_Position.x, m_Position.y, 0);
 	{
@@ -152,20 +152,20 @@ void Actor::HandleMovementCollision(const std::vector<std::vector<Point2f>>& ver
 }
 bool Actor::CheckVerticalCollision(const std::vector<Point2f>& vertex, utils::HitInfo& hitInfo, float elapsedSec) const
 {
-	float heightAdjustment{ m_CollisionHeight / 2 };
+	float heightAdjustment{ m_Height / 2 };
 	if (m_Velocity.y < -0.1f)
 	{
 		heightAdjustment *= -1;
 	}
 
-	const Point2f leftStart{ m_Position.x - m_CollisionWidth / 2, m_Position.y };
+	const Point2f leftStart{ m_Position.x - m_Width / 2, m_Position.y };
 	const Point2f leftEnd{ leftStart.x, leftStart.y + (m_Velocity.y * elapsedSec) + heightAdjustment };
 	if (utils::Raycast(vertex, leftStart, leftEnd, hitInfo))
 	{
 		return true;
 	}
 
-	const Point2f rightStart{ m_Position.x + m_CollisionWidth / 2, m_Position.y  };
+	const Point2f rightStart{ m_Position.x + m_Width / 2, m_Position.y  };
 	const Point2f rightEnd{ rightStart.x, rightStart.y + (m_Velocity.y * elapsedSec) + heightAdjustment };
 	if (utils::Raycast(vertex, rightStart, rightEnd, hitInfo))
 	{
@@ -176,20 +176,20 @@ bool Actor::CheckVerticalCollision(const std::vector<Point2f>& vertex, utils::Hi
 }
 bool Actor::CheckHorizontalCollision(const std::vector<Point2f>& vertex, utils::HitInfo& hitInfo, float elapsedSec) const
 {
-	float widthAdjustment{ m_CollisionWidth / 2 };
+	float widthAdjustment{ m_Width / 2 };
 	if (m_Velocity.x < -0.1f)
 	{
 		widthAdjustment *= -1;
 	}
 
-	const Point2f topStart{ m_Position.x, m_Position.y + m_CollisionHeight / 2 };
+	const Point2f topStart{ m_Position.x, m_Position.y + m_Height / 2 };
 	const Point2f topEnd{ topStart.x + (m_Velocity.x * elapsedSec) + widthAdjustment, topStart.y };
 	if (utils::Raycast(vertex, topStart, topEnd, hitInfo))
 	{
 		return true;
 	}
 
-	const Point2f bottomStart{ m_Position.x, m_Position.y - m_CollisionHeight / 2 };
+	const Point2f bottomStart{ m_Position.x, m_Position.y - m_Height / 2 };
 	const Point2f bottomEnd{ bottomStart.x + (m_Velocity.x * elapsedSec) + widthAdjustment, bottomStart.y };
 	if (utils::Raycast(vertex, bottomStart, bottomEnd, hitInfo))
 	{

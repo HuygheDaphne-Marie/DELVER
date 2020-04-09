@@ -10,7 +10,7 @@ Game::Game( const Window& window )
 	, m_pBulletManager{ BulletManager::GetInstance() }
 	, m_pTextureManager{ TextureManager::GetInstance() }
 	, m_Player{ Point2f{window.width / 2, window.height / 2} }
-	, m_TestEnemy{ Point2f{ 0, 0 }, 400.f, 1 }
+	, m_TestEnemy{ Point2f{ 0, 0 }, 400.f, 1, nullptr, 48.f, 48.f }
 	, m_MousePos{0, 0}
 	, m_Camera{window.width, window.height}
 	, m_Level{ 4, 4 }

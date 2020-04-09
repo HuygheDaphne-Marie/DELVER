@@ -24,7 +24,8 @@ public:
 	float m_DetectionRange;
 	Actor* m_pTarget;
 
-	Enemy(const Point2f& pos, float detectionRange, int hitPoints, Gun* gun = nullptr,  MovementBehaviour* movementBehaviour = nullptr, FightingBehaviour* fightingBehaviour = nullptr, DrawingBehaviour* = nullptr);
+	Enemy(const Point2f& pos, float detectionRange, int hitPoints, Texture* texture = nullptr, float width = -1, float height = -1, Gun* gun = nullptr,  
+		MovementBehaviour* movementBehaviour = nullptr, FightingBehaviour* fightingBehaviour = nullptr, DrawingBehaviour* drawingBehaviour = nullptr);
 	virtual ~Enemy();
 
 	virtual void Update(float elapsedSec, const Level& level);
@@ -47,4 +48,7 @@ protected:
 	MovementBehaviour* m_pMovementBehavior;
 	FightingBehaviour* m_pFightingBehaviour;
 	DrawingBehaviour* m_pDrawingBehaviour;
+
+private:
+	void Initialize();
 };

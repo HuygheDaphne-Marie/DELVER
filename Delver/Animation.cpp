@@ -35,6 +35,36 @@ Animation::Animation(std::string texturePath, int amountOfFrames, float frameTim
 	m_SrcRect.width = m_Width;
 	m_SrcRect.height = m_Height;
 }
+Animation::Animation(Texture* texture, const Point2f& firstFrameBottomLeft, float width, float height, int amountOfFrames, float frameTime, bool repeating, bool reverse)
+	: m_TexturePath{ "None given" }
+	, m_StartPos{ firstFrameBottomLeft }
+	, m_Width{ width }
+	, m_Height{ height }
+	, m_AmountOfFrames{ amountOfFrames }
+	, m_FrameTime{ frameTime }
+	, m_Repeating{ repeating }
+	, m_Reverse{ reverse }
+	, m_AccuTime{ 0.f }
+	, m_CurrentFrame{ 0 }
+	, m_SrcRect{ firstFrameBottomLeft.x, firstFrameBottomLeft.y, width, height }
+	, m_pAnimatedTexture{ texture }
+{
+}
+Animation::Animation(Texture* texture, int amountOfFrames, float frameTime, bool repeating, bool reverse)
+	: m_TexturePath{ "None given" }
+	, m_StartPos{ 0, 0 }
+	, m_Width{ texture->GetWidth() / m_AmountOfFrames }
+	, m_Height{ texture->GetHeight() }
+	, m_AmountOfFrames{ amountOfFrames }
+	, m_FrameTime{ frameTime }
+	, m_Repeating{ repeating }
+	, m_Reverse{ reverse }
+	, m_AccuTime{ 0.f }
+	, m_CurrentFrame{ 0 }
+	, m_SrcRect{ 0, 0, 0, 0 }
+	, m_pAnimatedTexture{ texture }
+{
+}
 Animation::~Animation()
 {
 	m_pAnimatedTexture = nullptr;

@@ -69,9 +69,9 @@ void TurretDrawing::Draw() const
 	}
 
 	Point2f pos{ m_pEnemy->GetPosition() };
-	pos.x -= m_CurrentAnimation->m_Width / 2; // TEMP
-	pos.y -= m_CurrentAnimation->m_Height / 2;
-	m_CurrentAnimation->Draw(Rectf{ pos.x, pos.y, m_CurrentAnimation->m_Width, m_CurrentAnimation->m_Height });
+	pos.x -= m_pEnemy->m_Width / 2;
+	pos.y -= m_pEnemy->m_Height / 2;
+	m_CurrentAnimation->Draw(Rectf{ pos.x, pos.y, m_pEnemy->m_Width, m_pEnemy->m_Height });
 }
 
 Animation* TurretDrawing::GetAnimation(Enemy::State state) const

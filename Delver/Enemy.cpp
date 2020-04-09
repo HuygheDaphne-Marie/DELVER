@@ -8,8 +8,9 @@
 
 #include "Gun.h"
 
-Enemy::Enemy(const Point2f& pos, float detectionRange, int hitPoints, Gun* gun, MovementBehaviour* movementBehaviour, FightingBehaviour* fightingBehaviour , DrawingBehaviour* drawingBehaviour)
-	: Actor(pos, Actor::Type::enemy)
+Enemy::Enemy(const Point2f& pos, float detectionRange, int hitPoints, Texture* texture, float width, float height, Gun* gun, 
+	MovementBehaviour* movementBehaviour, FightingBehaviour* fightingBehaviour, DrawingBehaviour* drawingBehaviour)
+	: Actor(pos, Actor::Type::enemy, texture, width, height)
 	, m_DetectionRange{ detectionRange }
 	, m_MaxHitPoints{ hitPoints }
 	, m_CurrentHitpoints{ hitPoints }
@@ -20,11 +21,7 @@ Enemy::Enemy(const Point2f& pos, float detectionRange, int hitPoints, Gun* gun, 
 	, m_State{ State::idle }
 	, m_pTarget{ nullptr }
 {
-	if (m_pEquippedGun != nullptr)
-	{
-		m_pEquippedGun->SetHolder(this);
-		m_pEquippedGun->UpdateGunPos(pos);
-	}
+	Initialize();
 }
 Enemy::~Enemy()
 {
@@ -48,6 +45,15 @@ Enemy::~Enemy()
 	{
 		delete m_pEquippedGun;
 		m_pEquippedGun = nullptr;
+	}
+}
+
+void Enemy::Initialize()
+{
+	if (m_pEquippedGun != nullptr)
+	{
+		m_pEquippedGun->SetHolder(this);
+		m_pEquippedGun->UpdateGunPos(m_Position);
 	}
 }
 
@@ -132,6 +138,7 @@ void Enemy::EquipGun(Gun* gun)
 		delete m_pEquippedGun;
 	}
 	m_pEquippedGun = gun;
+	m_pEquippedGun->SetHolder(this);
 	m_pEquippedGun->UpdateGunPos(GetPosition());
 }
 Gun* Enemy::GetEquippedGun() const

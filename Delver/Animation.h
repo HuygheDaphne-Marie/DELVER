@@ -18,6 +18,8 @@ public:
 
 	Animation(std::string texturePath, const Point2f& firstFrameBottomLeft, float width, float height, int amountOfFrames, float frameTime, bool repeating = true, bool reverse = false);
 	Animation(std::string texturePath, int amountOfFrames, float frameTime, bool repeating = true, bool reverse = false);
+	Animation(Texture* texture, const Point2f& firstFrameBottomLeft, float width, float height, int amountOfFrames, float frameTime, bool repeating = true, bool reverse = false);
+	Animation(Texture* texture, int amountOfFrames, float frameTime, bool repeating = true, bool reverse = false);
 	~Animation();
 
 	void Update(float elapsedSec);
