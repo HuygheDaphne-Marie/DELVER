@@ -86,18 +86,20 @@ Animation* TurretDrawing::GetAnimation(Enemy::State state) const
 
 void TurretDrawing::SetRightTurretRotationTexture()
 {
-	Vector2f downwards{ 0, -1 };
-	Vector2f toTarget{ m_pEnemy->GetPosition(), m_pEnemy->m_pTarget->GetPosition() };
+	const int textureAngleStep{ 45 };
+	const Vector2f downwards{ 0, -1 };
+	const Vector2f toTarget{ m_pEnemy->GetPosition(), m_pEnemy->m_pTarget->GetPosition() };
 	const float radians{ toTarget.AngleWith(downwards) };
+
 	float degrees{ float(radians * (180.f / M_PI)) };
-	degrees += 10.f; // gives some slack 
+	degrees += textureAngleStep / 2.f; // gives some slack to the angle, follows better this way.
 
 	if (degrees < 0)
 	{
 		degrees = 180.f + (180.f + degrees);
 	}
 
-	int rightFrame{ int(degrees / 45) };
+	const int rightFrame{ int(degrees / textureAngleStep) };
 	if (rightFrame != m_CurrentAnimation->GetCurrentFrame())
 	{
 		m_CurrentAnimation->SetCurrentFrame(rightFrame);
