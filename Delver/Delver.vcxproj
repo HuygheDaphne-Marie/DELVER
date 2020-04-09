@@ -152,6 +152,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Actor.cpp" />
+    <ClCompile Include="AnimatedTexture.cpp" />
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="BounceEffect.cpp" />
     <ClCompile Include="Bullet.cpp" />
@@ -159,6 +160,7 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Controller.cpp" />
     <ClCompile Include="Core.cpp" />
+    <ClCompile Include="DrawingBehaviour.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="FightingBehaviour.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -188,12 +190,14 @@
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Tile.cpp" />
     <ClCompile Include="TurretBehaviour.cpp" />
+    <ClCompile Include="TurretDrawing.cpp" />
     <ClCompile Include="utils.cpp" />
     <ClCompile Include="Vector2f.cpp" />
     <ClCompile Include="WarpEffect.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Actor.h" />
+    <ClInclude Include="AnimatedTexture.h" />
     <ClInclude Include="Animation.h" />
     <ClInclude Include="BounceEffect.h" />
     <ClInclude Include="Bullet.h" />
@@ -202,6 +206,7 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Controller.h" />
     <ClInclude Include="Core.h" />
+    <ClInclude Include="DrawingBehaviour.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="FightingBehaviour.h" />
     <ClInclude Include="Game.h" />
@@ -225,6 +230,7 @@
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Tile.h" />
     <ClInclude Include="TurretBehaviour.h" />
+    <ClInclude Include="TurretDrawing.h" />
     <ClInclude Include="utils.h" />
     <ClInclude Include="Vector2f.h" />
     <ClInclude Include="WarpEffect.h" />

@@ -7,6 +7,7 @@ class Animation final
 public:
 	const std::string m_TexturePath;
 	const bool m_Repeating;
+	const bool m_Reverse;
 
 	const Point2f m_StartPos;
 	const float m_Width;
@@ -15,8 +16,8 @@ public:
 	const int m_AmountOfFrames;
 	const float m_FrameTime;
 
-	Animation(std::string texturePath, const Point2f& firstFrameBottomLeft, float width, float height, int amountOfFrames, float frameTime, bool repeating = true);
-	Animation(std::string texturePath, int amountOfFrames, float frameTime, bool repeating = true);
+	Animation(std::string texturePath, const Point2f& firstFrameBottomLeft, float width, float height, int amountOfFrames, float frameTime, bool repeating = true, bool reverse = false);
+	Animation(std::string texturePath, int amountOfFrames, float frameTime, bool repeating = true, bool reverse = false);
 	~Animation();
 
 	void Update(float elapsedSec);
@@ -26,6 +27,7 @@ public:
 	void ResetAnimation();
 
 	void SetCurrentFrame(int frame);
+	int GetCurrentFrame() const;
 
 	std::string ToXMLString();
 	
@@ -33,7 +35,7 @@ private:
 	int m_CurrentFrame;
 	Rectf m_SrcRect;
 	Texture* m_pAnimatedTexture;
-	float m_Timer;
+	float m_AccuTime;
 
 	void NextFrame();
 };

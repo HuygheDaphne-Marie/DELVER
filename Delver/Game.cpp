@@ -3,13 +3,14 @@
 #include "Room.h"
 
 #include "TurretBehaviour.h"
+#include "TurretDrawing.h"
 
 Game::Game( const Window& window )
 	: m_Window{ window }
 	, m_pBulletManager{ BulletManager::GetInstance() }
 	, m_pTextureManager{ TextureManager::GetInstance() }
 	, m_Player{ Point2f{window.width / 2, window.height / 2} }
-	, m_TestEnemy{ Point2f{ 0, 0 }, 500.f, 1 }
+	, m_TestEnemy{ Point2f{ 0, 0 }, 400.f, 1 }
 	, m_MousePos{0, 0}
 	, m_Camera{window.width, window.height}
 	, m_Level{ 4, 4 }
@@ -29,10 +30,16 @@ void Game::Initialize( )
 	InitPlayer();
 	m_Player.SetPosition(m_Level.GetPlayerSpawnPoint());
 
-	m_TestEnemy.SetPosition(m_Level.GetPlayerSpawnPoint());
+	Point2f pos{ m_Level.GetPlayerSpawnPoint() };
+	pos.x += 500.f;
+	m_TestEnemy.SetPosition(pos);
+
 	TurretBehaviour* newBehaviour{ new TurretBehaviour(&m_TestEnemy, &m_Player, m_Level) };
 	m_TestEnemy.SetFightingBehaviour(newBehaviour);
 	m_TestEnemy.EquipGun(new Gun(0.5f, 400.f, 0.1f, nullptr, BulletType::light));
+
+	TurretDrawing* drawBehaviour{ new TurretDrawing(&m_TestEnemy) };
+	m_TestEnemy.SetDrawingBehaviour(drawBehaviour);
 }
 void Game::Cleanup( )
 {

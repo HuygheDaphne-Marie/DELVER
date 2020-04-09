@@ -7,7 +7,8 @@ class Actor;
 class TurretBehaviour :	public FightingBehaviour
 {
 public:
-	Actor* m_pTarget;
+	//Actor* m_pTarget;
+	static const float m_DeployDuration;
 
 	TurretBehaviour(Enemy* pEnemy, Actor* target, const Level& level);
 	virtual ~TurretBehaviour();
@@ -16,7 +17,7 @@ public:
 
 protected:
 	float m_Timer;
-	static const float m_DeployDuration;
+	
 	const Level& m_Level;
 
 	void Deploy(float elapsedSec);

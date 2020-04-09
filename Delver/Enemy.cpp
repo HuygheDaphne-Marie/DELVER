@@ -4,18 +4,21 @@
 
 #include "StationaryBeheviour.h"
 #include "PeacefulBehaviour.h"
+#include "DrawingBehaviour.h"
 
 #include "Gun.h"
 
-Enemy::Enemy(const Point2f& pos, float detectionRange, int hitPoints, Gun* gun, MovementBehaviour* movementBehaviour, FightingBehaviour* fightingBehaviour)
+Enemy::Enemy(const Point2f& pos, float detectionRange, int hitPoints, Gun* gun, MovementBehaviour* movementBehaviour, FightingBehaviour* fightingBehaviour , DrawingBehaviour* drawingBehaviour)
 	: Actor(pos, Actor::Type::enemy)
 	, m_DetectionRange{ detectionRange }
 	, m_MaxHitPoints{ hitPoints }
 	, m_CurrentHitpoints{ hitPoints }
 	, m_pMovementBehavior{ movementBehaviour }
 	, m_pFightingBehaviour{ fightingBehaviour }
+	, m_pDrawingBehaviour{ drawingBehaviour }
 	, m_pEquippedGun{ gun }
 	, m_State{ State::idle }
+	, m_pTarget{ nullptr }
 {
 	if (m_pEquippedGun != nullptr)
 	{
@@ -35,6 +38,11 @@ Enemy::~Enemy()
 		delete m_pFightingBehaviour;
 		m_pFightingBehaviour = nullptr;
 	}
+	if (m_pDrawingBehaviour != nullptr)
+	{
+		delete m_pDrawingBehaviour;
+		m_pDrawingBehaviour = nullptr;
+	}
 
 	if (m_pEquippedGun != nullptr)
 	{
@@ -53,6 +61,11 @@ void Enemy::Update(float elapsedSec, const Level& level)
 	{
 		m_pFightingBehaviour->Update(elapsedSec);
 	}
+	if (m_pDrawingBehaviour != nullptr)
+	{
+		m_pDrawingBehaviour->Update(elapsedSec);
+	}
+
 
 	if (m_pEquippedGun != nullptr)
 	{
@@ -63,9 +76,9 @@ void Enemy::Update(float elapsedSec, const Level& level)
 }
 void Enemy::Draw() const
 {
-	if (m_pTexture != nullptr)
+	if (m_pDrawingBehaviour != nullptr)
 	{
-		m_pTexture->Draw(Point2f{ m_Position.x - m_pTexture->GetWidth() / 2, m_Position.y - m_pTexture->GetHeight() / 2 });
+		m_pDrawingBehaviour->Draw();
 	}
 	else
 	{
@@ -102,6 +115,14 @@ void Enemy::SetFightingBehaviour(FightingBehaviour* newBehaviour)
 		delete m_pFightingBehaviour;
 	}
 	m_pFightingBehaviour = newBehaviour;
+}
+void Enemy::SetDrawingBehaviour(DrawingBehaviour* newBehaviour)
+{
+	if (m_pDrawingBehaviour != nullptr)
+	{
+		delete m_pDrawingBehaviour;
+	}
+	m_pDrawingBehaviour = newBehaviour;
 }
 
 void Enemy::EquipGun(Gun* gun)

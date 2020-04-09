@@ -3,7 +3,7 @@
 #include "TextureManager.h"
 #include "Texture.h"
 
-Animation::Animation(std::string texturePath, const Point2f& firstFrameBottomLeft, float width, float height, int amountOfFrames, float frameTime, bool repeating)
+Animation::Animation(std::string texturePath, const Point2f& firstFrameBottomLeft, float width, float height, int amountOfFrames, float frameTime, bool repeating, bool reverse)
 	: m_TexturePath{ texturePath }
 	, m_StartPos{ firstFrameBottomLeft }
 	, m_Width{ width }
@@ -11,13 +11,14 @@ Animation::Animation(std::string texturePath, const Point2f& firstFrameBottomLef
 	, m_AmountOfFrames{ amountOfFrames }
 	, m_FrameTime{ frameTime }
 	, m_Repeating{ repeating }
-	, m_Timer{ 0.f }
+	, m_Reverse{ reverse }
+	, m_AccuTime{ 0.f }
 	, m_CurrentFrame{ 0 }
 	, m_SrcRect{ firstFrameBottomLeft.x, firstFrameBottomLeft.y, width, height }
 	, m_pAnimatedTexture{ TextureManager::GetInstance()->GetTexture(texturePath) }
 {
 }
-Animation::Animation(std::string texturePath, int amountOfFrames, float frameTime, bool repeating)
+Animation::Animation(std::string texturePath, int amountOfFrames, float frameTime, bool repeating, bool reverse)
 	: m_TexturePath{ texturePath }
 	, m_StartPos{ 0, 0 }
 	, m_Width{ TextureManager::GetInstance()->GetTexture(texturePath)->GetWidth() / m_AmountOfFrames }
@@ -25,7 +26,8 @@ Animation::Animation(std::string texturePath, int amountOfFrames, float frameTim
 	, m_AmountOfFrames{ amountOfFrames }
 	, m_FrameTime{ frameTime }
 	, m_Repeating{ repeating }
-	, m_Timer{ 0.f }
+	, m_Reverse{ reverse }
+	, m_AccuTime{ 0.f }
 	, m_CurrentFrame{ 0 }
 	, m_SrcRect{ 0, 0, 0, 0 }
 	, m_pAnimatedTexture{ TextureManager::GetInstance()->GetTexture(texturePath) }
@@ -40,11 +42,11 @@ Animation::~Animation()
 
 void Animation::Update(float elapsedSec)
 {
-	m_Timer += elapsedSec;
-	if (m_Timer > m_FrameTime)
+	m_AccuTime += elapsedSec;
+	if (m_AccuTime > m_FrameTime)
 	{
 		NextFrame();
-		m_Timer -= m_FrameTime;
+		m_AccuTime -= m_FrameTime;
 	}
 
 }
@@ -59,7 +61,11 @@ void Animation::Draw(const Rectf& destRect) const
 
 void Animation::ResetAnimation()
 {
-	SetCurrentFrame(0);
+	//SetCurrentFrame(0);
+	m_SrcRect.left = m_StartPos.x;
+	m_SrcRect.bottom = m_StartPos.y;
+	m_CurrentFrame = 0;
+	m_AccuTime = 0;
 }
 
 void Animation::SetCurrentFrame(int frame)
@@ -69,10 +75,16 @@ void Animation::SetCurrentFrame(int frame)
 		return;
 	}
 
-	m_CurrentFrame = frame;
-	m_SrcRect.left = m_StartPos.x + int(m_StartPos.x + m_Width * frame) % int(m_pAnimatedTexture->GetWidth());
-	m_SrcRect.bottom = m_StartPos.y - m_Height * (m_StartPos.x + m_Width * frame) / m_pAnimatedTexture->GetWidth();
+	ResetAnimation();
+	for (int i{}; i < frame; i++)
+	{
+		NextFrame();
+	}
 
+}
+int Animation::GetCurrentFrame() const
+{
+	return m_CurrentFrame;
 }
 
 std::string Animation::ToXMLString()
@@ -98,14 +110,32 @@ void Animation::NextFrame()
 		return;
 	}
 
-	if (m_CurrentFrame <= m_AmountOfFrames)
+	if (m_CurrentFrame < m_AmountOfFrames)
 	{
 		m_CurrentFrame++;
-		m_SrcRect.left += m_Width;
-		if (m_SrcRect.left >= m_pAnimatedTexture->GetWidth())
+
+		if (!m_Reverse)
 		{
-			m_SrcRect.left = 0;
-			m_SrcRect.bottom -= m_Height;
+			m_SrcRect.left += m_Width;
+			if (m_SrcRect.left >= m_pAnimatedTexture->GetWidth())
+			{
+				m_SrcRect.left = 0;
+				m_SrcRect.bottom -= m_Height;
+			}
 		}
+		else
+		{
+			m_SrcRect.left -= m_Width;
+			if (m_SrcRect.left < -0.001f)
+			{
+				m_SrcRect.left = m_pAnimatedTexture->GetWidth();
+				m_SrcRect.bottom -= m_Height;
+			}
+		}
+	}
+
+	if (m_CurrentFrame == m_AmountOfFrames && m_Repeating)
+	{
+		ResetAnimation();
 	}
 }

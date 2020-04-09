@@ -123,3 +123,26 @@ Texture* TextureManager::GetTexture(const std::string& textureName) const
 	}
 	return m_Textures.find(m_NO_TEXTURE)->second;
 }
+Texture* TextureManager::GetTexture(const std::string& textureName)
+{
+	auto pair{ m_Textures.find(textureName) };
+
+	if (pair != m_Textures.end())
+	{
+		return pair->second;
+	}
+	else
+	{
+		Texture* newTexture{ new Texture(textureName) };
+		if (newTexture->IsCreationOk())
+		{
+			m_Textures[textureName] = newTexture;
+			return m_Textures[textureName];
+		}
+		else
+		{
+			delete newTexture;
+		}
+	}
+	return m_Textures.find(m_NO_TEXTURE)->second;
+}

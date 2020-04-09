@@ -41,6 +41,7 @@ public:
 
 	Texture* GetTexture(const std::vector<std::string>& textureList) const;
 	Texture* GetTexture(const std::string& textureName) const;
+	Texture* GetTexture(const std::string& textureName);
 
 private:
 	const std::string m_NO_TEXTURE;

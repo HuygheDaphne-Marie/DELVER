@@ -6,26 +6,27 @@
 #include "Enemy.h"
 #include "Gun.h"
 
-const float TurretBehaviour::m_DeployDuration = 1.f;
+const float TurretBehaviour::m_DeployDuration = 2.f;
 
 TurretBehaviour::TurretBehaviour(Enemy* pEnemy, Actor* target, const Level& level)
 	: FightingBehaviour(pEnemy)
-	, m_pTarget{target}
+	//, m_pTarget{target}
 	, m_Timer{ 0.f }
 	, m_Level{ level }
 {
+	pEnemy->m_pTarget = target;
 }
 TurretBehaviour::~TurretBehaviour()
 {
-	if (m_pTarget != nullptr)
-	{
-		m_pTarget = nullptr;
-	}
+	//if (m_pTarget != nullptr)
+	//{
+	//	m_pTarget = nullptr;
+	//}
 }
 
 void TurretBehaviour::Update(float elapsedSec)
 {
-	if (m_pEnemy->IsTargetInRange(*m_pTarget))
+	if (m_pEnemy->IsTargetInRange(*m_pEnemy->m_pTarget))
 	{
 		if (m_pEnemy->m_State != Enemy::State::fighting)
 		{
@@ -38,7 +39,7 @@ void TurretBehaviour::Update(float elapsedSec)
 			{
 				return;
 			}
-			m_pEnemy->GetEquippedGun()->UpdateAimPos(m_pTarget->GetPosition());
+			m_pEnemy->GetEquippedGun()->UpdateAimPos(m_pEnemy->m_pTarget->GetPosition());
 
 			Room* room{ m_Level.GetRoomAt(m_pEnemy->GetPosition()) };
 			if (room == nullptr)
@@ -50,7 +51,7 @@ void TurretBehaviour::Update(float elapsedSec)
 			for (std::vector<Point2f> barrier : room->GetBarriers())
 			{
 				utils::HitInfo hitInfo{};
-				if (utils::Raycast(barrier, m_pEnemy->GetPosition(), m_pTarget->GetPosition(), hitInfo))
+				if (utils::Raycast(barrier, m_pEnemy->GetPosition(), m_pEnemy->m_pTarget->GetPosition(), hitInfo))
 				{
 					barrierInWay = true;
 				}

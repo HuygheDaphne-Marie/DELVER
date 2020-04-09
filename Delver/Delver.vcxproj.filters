@@ -43,6 +43,9 @@
     <Filter Include="Game Files\Actors\AIBehaviour\Fighting">
       <UniqueIdentifier>{97a41afa-e31d-4716-a416-9c12af28003b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game Files\Actors\AIBehaviour\Drawing">
+      <UniqueIdentifier>{97367214-e734-44c2-b86a-868ed149e87e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Core.cpp">
@@ -150,6 +153,15 @@
     <ClCompile Include="Animation.cpp">
       <Filter>Game Files\Texture</Filter>
     </ClCompile>
+    <ClCompile Include="DrawingBehaviour.cpp">
+      <Filter>Game Files\Actors\AIBehaviour\Drawing</Filter>
+    </ClCompile>
+    <ClCompile Include="TurretDrawing.cpp">
+      <Filter>Game Files\Actors\AIBehaviour\Drawing</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimatedTexture.cpp">
+      <Filter>Game Files\Texture</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -255,6 +267,15 @@
       <Filter>Game Files\Actors\AIBehaviour\Fighting</Filter>
     </ClInclude>
     <ClInclude Include="Animation.h">
+      <Filter>Game Files\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="DrawingBehaviour.h">
+      <Filter>Game Files\Actors\AIBehaviour\Drawing</Filter>
+    </ClInclude>
+    <ClInclude Include="TurretDrawing.h">
+      <Filter>Game Files\Actors\AIBehaviour\Drawing</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimatedTexture.h">
       <Filter>Game Files\Texture</Filter>
     </ClInclude>
   </ItemGroup>
