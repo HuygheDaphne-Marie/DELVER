@@ -70,15 +70,9 @@ void BulletManager::DestroyBullets()
 		{
 			if (m_Bullets[idx] == bullet)
 			{
-				if (idx != m_Bullets.size() - 1)
-				{
-					delete m_Bullets[idx];
-					m_Bullets[idx] = m_Bullets[m_Bullets.size() - 1];
-				}
-				else
-				{
-					delete m_Bullets[m_Bullets.size() - 1];
-				}
+				delete m_Bullets[idx];
+				m_Bullets[idx] = m_Bullets[m_Bullets.size() - 1];
+				idx--;
 				m_Bullets.pop_back();
 			}
 		}
