@@ -28,6 +28,8 @@ void Game::Initialize( )
 {
 	//TestBulletManager();
 	m_Level.GenerateNextLevel();
+	m_Camera.SetLevelBoundaries(m_Level.GetLevelBounds());
+
 	InitPlayer();
 	m_Player.SetPosition(m_Level.GetPlayerSpawnPoint());
 
@@ -54,7 +56,7 @@ void Game::Cleanup( )
 void Game::Update( float elapsedSec )
 {
 	m_pBulletManager->UpdateBullets(elapsedSec, m_Level);
-	m_Player.Update(elapsedSec, m_Level, m_MousePos);
+	m_Player.Update(elapsedSec, m_Level, m_MousePos, m_Camera.GetClampDisplacement(m_Player.GetPosition()));
 
 	m_TestEnemy.Update(elapsedSec, m_Level);
 

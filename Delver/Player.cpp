@@ -31,7 +31,7 @@ Player::~Player()
 	}
 }
 
-void Player::Update(float elapsedSec, const Level& level, const Point2f mousePos)
+void Player::Update(float elapsedSec, const Level& level, const Point2f mousePos, const Vector2f& CameraDisplacement)
 {
 	m_State = State::waiting;
 
@@ -48,7 +48,7 @@ void Player::Update(float elapsedSec, const Level& level, const Point2f mousePos
 		m_pGuns[m_IdxEquippedGun]->UpdateGunPos(m_Position);
 
 		Vector2f differenceFromStart{ m_StartPosition, GetPosition() };
-		m_pGuns[m_IdxEquippedGun]->UpdateAimPos(mousePos + differenceFromStart);
+		m_pGuns[m_IdxEquippedGun]->UpdateAimPos(mousePos + differenceFromStart + CameraDisplacement);
 	}
 }
 void Player::Draw() const

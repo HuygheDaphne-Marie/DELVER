@@ -20,6 +20,8 @@ public:
 	int GetLevelWidth() const;
 	int GetLevelHeight() const;
 
+	Rectf GetLevelBounds() const;
+
 	void SetLevelDimensions(int width, int height);
 
 private:
@@ -41,5 +43,10 @@ private:
 	void ConnectRooms(Room* room1, Room* room2);
 
 	void DestroyLevel(); // deletes all rooms
+
+	int GetRightmostRoomCol() const;
+	int GetTopmostRoomRow() const;
+	int GetLeftmostRoomCol() const;
+	int GetBottommostRoomRow() const;
 };
 

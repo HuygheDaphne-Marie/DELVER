@@ -72,6 +72,20 @@ int Level::GetLevelHeight() const
 	return m_LevelRows;
 }
 
+Rectf Level::GetLevelBounds() const
+{
+	const float roomWidth{ Room::m_RoomCols * Tile::m_Side };
+	const float roomHeight{ Room::m_RoomRows * Tile::m_Side };
+
+	Rectf bounds{ 0, 0, 0, 0 };
+	bounds.left = (GetLeftmostRoomCol()) * roomWidth;
+	bounds.bottom = (GetBottommostRoomRow()) * roomHeight;
+	bounds.width = (GetRightmostRoomCol() + 1) * roomWidth - bounds.left;
+	bounds.height = (GetTopmostRoomRow() + 1) * roomHeight - bounds.bottom;
+
+	return bounds;
+}
+
 void Level::SetLevelDimensions(int width, int height)
 {
 	if (m_IsGenerated)
@@ -273,4 +287,61 @@ void Level::DestroyLevel()
 		}
 	}
 	m_IsGenerated = false;
+}
+
+int Level::GetRightmostRoomCol() const
+{
+	for (int col{ m_LevelCols - 1 }; col >= 0; col--)
+	{
+		for (int row{ m_LevelCols - 1 }; row >= 0; row--)
+		{
+			if (m_Rooms[utils::IndexFromGridPos(GridPos{ col, row }, m_LevelCols)] != nullptr)
+			{
+				return col;
+			}
+		}
+	}
+	return 0;
+}
+int Level::GetTopmostRoomRow() const
+{
+	for (int row{ m_LevelCols - 1 }; row >= 0; row--)
+	{
+		for (int col{ m_LevelCols - 1 }; col >= 0; col--)
+		{
+			if (m_Rooms[utils::IndexFromGridPos(GridPos{ col, row }, m_LevelCols)] != nullptr)
+			{
+				return row;
+			}
+		}
+	}
+	return 0;
+}
+int Level::GetLeftmostRoomCol() const
+{
+	for (int col{ 0 }; col < m_LevelCols; col++)
+	{
+		for (int row{ 0 }; row < m_LevelCols; row++)
+		{
+			if (m_Rooms[utils::IndexFromGridPos(GridPos{ col, row }, m_LevelCols)] != nullptr)
+			{
+				return col;
+			}
+		}
+	}
+	return 0;
+}
+int Level::GetBottommostRoomRow() const
+{
+	for (int row{ 0 }; row < m_LevelCols; row++)
+	{
+		for (int col{ 0 }; col < m_LevelCols; col++)
+		{
+			if (m_Rooms[utils::IndexFromGridPos(GridPos{ col, row }, m_LevelCols)] != nullptr)
+			{
+				return row;
+			}
+		}
+	}
+	return 0;
 }
