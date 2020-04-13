@@ -22,22 +22,6 @@ Enemy::Enemy(const ActorData& actorData, const BehaviourSet& behaviours, float d
 {
 	Initialize();
 }
-
-Enemy::Enemy(const Point2f& pos, float detectionRange, int hitPoints, Texture* texture, float width, float height, Gun* gun, 
-	MovementBehaviour* movementBehaviour, FightingBehaviour* fightingBehaviour, DrawingBehaviour* drawingBehaviour)
-	: Actor(pos, Actor::Type::enemy, texture, width, height)
-	, m_DetectionRange{ detectionRange }
-	, m_MaxHitPoints{ hitPoints }
-	, m_CurrentHitpoints{ hitPoints }
-	, m_pMovementBehavior{ movementBehaviour }
-	, m_pFightingBehaviour{ fightingBehaviour }
-	, m_pDrawingBehaviour{ drawingBehaviour }
-	, m_pEquippedGun{ gun }
-	, m_State{ State::idle }
-	, m_pTarget{ nullptr }
-{
-	Initialize();
-}
 Enemy::~Enemy()
 {
 	if (m_pMovementBehavior != nullptr)

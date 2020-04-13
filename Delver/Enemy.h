@@ -32,9 +32,6 @@ public:
 	Actor* m_pTarget;
 
 	Enemy(const ActorData& actorData, const BehaviourSet& behaviours, float detectionRange, int hitPoints, Gun* gun = nullptr);
-
-	Enemy(const Point2f& pos, float detectionRange, int hitPoints, Texture* texture = nullptr, float width = -1, float height = -1, Gun* gun = nullptr,  
-		MovementBehaviour* movementBehaviour = nullptr, FightingBehaviour* fightingBehaviour = nullptr, DrawingBehaviour* drawingBehaviour = nullptr);
 	virtual ~Enemy();
 
 	virtual void Update(float elapsedSec, const Level& level);
