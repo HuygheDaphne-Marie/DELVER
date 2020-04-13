@@ -5,6 +5,18 @@
 #include "Room.h"
 #include "Controller.h"
 
+Actor::Actor(const ActorData& data, float acceleration, float frictionFactor)
+	: m_Acceleration{ acceleration }
+	, m_FrictionFactor{ frictionFactor }
+	, m_Velocity{ 0, 0 }
+	, m_Position{ data.pos }
+	, m_Type{ data.type }
+	, m_pTexture{ data.pTexture }
+	, m_Width{ data.dimension.width }
+	, m_Height{ data.dimension.height }
+{
+}
+
 Actor::Actor(const Point2f& pos, Type type, Texture* texture, float width, float height, float acceleration, float frictionFactor)
 	: m_Acceleration{ acceleration }
 	, m_FrictionFactor{ frictionFactor }
@@ -14,7 +26,6 @@ Actor::Actor(const Point2f& pos, Type type, Texture* texture, float width, float
 	, m_pTexture{ texture }
 	, m_Width{ width }
 	, m_Height{ height }
-	, m_pController{ nullptr }
 {
 	if (m_Width == -1 && m_Height == -1) // Magic number but, negatives do not make any sense for dimensions anyway
 	{
@@ -33,11 +44,6 @@ Actor::Actor(const Point2f& pos, Type type, Texture* texture, float width, float
 Actor::~Actor()
 {
 	m_pTexture = nullptr;
-	if (m_pController != nullptr)
-	{
-		delete m_pController;
-		m_pController = nullptr;
-	}
 }
 
 void Actor::Update(float elapsedSec, const Level& level)
@@ -88,19 +94,6 @@ void Actor::SetVelocity(const Vector2f& velocity)
 float Actor::GetAcceleration() const
 {
 	return m_Acceleration;
-}
-Controller* Actor::GetController() const
-{
-	return m_pController;
-}
-void Actor::SetController(Controller* controller)
-{
-	if (m_pController != nullptr)
-	{
-		delete m_pController;
-		m_pController = nullptr;
-	}
-	m_pController = controller;
 }
 
 void Actor::MoveUp(float elapsedSec)

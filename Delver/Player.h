@@ -25,6 +25,8 @@ public:
 	void SwapGun(bool swappingToNext);
 	Gun* GetEquippedGun() const;
 
+	Controller* GetController() const;
+	void SetController(Controller* controller);
 	void SetState(const State& newstate);
 
 private:
@@ -32,5 +34,6 @@ private:
 	std::vector<Gun*> m_pGuns;
 	size_t m_IdxEquippedGun;
 	const Point2f m_StartPosition;
+	Controller* m_pController;
 };
 

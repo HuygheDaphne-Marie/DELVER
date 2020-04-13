@@ -12,7 +12,7 @@ TurretDrawing::TurretDrawing(Enemy* pEnemy)
 	, m_LastState{ pEnemy->m_State }
 	, m_CurrentAnimation{ nullptr }
 {
-	m_Animations[Enemy::State::idle] = new Animation(m_SrcPath, Point2f{ 0, 124 }, 124, 124, 3, 1.f/3);
+	m_Animations[Enemy::State::idle] = new Animation(m_SrcPath, Point2f{ 0, 124 }, 124, 124, 3, 0.5f);
 	m_Animations[Enemy::State::deploying] = new Animation(m_SrcPath, Point2f{ 0, 248 }, 124, 124, 5, TurretBehaviour::m_DeployDuration / 5, false);
 	m_Animations[Enemy::State::fighting] = new Animation(m_SrcPath, Point2f{ 0, 372 }, 124, 124, 8, 2.f/8);
 	m_Animations[Enemy::State::undeploying] = new Animation(m_SrcPath, Point2f{ 496, 248 }, 124, 124, 5, TurretBehaviour::m_DeployDuration / 5, false, true);

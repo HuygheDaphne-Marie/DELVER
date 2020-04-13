@@ -6,7 +6,7 @@
 #include "Enemy.h"
 #include "Gun.h"
 
-const float TurretBehaviour::m_DeployDuration = 2.f;
+const float TurretBehaviour::m_DeployDuration = 0.5f;
 
 TurretBehaviour::TurretBehaviour(Enemy* pEnemy, Actor* target, const Level& level)
 	: FightingBehaviour(pEnemy)

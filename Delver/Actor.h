@@ -13,9 +13,26 @@ public:
 		player
 	};
 
+	struct Dimension
+	{
+		float width;
+		float height;
+		Rectf collisionBox; // relative to bottom left of texture
+	};
+
+	struct ActorData
+	{
+		Point2f pos;
+		Dimension dimension;
+		Type type = Type::enemy;
+		Texture* pTexture = nullptr;
+	};
+
 	const Type m_Type;
 	float m_Width;
 	float m_Height;
+
+	Actor(const ActorData& data, float acceleration = 2000.f, float frictionFactor = 0.9f);
 
 	Actor(const Point2f& pos, Type type = Type::enemy, Texture* texture = nullptr, float width = -1, float height = -1, float acceleration = 2000.f, float frictionFactor = 0.9f);
 	virtual ~Actor();
@@ -28,8 +45,6 @@ public:
 	Vector2f GetVelocity() const;
 	void SetVelocity(const Vector2f& velocity);
 	float GetAcceleration() const;
-	Controller* GetController() const;
-	void SetController(Controller* controller);
 
 	void MoveUp(float elapsedSec);
 	void MoveDown(float elapsedSec);
@@ -42,8 +57,6 @@ protected:
 	Point2f m_Position;
 	Vector2f m_Velocity;
 	Texture* m_pTexture;
-
-	Controller* m_pController;
 
 	void HandleMovementCollision(const std::vector<std::vector<Point2f>>& vertecies, float elapsedSec);
 	bool CheckVerticalCollision(const std::vector<Point2f>& vertex, utils::HitInfo& hitInfo, float elapsedSec) const;

@@ -24,6 +24,11 @@ Player::~Player()
 		delete gun;
 		gun = nullptr;
 	}
+	if (m_pController != nullptr)
+	{
+		delete m_pController;
+		m_pController = nullptr;
+	}
 }
 
 void Player::Update(float elapsedSec, const Level& level, const Point2f mousePos)
@@ -112,4 +117,18 @@ Gun* Player::GetEquippedGun() const
 void Player::SetState(const State& newstate)
 {
 	m_State = newstate;
+}
+
+Controller* Player::GetController() const
+{
+	return m_pController;
+}
+void Player::SetController(Controller* controller)
+{
+	if (m_pController != nullptr)
+	{
+		delete m_pController;
+		m_pController = nullptr;
+	}
+	m_pController = controller;
 }
