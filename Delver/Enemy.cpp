@@ -8,6 +8,21 @@
 
 #include "Gun.h"
 
+Enemy::Enemy(const ActorData& actorData, const BehaviourSet& behaviours, float detectionRange, int hitPoints, Gun* gun)
+	: Actor(actorData)
+	, m_DetectionRange{ detectionRange }
+	, m_MaxHitPoints{ hitPoints }
+	, m_CurrentHitpoints{ hitPoints }
+	, m_pMovementBehavior{ behaviours.movementBehaviour }
+	, m_pFightingBehaviour{ behaviours.fightingBehaviour }
+	, m_pDrawingBehaviour{ behaviours.drawingBehaviour }
+	, m_pEquippedGun{ gun }
+	, m_State{ State::idle }
+	, m_pTarget{ nullptr }
+{
+	Initialize();
+}
+
 Enemy::Enemy(const Point2f& pos, float detectionRange, int hitPoints, Texture* texture, float width, float height, Gun* gun, 
 	MovementBehaviour* movementBehaviour, FightingBehaviour* fightingBehaviour, DrawingBehaviour* drawingBehaviour)
 	: Actor(pos, Actor::Type::enemy, texture, width, height)

@@ -18,11 +18,20 @@ public:
 		undeploying
 	};
 
+	struct BehaviourSet
+	{
+		MovementBehaviour* movementBehaviour = nullptr;
+		FightingBehaviour* fightingBehaviour = nullptr;
+		DrawingBehaviour* drawingBehaviour = nullptr;
+	};
+
 	State m_State;
 	const int m_MaxHitPoints;
 	int m_CurrentHitpoints;
 	float m_DetectionRange;
 	Actor* m_pTarget;
+
+	Enemy(const ActorData& actorData, const BehaviourSet& behaviours, float detectionRange, int hitPoints, Gun* gun = nullptr);
 
 	Enemy(const Point2f& pos, float detectionRange, int hitPoints, Texture* texture = nullptr, float width = -1, float height = -1, Gun* gun = nullptr,  
 		MovementBehaviour* movementBehaviour = nullptr, FightingBehaviour* fightingBehaviour = nullptr, DrawingBehaviour* drawingBehaviour = nullptr);
