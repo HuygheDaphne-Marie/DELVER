@@ -19,7 +19,7 @@ public:
 	~Player();
 
 	//void Update(float elapsedSec, const Level& level) override;
-	void Update(float elapsedSec, const Level& level, const Point2f mousePos, const Vector2f& CameraDisplacement);
+	void Update(float elapsedSec, const Level& level, const Point2f mousePos);
 	void Draw() const override;
 
 	void EquipGun(Gun* pGunToEquip);
@@ -38,5 +38,6 @@ private:
 	Controller* m_pController;
 
 	Animation m_WalkingUpAnimation;
+	Point2f m_LookPos;
 };
 

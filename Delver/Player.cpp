@@ -11,7 +11,7 @@ Player::Player(const Point2f& pos, Gun* pGunEquiped)
 		Actor::ActorData
 		{ 
 			pos, 
-			Actor::Dimension{48.f, 48.f}, 
+			Actor::Dimension{40.f, 40.f}, 
 			Actor::Type::player, 
 			TextureManager::GetInstance()->GetTexture("Resources/Textures/Actors/player_movement.png") 
 		}
@@ -19,7 +19,8 @@ Player::Player(const Point2f& pos, Gun* pGunEquiped)
 	, m_State{ State::waiting }
 	, m_IdxEquippedGun{ 0 }
 	, m_StartPosition{ pos }
-	, m_WalkingUpAnimation{ m_pTexture, Point2f{ 0, -32.f }, 32.f, 32.f, 8, 1.f/8 }
+	, m_WalkingUpAnimation{ m_pTexture, Point2f{ 0, -32.f }, 32.f, 32.f, 8, 0.1f }
+	, m_LookPos{ pos }
 {
 	if (pGunEquiped != nullptr)
 	{
@@ -41,8 +42,11 @@ Player::~Player()
 	}
 }
 
-void Player::Update(float elapsedSec, const Level& level, const Point2f mousePos, const Vector2f& CameraDisplacement)
+void Player::Update(float elapsedSec, const Level& level, const Point2f mousePos)
 {
+	const Vector2f differenceFromStart{ m_StartPosition, GetPosition() };
+	m_LookPos = mousePos + differenceFromStart;
+
 	m_State = State::waiting;
 
 	if (m_pController != nullptr)
@@ -58,22 +62,31 @@ void Player::Update(float elapsedSec, const Level& level, const Point2f mousePos
 		m_pGuns[m_IdxEquippedGun]->UpdateGun(elapsedSec);
 		m_pGuns[m_IdxEquippedGun]->UpdateGunPos(m_Position);
 
-		Vector2f differenceFromStart{ m_StartPosition, GetPosition() };
-		m_pGuns[m_IdxEquippedGun]->UpdateAimPos(mousePos + differenceFromStart + CameraDisplacement); //  
+		
+		m_pGuns[m_IdxEquippedGun]->UpdateAimPos(m_LookPos);
 	}
 }
 void Player::Draw() const
 {
 	if (m_pTexture != nullptr)
 	{
-		// m_pTexture->Draw(Point2f{ m_Position.x - m_pTexture->GetWidth() / 2, m_Position.y - m_pTexture->GetHeight() / 2 });
 
-		//m_pTexture->Draw(Point2f{ m_Position.x - m_Width / 2, m_Position.y - m_Height / 2 }, Rectf{ 0, -m_Height, m_Width, m_Height });
+		//Actor::Draw();
+		glPushMatrix();
+		{
+			Rectf destRect{ m_Position.x - m_Width / 2, m_Position.y - m_Height / 2, m_Width, m_Height };
+			if (m_Position.x > m_LookPos.x)
+			{
+				glScalef(-1.f, 1.f, 1.f);
 
-		const Rectf destRect{ m_Position.x - m_Width / 2, m_Position.y - m_Height / 2, m_Width, m_Height };
-		utils::FillRect(destRect);
-		Actor::Draw();
-		m_WalkingUpAnimation.Draw(destRect);
+				destRect.left = -destRect.left - m_Width;
+			}
+			
+			m_WalkingUpAnimation.Draw(destRect);
+		}
+		glPopMatrix();
+
+		
 
 	}
 	else

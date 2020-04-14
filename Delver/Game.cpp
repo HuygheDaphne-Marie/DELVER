@@ -57,7 +57,7 @@ void Game::Cleanup( )
 void Game::Update( float elapsedSec )
 {
 	m_pBulletManager->UpdateBullets(elapsedSec, m_Level);
-	m_Player.Update(elapsedSec, m_Level, m_MousePos, m_Camera.GetClampDisplacement(m_Player.GetPosition()));
+	m_Player.Update(elapsedSec, m_Level, m_MousePos + m_Camera.GetClampDisplacement(m_Player.GetPosition()));
 
 	m_TestEnemy.Update(elapsedSec, m_Level);
 
