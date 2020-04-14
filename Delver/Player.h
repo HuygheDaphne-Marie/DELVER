@@ -1,6 +1,7 @@
 #pragma once
 #include "Actor.h"
 #include <vector>
+#include "Animation.h"
 
 class Gun;
 
@@ -35,5 +36,7 @@ private:
 	size_t m_IdxEquippedGun;
 	const Point2f m_StartPosition;
 	Controller* m_pController;
+
+	Animation m_WalkingUpAnimation;
 };
 

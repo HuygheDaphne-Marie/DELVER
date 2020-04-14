@@ -94,7 +94,7 @@ void Gun::Fire(float elapsedSec)
 		}
 	}
 
-	const float averageDistanceToEdge{ (m_pHolder != nullptr) ? (m_pHolder->m_Width + m_pHolder->m_Height) / 2 : 0 };
+	const float averageDistanceToEdge{ (m_pHolder != nullptr) ? (m_pHolder->m_Width/2 + m_pHolder->m_Height/2) / 2 : 0 };
 	Vector2f trajectory{ Vector2f{m_GunPos, m_AimPos}.Normalized() };
 	bulletToFire->SetVelocity(trajectory * m_BulletSpeed);
 	bulletToFire->SetPosition(m_GunPos + (trajectory * averageDistanceToEdge));

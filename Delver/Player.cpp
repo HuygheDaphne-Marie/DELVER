@@ -6,10 +6,20 @@
 #include "PlayerKeyboardController.h"
 
 Player::Player(const Point2f& pos, Gun* pGunEquiped)
-	: Actor(pos, Actor::Type::player, TextureManager::GetInstance()->GetTexture(TextureManager::GetInstance()->m_PLAYER))
+	: Actor
+	(
+		Actor::ActorData
+		{ 
+			pos, 
+			Actor::Dimension{48.f, 48.f}, 
+			Actor::Type::player, 
+			TextureManager::GetInstance()->GetTexture("Resources/Textures/Actors/player_movement.png") 
+		}
+	)
 	, m_State{ State::waiting }
 	, m_IdxEquippedGun{ 0 }
 	, m_StartPosition{ pos }
+	, m_WalkingUpAnimation{ m_pTexture, Point2f{ 0, -32.f }, 32.f, 32.f, 8, 1.f/8 }
 {
 	if (pGunEquiped != nullptr)
 	{
@@ -40,6 +50,7 @@ void Player::Update(float elapsedSec, const Level& level, const Point2f mousePos
 		m_pController->Update(elapsedSec);
 	}
 
+	m_WalkingUpAnimation.Update(elapsedSec);
 	Actor::Update(elapsedSec, level);
 
 	if (m_pGuns[m_IdxEquippedGun] != nullptr)
@@ -55,7 +66,15 @@ void Player::Draw() const
 {
 	if (m_pTexture != nullptr)
 	{
-		m_pTexture->Draw(Point2f{ m_Position.x - m_pTexture->GetWidth() / 2, m_Position.y - m_pTexture->GetHeight() / 2 });
+		// m_pTexture->Draw(Point2f{ m_Position.x - m_pTexture->GetWidth() / 2, m_Position.y - m_pTexture->GetHeight() / 2 });
+
+		//m_pTexture->Draw(Point2f{ m_Position.x - m_Width / 2, m_Position.y - m_Height / 2 }, Rectf{ 0, -m_Height, m_Width, m_Height });
+
+		const Rectf destRect{ m_Position.x - m_Width / 2, m_Position.y - m_Height / 2, m_Width, m_Height };
+		utils::FillRect(destRect);
+		Actor::Draw();
+		m_WalkingUpAnimation.Draw(destRect);
+
 	}
 	else
 	{

@@ -27,19 +27,19 @@ Actor::Actor(const Point2f& pos, Type type, Texture* texture, float width, float
 	, m_Width{ width }
 	, m_Height{ height }
 {
-	if (m_Width == -1 && m_Height == -1) // Magic number but, negatives do not make any sense for dimensions anyway
-	{
-		if (m_pTexture != nullptr)
-		{
-			m_Height = m_pTexture->GetHeight();
-			m_Width = m_pTexture->GetWidth();
-		}
-		else
-		{
-			m_Height = 20.f;
-			m_Width = 20.f;
-		}
-	}
+	//if (m_Width == -1 && m_Height == -1) // Magic number but, negatives do not make any sense for dimensions anyway
+	//{
+	//	if (m_pTexture != nullptr)
+	//	{
+	//		m_Height = m_pTexture->GetHeight();
+	//		m_Width = m_pTexture->GetWidth();
+	//	}
+	//	else
+	//	{
+	//		m_Height = 20.f;
+	//		m_Width = 20.f;
+	//	}
+	//}
 }
 Actor::~Actor()
 {
@@ -53,11 +53,12 @@ void Actor::Update(float elapsedSec, const Level& level)
 	{
 		HandleMovementCollision(roomIAmIn->GetBarriers(), elapsedSec);
 	}
+
 	m_Velocity *= m_FrictionFactor;
 }
 void Actor::Draw() const
 {
-	Rectf dstRect{ -m_Width / 2, -m_Height / 2, m_Width, m_Height };
+	const Rectf dstRect{ -m_Width / 2, -m_Height / 2, m_Width, m_Height };
 	glPushMatrix();
 	glTranslatef(m_Position.x, m_Position.y, 0);
 	{
@@ -158,6 +159,13 @@ bool Actor::CheckVerticalCollision(const std::vector<Point2f>& vertex, utils::Hi
 		return true;
 	}
 
+	const Point2f middleStart{ m_Position.x, m_Position.y };
+	const Point2f middleEnd{ middleStart.x, middleStart.y + (m_Velocity.y * elapsedSec) + heightAdjustment };
+	if (utils::Raycast(vertex, middleStart, middleEnd, hitInfo))
+	{
+		return true;
+	}
+
 	const Point2f rightStart{ m_Position.x + m_Width / 2, m_Position.y  };
 	const Point2f rightEnd{ rightStart.x, rightStart.y + (m_Velocity.y * elapsedSec) + heightAdjustment };
 	if (utils::Raycast(vertex, rightStart, rightEnd, hitInfo))
@@ -178,6 +186,13 @@ bool Actor::CheckHorizontalCollision(const std::vector<Point2f>& vertex, utils::
 	const Point2f topStart{ m_Position.x, m_Position.y + m_Height / 2 };
 	const Point2f topEnd{ topStart.x + (m_Velocity.x * elapsedSec) + widthAdjustment, topStart.y };
 	if (utils::Raycast(vertex, topStart, topEnd, hitInfo))
+	{
+		return true;
+	}
+
+	const Point2f middleStart{ m_Position.x, m_Position.y };
+	const Point2f middleEnd{ middleStart.x + (m_Velocity.x * elapsedSec) + widthAdjustment, middleStart.y };
+	if (utils::Raycast(vertex, middleStart, middleEnd, hitInfo))
 	{
 		return true;
 	}

@@ -15,6 +15,17 @@ public:
 
 	struct Dimension
 	{
+		Dimension(float w, float h, Rectf cb)
+			: width{ w }
+			, height{ h }
+			, collisionBox{ cb }
+		{
+		}
+		Dimension(float w, float h)
+			: Dimension(w, h, Rectf{ 0, 0, w, h })
+		{
+		}
+
 		float width;
 		float height;
 		Rectf collisionBox; // relative to bottom left of texture
