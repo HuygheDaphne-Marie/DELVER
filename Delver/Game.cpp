@@ -13,7 +13,7 @@ Game::Game( const Window& window )
 	, m_TestEnemy{ Actor::ActorData{Point2f{ 0, 0 }, Actor::Dimension{48.f, 48.f, Rectf{0, 0, 48.f, 48.f}}}, Enemy::BehaviourSet{}, 400.f, 1, nullptr }
 	// , m_TestEnemy{ Point2f{ 0, 0 }, 400.f, 1, nullptr, 48.f, 48.f }
 	, m_MousePos{0, 0}
-	, m_Camera{window.width, window.height}
+	, m_Camera{ window.width, window.height, 100.f, 100.f, Point2f{ 0, 0 } }
 	, m_Level{ 4, 4 }
 
 {
@@ -29,9 +29,10 @@ void Game::Initialize( )
 	//TestBulletManager();
 	m_Level.GenerateNextLevel();
 	m_Camera.SetLevelBoundaries(m_Level.GetLevelBounds());
-
+	
 	InitPlayer();
 	m_Player.SetPosition(m_Level.GetPlayerSpawnPoint());
+	m_Camera.SetCenterPos(m_Player.GetPosition());
 
 	Point2f pos{ m_Level.GetPlayerSpawnPoint() };
 	pos.x += 500.f;
@@ -59,6 +60,8 @@ void Game::Update( float elapsedSec )
 	m_Player.Update(elapsedSec, m_Level, m_MousePos, m_Camera.GetClampDisplacement(m_Player.GetPosition()));
 
 	m_TestEnemy.Update(elapsedSec, m_Level);
+
+	m_Camera.UpdatePos(m_Player.GetPosition());
 
 	// Check keyboard state
 	//const Uint8 *pStates = SDL_GetKeyboardState( nullptr );
