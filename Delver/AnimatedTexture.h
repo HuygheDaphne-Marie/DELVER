@@ -22,6 +22,7 @@ public:
 	std::string GetState() const;
 
 	std::string ToXMLString() const;
+	void LoadAnimationsFromFile(const std::string& filePath);
 
 private:
 	std::map<std::string, Animation> m_Animations;
@@ -29,5 +30,8 @@ private:
 
 	Animation* GetAnimAnimationForCurrentState();
 	const Animation* GetAnimAnimationForCurrentState() const;
+
+	void LoadAnimationsFromString(const std::string& entry);
+	void ExtractAnimation(const std::string& animationEntry);
 };
 

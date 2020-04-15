@@ -13,6 +13,10 @@ PlayerKeyboardController::~PlayerKeyboardController()
 
 void PlayerKeyboardController::Update(float elapsedSec)
 {
+	if (m_pControlledPlayer->GetVelocity().Length() < 10.0f)
+	{
+		m_pControlledPlayer->SetState(Player::State::waiting);
+	}
 
 	const Uint8* pStates = SDL_GetKeyboardState(nullptr);
 	if (pStates[SDL_SCANCODE_A])

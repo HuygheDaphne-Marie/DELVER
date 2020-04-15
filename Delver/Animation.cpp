@@ -3,6 +3,8 @@
 #include "TextureManager.h"
 #include "Texture.h"
 
+#include <sstream>
+
 Animation::Animation(std::string texturePath, const Point2f& firstFrameBottomLeft, float width, float height, int amountOfFrames, float frameTime, bool repeating, bool reverse)
 	: m_TexturePath{ texturePath }
 	, m_StartPos{ firstFrameBottomLeft }
@@ -119,17 +121,18 @@ int Animation::GetCurrentFrame() const
 
 std::string Animation::ToXMLString() const
 {
-	std::string output{ "<Animation>" };
+	std::string output{ "<Animation>\n" };
 	
-	output += "<TexturePath>" + m_TexturePath + "</TexturePath>";
-	output += "<Repeating>" + std::to_string(m_Repeating) + "</Repeating>";
-	output += "<StartPos>" + std::to_string(m_StartPos.x) + "," + std::to_string(m_StartPos.y) + "</StartPos>";
-	output += "<Width>" + std::to_string(m_Width) + "</Width>";
-	output += "<Height>" + std::to_string(m_Height) + "</Height>";
-	output += "<AmountOfFrames>" + std::to_string(m_AmountOfFrames) + "</m_AmountOfFrames>";
-	output += "<FrameTime>" + std::to_string(m_FrameTime) + "</FrameTime>";
+	output += "<TexturePath>" + m_TexturePath + "</TexturePath>\n";
+	output += "<Repeating>" + std::to_string(m_Repeating) + "</Repeating>\n";
+	output += "<Reverse>" + std::to_string(m_Reverse) + "</Reverse>\n";
+	output += "<StartPos>" + std::to_string(m_StartPos.x) + " " + std::to_string(m_StartPos.y) + "</StartPos>\n";
+	output += "<Width>" + std::to_string(m_Width) + "</Width>\n";
+	output += "<Height>" + std::to_string(m_Height) + "</Height>\n";
+	output += "<AmountOfFrames>" + std::to_string(m_AmountOfFrames) + "</m_AmountOfFrames>\n";
+	output += "<FrameTime>" + std::to_string(m_FrameTime) + "</FrameTime>\n";
 
-	output += "</Animation>";
+	output += "</Animation>\n";
 	return output;
 }
 
@@ -168,4 +171,38 @@ void Animation::NextFrame()
 	{
 		ResetAnimation();
 	}
+}
+
+Animation Animation::AnimationFromXML(const std::string animationData)
+{
+	const std::string texturePath{ utils::GetAttributeValue("TexturePath", animationData) };
+	
+	const bool repeating{ utils::ToBool(utils::GetAttributeValue("Repeating", animationData)) };
+	const bool reverse{ utils::ToBool(utils::GetAttributeValue("Reverse", animationData)) };
+
+	const Point2f startLeftBottom{ utils::ToPoint2f(utils::GetAttributeValue("StartPos", animationData)) };
+
+	std::stringstream ss{};
+
+	ss << utils::GetAttributeValue("Width", animationData);
+	float width{};
+	ss >> width;
+	ss.clear();
+
+	ss << utils::GetAttributeValue("Height", animationData);
+	float height{};
+	ss >> height;
+	ss.clear();
+
+	ss << utils::GetAttributeValue("AmountOfFrames", animationData);
+	int frameCount{};
+	ss >> frameCount;
+	ss.clear();
+
+	ss << utils::GetAttributeValue("FrameTime", animationData);
+	float timePerFrame{};
+	ss >> timePerFrame;
+	ss.clear();
+
+	return Animation(texturePath, startLeftBottom, width, height, frameCount, timePerFrame, repeating, reverse);
 }

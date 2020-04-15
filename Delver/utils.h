@@ -7,6 +7,13 @@ namespace utils
 	const float g_Pi{ 3.1415926535f };
 
 #pragma region OwnUtils
+
+	// String parsing
+	std::string GetAttributeValue(const std::string& attrName, const std::string& element);
+	Color4f ToColor(const std::string& colorStr);
+	bool ToBool(const std::string& boolStr);
+	Point2f ToPoint2f(const std::string& point2fStr);
+
 	// Calculations //
 	double CartesianXFromPolar(float radius, float angle);
 	double CartesianYFromPolar(float radius, float angle);

@@ -3,10 +3,79 @@
 #include <cmath>
 #include <algorithm>
 #include <iostream>
+#include <sstream>
 #include "utils.h"
 
 
 #pragma region OwnUtils
+
+// String parsing
+std::string utils::GetAttributeValue(const std::string& attrName, const std::string& element)
+{
+	std::string result{};
+
+	const std::string firstSearch{ "<" + attrName + ">" };
+	const std::string lastSearch{ "</" + attrName + ">" };
+	const size_t startPos{ element.find(firstSearch) + firstSearch.size() };
+	const size_t endPos{ element.find(lastSearch) };
+
+	if (startPos != std::string::npos && endPos != std::string::npos)
+	{
+		result = element.substr(startPos, endPos - startPos);
+	}
+
+	return result;
+}
+Color4f utils::ToColor(const std::string& colorStr)
+{
+	// TODO: 1a. Complete the ToColor function definition
+	// The parameter contains a color in the format: "r,g,b,a"
+	// This function converts this color into a Color4f type and returns it
+	Color4f color;
+
+	std::stringstream strStream{};
+	strStream << colorStr;
+
+	strStream >> color.r;
+	strStream.get();
+	strStream >> color.g;
+	strStream.get();
+	strStream >> color.b;
+	strStream.get();
+	strStream >> color.a;
+	strStream.get();
+
+	return color;
+}
+bool utils::ToBool(const std::string& boolStr)
+{
+	// TODO: 2a. Complete the ToBool function definition
+	// The parameter contains a bool in text form: "true" or "false"
+	// This function converts this information into a bool type and returns it
+	if (boolStr == "true")
+	{
+		return true;
+	}
+	return false;
+}
+Point2f utils::ToPoint2f(const std::string& point2fStr)
+{
+	// TODO: 3a. Complete the ToPoint2f function definition
+	// The parameter contains a point in the format: "x,y"
+	// This function converts this information into a Point2f type and returns it
+	Point2f point;
+
+	std::stringstream strStream{};
+	strStream << point2fStr;
+
+	strStream >> point.x;
+	strStream.get();
+	strStream >> point.y;
+
+	return point;
+}
+
+
 // Calculations //
 double utils::CartesianXFromPolar(float radius, float angle)
 {

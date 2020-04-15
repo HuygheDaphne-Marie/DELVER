@@ -1,6 +1,10 @@
 #include "pch.h"
 #include "AnimatedTexture.h"
 #include "TextureManager.h"
+#include <fstream>
+#include <istream>
+#include <sstream>
+
 
 AnimatedTexture::AnimatedTexture(const std::string& textureString)
 	: m_SrcImg{ TextureManager::GetInstance()->GetTexture(textureString) }
@@ -8,6 +12,15 @@ AnimatedTexture::AnimatedTexture(const std::string& textureString)
 	, m_Animations{}
 	, m_CurrentState{"NO_STATE_YET"}
 {
+	const std::string defaultSavePath{"Resources/Animations/"};
+
+	size_t firstPos{ m_SrcPath.find_last_of('/') + 1 };
+	size_t lastPos{ m_SrcPath.find_last_of('.') };
+	if (firstPos != std::string::npos && lastPos != std::string::npos)
+	{
+		std::string defaultFilename{ m_SrcPath.substr(firstPos, lastPos - firstPos) + ".txt" };
+		LoadAnimationsFromFile(defaultSavePath + defaultFilename);
+	}
 }
 AnimatedTexture::~AnimatedTexture()
 {
@@ -75,17 +88,94 @@ std::string AnimatedTexture::GetState() const
 std::string AnimatedTexture::ToXMLString() const
 {
 	std::string output{};
-	output += "<AnimatedTexture>";
-	output += "<SrcImgPath>" + m_SrcPath + "</SrcImgPath>";
-	output += "<Animations>";
+	output += "<AnimatedTexture>\n";
+	output += "<SrcImgPath>" + m_SrcPath + "</SrcImgPath>\n";
+	output += "<Animations>\n";
 	for (std::map<std::string, Animation>::const_iterator itr{m_Animations.begin()}; itr != m_Animations.end(); itr++)
 	{
+		output += "<AnimationEntry>\n";
+		output += "<RepresentedState>" + (*itr).first + "</RepresentedState>\n";
 		output += (*itr).second.ToXMLString();
+		output += "</AnimationEntry>\n";
 	}
-	output += "</Animations>";
-	output += "</AnimatedTexture>";
-}
+	output += "</Animations>\n";
+	output += "</AnimatedTexture>\n";
 
+	return output;
+}
+void AnimatedTexture::LoadAnimationsFromFile(const std::string& filePath)
+{
+	std::ifstream ifs{ filePath };
+	if (!ifs.good())
+	{
+		// file does not exist
+		return;
+	}
+
+	bool hasFoundCorrectEntry{ false };
+	std::string entry{};
+	std::string line{};
+	while (std::getline(ifs, line, '\n') || !hasFoundCorrectEntry)
+	{
+		entry += line;
+		if (line == "</AnimatedTexture>")
+		{
+			const std::string firstSearch{ "<SrcImgPath>" };
+
+			const size_t startPos{ entry.find(firstSearch) + firstSearch.size() };
+			const size_t endPos{ entry.find("</SrcImgPath>") };
+
+			if (startPos != std::string::npos && endPos != std::string::npos)
+			{
+				std::string entrySrcPath{ entry.substr(startPos, endPos - startPos) };
+
+				if (entrySrcPath == m_SrcPath)
+				{
+					hasFoundCorrectEntry = true;
+				}
+			}
+
+			if (!hasFoundCorrectEntry)
+			{
+				entry = "";
+			}
+		}
+	}
+
+	if (hasFoundCorrectEntry)
+	{
+		LoadAnimationsFromString(entry);
+	}
+}
+void AnimatedTexture::LoadAnimationsFromString(const std::string& entry)
+{
+	std::string animations{ utils::GetAttributeValue("Animations", entry) };
+
+	bool allAnimationsExtracted{ false };
+	const std::string delimiter{ "</AnimationEntry>" };
+	while (!allAnimationsExtracted)
+	{
+		std::string animationEntry{ utils::GetAttributeValue("AnimationEntry", animations) };
+		if (animationEntry == "")
+		{
+			allAnimationsExtracted = true;
+			break;
+		}
+		ExtractAnimation(animationEntry);
+
+		if (!allAnimationsExtracted)
+		{
+			animations = animations.substr(animations.find(delimiter) + delimiter.size());
+		}
+	}
+
+}
+void AnimatedTexture::ExtractAnimation(const std::string& animationEntry)
+{
+	const std::string representedState{ utils::GetAttributeValue("RepresentedState", animationEntry) };
+	Animation animation{ Animation::AnimationFromXML(utils::GetAttributeValue("Animation", animationEntry)) };
+	AddState(representedState, animation); // might give error since it might be deleted because it's a refrence, let's hope not
+}
 Animation* AnimatedTexture::GetAnimAnimationForCurrentState()
 {
 	std::map<std::string, Animation>::iterator result{ m_Animations.find(m_CurrentState) };

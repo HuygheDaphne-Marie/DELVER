@@ -2,6 +2,7 @@
 #include "Actor.h"
 #include <vector>
 #include "Animation.h"
+#include "AnimatedTexture.h"
 
 class Gun;
 
@@ -37,7 +38,11 @@ private:
 	const Point2f m_StartPosition;
 	Controller* m_pController;
 
-	Animation m_WalkingUpAnimation;
+	AnimatedTexture m_AnimatedTexture;
 	Point2f m_LookPos;
+
+	void UpdateTextureStateString();
+
+	std::string GetStatePostfix() const;
 };
 

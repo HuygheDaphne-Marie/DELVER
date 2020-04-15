@@ -5,6 +5,9 @@
 #include "TextureManager.h"
 #include "PlayerKeyboardController.h"
 
+#include "AnimatedTexture.h"
+#include <iostream>
+
 Player::Player(const Point2f& pos, Gun* pGunEquiped)
 	: Actor
 	(
@@ -19,7 +22,7 @@ Player::Player(const Point2f& pos, Gun* pGunEquiped)
 	, m_State{ State::waiting }
 	, m_IdxEquippedGun{ 0 }
 	, m_StartPosition{ pos }
-	, m_WalkingUpAnimation{ m_pTexture, Point2f{ 0, -32.f }, 32.f, 32.f, 8, 0.1f }
+	, m_AnimatedTexture{ "Resources/Textures/Actors/player_movement.png" }
 	, m_LookPos{ pos }
 {
 	if (pGunEquiped != nullptr)
@@ -54,7 +57,8 @@ void Player::Update(float elapsedSec, const Level& level, const Point2f mousePos
 		m_pController->Update(elapsedSec);
 	}
 
-	m_WalkingUpAnimation.Update(elapsedSec);
+	// set right state string
+	m_AnimatedTexture.Update(elapsedSec);
 	Actor::Update(elapsedSec, level);
 
 	if (m_pGuns[m_IdxEquippedGun] != nullptr)
@@ -77,12 +81,15 @@ void Player::Draw() const
 			Rectf destRect{ m_Position.x - m_Width / 2, m_Position.y - m_Height / 2, m_Width, m_Height };
 			if (m_Position.x > m_LookPos.x)
 			{
-				glScalef(-1.f, 1.f, 1.f);
-
-				destRect.left = -destRect.left - m_Width;
+				const std::string postfix{ GetStatePostfix() };
+				if (postfix != "_up" && postfix != "_down")
+				{
+					glScalef(-1.f, 1.f, 1.f);
+					destRect.left = -destRect.left - m_Width;
+				}
 			}
 			
-			m_WalkingUpAnimation.Draw(destRect);
+			m_AnimatedTexture.Draw(destRect);
 		}
 		glPopMatrix();
 
@@ -149,6 +156,7 @@ Gun* Player::GetEquippedGun() const
 void Player::SetState(const State& newstate)
 {
 	m_State = newstate;
+	UpdateTextureStateString();
 }
 
 Controller* Player::GetController() const
@@ -163,4 +171,63 @@ void Player::SetController(Controller* controller)
 		m_pController = nullptr;
 	}
 	m_pController = controller;
+}
+
+void Player::UpdateTextureStateString()
+{
+	const std::string postfix{ GetStatePostfix() };
+
+	switch (m_State)
+	{
+	case Player::State::waiting:
+		m_AnimatedTexture.SetState("idle");
+		break;
+	case Player::State::moving:
+		m_AnimatedTexture.SetState("run" + postfix);
+		break;
+	case Player::State::dead:
+		m_AnimatedTexture.SetState("dead");
+		break;
+	}
+}
+
+std::string Player::GetStatePostfix() const
+{
+	const float cirlce{ 360.f };
+	const float angleStep{ 90.f / 4 }; // 4 divisions in a 90degree arc
+
+	const Vector2f zeroDegreeVec{ 1, 0 };
+	const Vector2f toMousePosVec{ m_Position, m_LookPos };
+	float angle{ float(zeroDegreeVec.AngleWith(toMousePosVec) * (180.f / M_PI)) };
+
+	if (angle > 90.f)
+	{
+		angle = 90.f - (angle - 90.f);
+	}
+	if (angle < -90.f)
+	{
+		angle = -90.f - (angle + 90.f); 
+	}
+
+	if (angle > (90.f - angleStep))
+	{
+		return "_up";
+	}
+	if (angle > (45.f - angleStep) && angle < (45.f + angleStep))
+	{
+		return "_up_side";
+	}
+	if (angle > (0.f - angleStep) && angle < (0.f + angleStep))
+	{
+		return "_side";
+	}
+	if (angle > (-45.f - angleStep) && angle < (-45.f + angleStep))
+	{
+		return "_down_side";
+	}
+	if (angle < (-90.f + angleStep))
+	{
+		return "_down";
+	}
+	return "";
 }

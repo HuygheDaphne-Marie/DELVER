@@ -32,6 +32,8 @@ public:
 	int GetCurrentFrame() const;
 
 	std::string ToXMLString() const;
+
+	static Animation AnimationFromXML(const std::string animationData);
 	
 private:
 	int m_CurrentFrame;
