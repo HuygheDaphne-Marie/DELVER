@@ -1,8 +1,8 @@
 #pragma once
 #include "Animation.h"
-
 #include "Texture.h"
-#include <vector>
+#include <map>
+
 
 class AnimatedTexture
 {
@@ -10,9 +10,24 @@ public:
 	const Texture* m_SrcImg;
 	const std::string m_SrcPath;
 
-	// TODO later, might not do it this way after all
+	AnimatedTexture(const std::string& textureString);
+	~AnimatedTexture();
+
+	void Draw(const Point2f& leftBottom) const;
+	void Draw(const Rectf& destRect) const;
+	void Update(float elapsedSec);
+
+	void AddState(const std::string stateString, const Animation& animation);
+	void SetState(const std::string newState);
+	std::string GetState() const;
+
+	std::string ToXMLString() const;
 
 private:
-	std::vector<Animation> m_Animations;
+	std::map<std::string, Animation> m_Animations;
+	std::string m_CurrentState;
+
+	Animation* GetAnimAnimationForCurrentState();
+	const Animation* GetAnimAnimationForCurrentState() const;
 };
 

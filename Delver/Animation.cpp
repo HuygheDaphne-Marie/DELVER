@@ -117,7 +117,7 @@ int Animation::GetCurrentFrame() const
 	return m_CurrentFrame;
 }
 
-std::string Animation::ToXMLString()
+std::string Animation::ToXMLString() const
 {
 	std::string output{ "<Animation>" };
 	

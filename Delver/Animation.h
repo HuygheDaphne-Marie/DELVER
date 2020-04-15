@@ -31,7 +31,7 @@ public:
 	void SetCurrentFrame(int frame);
 	int GetCurrentFrame() const;
 
-	std::string ToXMLString();
+	std::string ToXMLString() const;
 	
 private:
 	int m_CurrentFrame;
