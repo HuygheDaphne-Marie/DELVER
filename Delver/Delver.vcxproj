@@ -162,6 +162,7 @@
     <ClCompile Include="Core.cpp" />
     <ClCompile Include="DrawingBehaviour.cpp" />
     <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="EnemyManager.cpp" />
     <ClCompile Include="FightingBehaviour.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Gun.cpp" />
@@ -208,6 +209,7 @@
     <ClInclude Include="Core.h" />
     <ClInclude Include="DrawingBehaviour.h" />
     <ClInclude Include="Enemy.h" />
+    <ClInclude Include="EnemyManager.h" />
     <ClInclude Include="FightingBehaviour.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Gun.h" />

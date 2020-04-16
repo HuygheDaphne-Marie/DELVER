@@ -174,7 +174,7 @@ void AnimatedTexture::ExtractAnimation(const std::string& animationEntry)
 {
 	const std::string representedState{ utils::GetAttributeValue("RepresentedState", animationEntry) };
 	Animation animation{ Animation::AnimationFromXML(utils::GetAttributeValue("Animation", animationEntry)) };
-	AddState(representedState, animation); // might give error since it might be deleted because it's a refrence, let's hope not
+	AddState(representedState, animation);
 }
 Animation* AnimatedTexture::GetAnimAnimationForCurrentState()
 {

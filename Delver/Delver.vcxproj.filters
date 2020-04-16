@@ -46,6 +46,9 @@
     <Filter Include="Game Files\Actors\AIBehaviour\Drawing">
       <UniqueIdentifier>{97367214-e734-44c2-b86a-868ed149e87e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game Files\Managers">
+      <UniqueIdentifier>{fde83383-aff9-4a77-aa78-b6b5a0376eab}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Core.cpp">
@@ -87,9 +90,6 @@
     <ClCompile Include="Bullet.cpp">
       <Filter>Game Files\Gunplay</Filter>
     </ClCompile>
-    <ClCompile Include="BulletManager.cpp">
-      <Filter>Game Files\Gunplay</Filter>
-    </ClCompile>
     <ClCompile Include="Gun.cpp">
       <Filter>Game Files\Gunplay</Filter>
     </ClCompile>
@@ -116,9 +116,6 @@
     </ClCompile>
     <ClCompile Include="Camera.cpp">
       <Filter>Game Files\Actors</Filter>
-    </ClCompile>
-    <ClCompile Include="TextureManager.cpp">
-      <Filter>Game Files\Texture</Filter>
     </ClCompile>
     <ClCompile Include="Tile.cpp">
       <Filter>Game Files\Level\Tiles</Filter>
@@ -162,6 +159,15 @@
     <ClCompile Include="AnimatedTexture.cpp">
       <Filter>Game Files\Texture</Filter>
     </ClCompile>
+    <ClCompile Include="BulletManager.cpp">
+      <Filter>Game Files\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureManager.cpp">
+      <Filter>Game Files\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyManager.cpp">
+      <Filter>Game Files\Managers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -200,9 +206,6 @@
     <ClInclude Include="Bullet.h">
       <Filter>Game Files\Gunplay</Filter>
     </ClInclude>
-    <ClInclude Include="BulletManager.h">
-      <Filter>Game Files\Gunplay</Filter>
-    </ClInclude>
     <ClInclude Include="BulletType.h">
       <Filter>Game Files\Gunplay</Filter>
     </ClInclude>
@@ -232,9 +235,6 @@
     </ClInclude>
     <ClInclude Include="Camera.h">
       <Filter>Game Files\Actors</Filter>
-    </ClInclude>
-    <ClInclude Include="TextureManager.h">
-      <Filter>Game Files\Texture</Filter>
     </ClInclude>
     <ClInclude Include="Tile.h">
       <Filter>Game Files\Level\Tiles</Filter>
@@ -277,6 +277,15 @@
     </ClInclude>
     <ClInclude Include="AnimatedTexture.h">
       <Filter>Game Files\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="BulletManager.h">
+      <Filter>Game Files\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureManager.h">
+      <Filter>Game Files\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyManager.h">
+      <Filter>Game Files\Managers</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
