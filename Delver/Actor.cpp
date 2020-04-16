@@ -152,20 +152,19 @@ bool Actor::CheckVerticalCollision(const std::vector<Point2f>& vertex, utils::Hi
 		heightAdjustment *= -1;
 	}
 
-	const Point2f leftStart{ m_Position.x - m_Width / 2, m_Position.y };
-	const Point2f leftEnd{ leftStart.x, leftStart.y + (m_Velocity.y * elapsedSec) + heightAdjustment };
-	if (utils::Raycast(vertex, leftStart, leftEnd, hitInfo))
+	Point2f leftStart{ m_Position.x - m_Width / 2, m_Position.y };
+	Point2f leftEnd{ leftStart.x, leftStart.y + (m_Velocity.y * elapsedSec) + heightAdjustment };
+	while (leftStart.x < m_Position.x + m_Width / 2)
 	{
-		return true;
+		if (utils::Raycast(vertex, leftStart, leftEnd, hitInfo))
+		{
+			return true;
+		}
+		leftStart.x += Tile::m_Side;
+		leftEnd.x += Tile::m_Side;
 	}
 
-	const Point2f middleStart{ m_Position.x, m_Position.y };
-	const Point2f middleEnd{ middleStart.x, middleStart.y + (m_Velocity.y * elapsedSec) + heightAdjustment };
-	if (utils::Raycast(vertex, middleStart, middleEnd, hitInfo))
-	{
-		return true;
-	}
-
+	// Making sure we check the last bit, since while might miss it
 	const Point2f rightStart{ m_Position.x + m_Width / 2, m_Position.y  };
 	const Point2f rightEnd{ rightStart.x, rightStart.y + (m_Velocity.y * elapsedSec) + heightAdjustment };
 	if (utils::Raycast(vertex, rightStart, rightEnd, hitInfo))
@@ -183,20 +182,19 @@ bool Actor::CheckHorizontalCollision(const std::vector<Point2f>& vertex, utils::
 		widthAdjustment *= -1;
 	}
 
-	const Point2f topStart{ m_Position.x, m_Position.y + m_Height / 2 };
-	const Point2f topEnd{ topStart.x + (m_Velocity.x * elapsedSec) + widthAdjustment, topStart.y };
-	if (utils::Raycast(vertex, topStart, topEnd, hitInfo))
+	Point2f topStart{ m_Position.x, m_Position.y + m_Height / 2 };
+	Point2f topEnd{ topStart.x + (m_Velocity.x * elapsedSec) + widthAdjustment, topStart.y };
+	while (topStart.y > m_Position.y - m_Height / 2)
 	{
-		return true;
+		if (utils::Raycast(vertex, topStart, topEnd, hitInfo))
+		{
+			return true;
+		}
+		topStart.y -= Tile::m_Side;
+		topEnd.y -= Tile::m_Side;
 	}
 
-	const Point2f middleStart{ m_Position.x, m_Position.y };
-	const Point2f middleEnd{ middleStart.x + (m_Velocity.x * elapsedSec) + widthAdjustment, middleStart.y };
-	if (utils::Raycast(vertex, middleStart, middleEnd, hitInfo))
-	{
-		return true;
-	}
-
+	// Making sure we check the last bit, since while might miss it
 	const Point2f bottomStart{ m_Position.x, m_Position.y - m_Height / 2 };
 	const Point2f bottomEnd{ bottomStart.x + (m_Velocity.x * elapsedSec) + widthAdjustment, bottomStart.y };
 	if (utils::Raycast(vertex, bottomStart, bottomEnd, hitInfo))
