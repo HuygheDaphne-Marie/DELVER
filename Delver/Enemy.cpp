@@ -7,6 +7,7 @@
 #include "DrawingBehaviour.h"
 
 #include "Gun.h"
+#include "EnemyManager.h"
 
 Enemy::Enemy(const ActorData& actorData, const BehaviourSet& behaviours, float detectionRange, int hitPoints, Gun* gun)
 	: Actor(actorData)
@@ -78,6 +79,11 @@ void Enemy::Update(float elapsedSec, const Level& level)
 	}
 
 	Actor::Update(elapsedSec, level);
+
+	if (IsDead())
+	{
+		HandleDeath();
+	}
 }
 void Enemy::Draw() const
 {
@@ -102,9 +108,25 @@ bool Enemy::IsDead() const
 }
 void Enemy::HandleDeath()
 {
-	// TODO
+	// TODO: make enemy animate a dead thiny with blood and stuff
+	EnemyManager::GetInstance()->QueueToDestroy(this);
 }
 
+void Enemy::SetBehaviour(const Enemy::BehaviourSet& behaviour)
+{
+	if (behaviour.drawingBehaviour != nullptr)
+	{
+		SetDrawingBehaviour(behaviour.drawingBehaviour);
+	}
+	if (behaviour.movementBehaviour != nullptr)
+	{
+		SetMovementBehaviour(behaviour.movementBehaviour);
+	}
+	if (behaviour.fightingBehaviour != nullptr)
+	{
+		SetFightingBehaviour(behaviour.fightingBehaviour);
+	}
+}
 void Enemy::SetMovementBehaviour(MovementBehaviour* newBehaviour)
 {
 	if (m_pMovementBehavior != nullptr)

@@ -2,6 +2,7 @@
 
 #include "BulletManager.h"
 #include "TextureManager.h"
+#include "EnemyManager.h"
 #include "Gun.h"
 #include "Player.h"
 #include "Camera.h"
@@ -36,7 +37,8 @@ private:
 	BulletManager* m_pBulletManager;
 	TextureManager* m_pTextureManager;
 	Player m_Player;
-	Enemy m_TestEnemy;
+	//Enemy m_TestEnemy;
+	EnemyManager* m_pEnemyManager;
 
 	Point2f m_MousePos;
 

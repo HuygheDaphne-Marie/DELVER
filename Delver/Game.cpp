@@ -9,8 +9,9 @@ Game::Game( const Window& window )
 	: m_Window{ window }
 	, m_pBulletManager{ BulletManager::GetInstance() }
 	, m_pTextureManager{ TextureManager::GetInstance() }
+	, m_pEnemyManager{ EnemyManager::GetInstance() }
 	, m_Player{ Point2f{window.width / 2, window.height / 2} }
-	, m_TestEnemy{ Actor::ActorData{Point2f{ 0, 0 }, Actor::Dimension{48.f, 48.f, Rectf{0, 0, 48.f, 48.f}}}, Enemy::BehaviourSet{}, 400.f, 1, nullptr }
+	// , m_TestEnemy{ Actor::ActorData{Point2f{ 0, 0 }, Actor::Dimension{48.f, 48.f, Rectf{0, 0, 48.f, 48.f}}}, Enemy::BehaviourSet{}, 400.f, 1, nullptr }
 	// , m_TestEnemy{ Point2f{ 0, 0 }, 400.f, 1, nullptr, 48.f, 48.f }
 	, m_MousePos{0, 0}
 	, m_Camera{ window.width, window.height, 100.f, 100.f, Point2f{ 0, 0 } }
@@ -34,16 +35,24 @@ void Game::Initialize( )
 	m_Player.SetPosition(m_Level.GetPlayerSpawnPoint());
 	m_Camera.SetCenterPos(m_Player.GetPosition());
 
+	m_pEnemyManager->m_pCurrentLevel = &m_Level;
+
+
+
+	// Enemy testing // 
 	Point2f pos{ m_Level.GetPlayerSpawnPoint() };
 	pos.x += 500.f;
-	m_TestEnemy.SetPosition(pos);
 
-	TurretBehaviour* newBehaviour{ new TurretBehaviour(&m_TestEnemy, &m_Player, m_Level) };
-	m_TestEnemy.SetFightingBehaviour(newBehaviour);
-	m_TestEnemy.EquipGun(new Gun(0.5f, 400.f, 0.1f, nullptr, BulletType::light));
+	Enemy* newEnemy{ new Enemy{ Actor::ActorData{pos, Actor::Dimension{48.f, 48.f, Rectf{0, 0, 48.f, 48.f}}}, Enemy::BehaviourSet{}, 400.f, 1 } };
+	newEnemy->EquipGun(new Gun(0.5f, 400.f, 0.1f, nullptr, BulletType::light));
 
-	TurretDrawing* drawBehaviour{ new TurretDrawing(&m_TestEnemy) };
-	m_TestEnemy.SetDrawingBehaviour(drawBehaviour);
+	Enemy::BehaviourSet turretBehaviour{};
+	turretBehaviour.fightingBehaviour = new TurretBehaviour(newEnemy, &m_Player, m_Level);
+	turretBehaviour.drawingBehaviour = new TurretDrawing(newEnemy);
+
+	newEnemy->SetBehaviour(turretBehaviour);
+
+	m_pEnemyManager->AddEnemy(newEnemy);
 }
 void Game::Cleanup( )
 {
@@ -52,6 +61,9 @@ void Game::Cleanup( )
 
 	delete m_pTextureManager;
 	m_pTextureManager = nullptr;
+
+	delete m_pEnemyManager;
+	m_pEnemyManager = nullptr;
 }
 
 void Game::Update( float elapsedSec )
@@ -59,7 +71,8 @@ void Game::Update( float elapsedSec )
 	m_pBulletManager->UpdateBullets(elapsedSec, m_Level);
 	m_Player.Update(elapsedSec, m_Level, m_MousePos + m_Camera.GetClampDisplacement(m_Player.GetPosition()));
 
-	m_TestEnemy.Update(elapsedSec, m_Level);
+	// m_TestEnemy.Update(elapsedSec, m_Level);
+	m_pEnemyManager->UpdateEnemies(elapsedSec);
 
 	m_Camera.UpdatePos(m_Player.GetPosition());
 
@@ -84,7 +97,8 @@ void Game::Draw( ) const
 
 	m_Level.Draw();
 
-	m_TestEnemy.Draw();
+	//m_TestEnemy.Draw();
+	m_pEnemyManager->DrawEnemies();
 	m_Player.Draw();
 
 	m_pBulletManager->DrawBullets();

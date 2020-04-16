@@ -57,6 +57,8 @@ public:
 	void SetVelocity(const Vector2f& velocity);
 	float GetAcceleration() const;
 
+	bool isPointInCollisionRect(const Point2f& pos) const;
+
 	void MoveUp(float elapsedSec);
 	void MoveDown(float elapsedSec);
 	void MoveLeft(float elapsedSec);

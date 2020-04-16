@@ -97,6 +97,13 @@ float Actor::GetAcceleration() const
 	return m_Acceleration;
 }
 
+bool Actor::isPointInCollisionRect(const Point2f& pos) const
+{
+	// TODO: implement use of actual collison rect!
+	Rectf collisonRect{ m_Position.x - m_Width / 2, m_Position.y - m_Height / 2, m_Width, m_Height };
+	return utils::IsPointInRect(pos, collisonRect);
+}
+
 void Actor::MoveUp(float elapsedSec)
 {
 	m_Velocity.y += m_Acceleration * elapsedSec;

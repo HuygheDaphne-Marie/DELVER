@@ -10,6 +10,11 @@ class Gun;
 class Enemy : public Actor
 {
 public:
+	enum class Type
+	{
+		turret
+	};
+
 	enum class State
 	{
 		idle,
@@ -42,6 +47,7 @@ public:
 	bool IsDead() const;
 	void HandleDeath();
 
+	void SetBehaviour(const Enemy::BehaviourSet& behaviour);
 	void SetMovementBehaviour(MovementBehaviour* newBehaviour);
 	void SetFightingBehaviour(FightingBehaviour* newBehaviour);
 	void SetDrawingBehaviour(DrawingBehaviour* newBehaviour);

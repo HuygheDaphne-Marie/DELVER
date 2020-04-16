@@ -5,6 +5,7 @@
 class Texture;
 class SpecialEffect;
 class Gun;
+class Enemy;
 
 class Bullet
 {
@@ -24,7 +25,7 @@ public:
 	void Update(float elapsedSec, const std::vector<std::vector<Point2f>>& wallsVector);
 	void Draw() const;
 
-	
+	void OnHit(Enemy* enemyHit);
 	
 	//bool CheckCollision(const Rectf& other) const;
 	//bool HandleCollision(const Rectf& other) const;
