@@ -53,7 +53,7 @@ void Camera::UpdatePos(const Point2f& centerTarget)
 
 }
 
-void Camera::Transform(const Point2f& centerTarget) const
+void Camera::Transform() const
 {
 	Point2f cameraPos{ m_CenterPos.x - m_Width / 2, m_CenterPos.y - m_Height / 2 };
 	Clamp(cameraPos);

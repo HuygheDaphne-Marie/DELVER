@@ -11,7 +11,7 @@ public:
 	Vector2f GetClampDisplacement(const Point2f& centerTarget) const;
 	
 	void UpdatePos(const Point2f& centerTarget);
-	void Transform(const Point2f& centerTarget) const;
+	void Transform() const;
 
 private:
 	const float m_Width;

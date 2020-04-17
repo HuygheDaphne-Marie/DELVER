@@ -93,7 +93,7 @@ void Game::Draw( ) const
 	ClearBackground( );
 
 	glPushMatrix();
-	m_Camera.Transform(m_Player.GetPosition());
+	m_Camera.Transform();
 
 	m_Level.Draw();
 

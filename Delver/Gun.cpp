@@ -100,7 +100,7 @@ void Gun::Fire(float elapsedSec)
 	bulletToFire->SetPosition(m_GunPos + (trajectory * averageDistanceToEdge));
 
 	m_CanFire = false;
-	std::cout << "Bullets flying: " << m_pBulletManager->GetSize() << std::endl;
+	//std::cout << "Bullets flying: " << m_pBulletManager->GetSize() << std::endl;
 
 	// move player/enemy back (according to recoil)
 
