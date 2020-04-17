@@ -21,6 +21,9 @@ public:
 	void SetState(const std::string newState);
 	std::string GetState() const;
 
+	Animation* GetCurrentAnimation();
+	const Animation* GetCurrentAnimation() const;
+
 	std::string ToXMLString() const;
 	void LoadAnimationsFromFile(const std::string& filePath);
 

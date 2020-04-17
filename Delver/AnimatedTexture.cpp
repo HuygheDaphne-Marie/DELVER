@@ -18,7 +18,7 @@ AnimatedTexture::AnimatedTexture(const std::string& textureString)
 	size_t lastPos{ m_SrcPath.find_last_of('.') };
 	if (firstPos != std::string::npos && lastPos != std::string::npos)
 	{
-		std::string defaultFilename{ m_SrcPath.substr(firstPos, lastPos - firstPos) + ".txt" };
+		std::string defaultFilename{ m_SrcPath.substr(firstPos, lastPos - firstPos) + ".xml" };
 		LoadAnimationsFromFile(defaultSavePath + defaultFilename);
 	}
 }
@@ -83,6 +83,15 @@ void AnimatedTexture::SetState(const std::string newState)
 std::string AnimatedTexture::GetState() const
 {
 	return m_CurrentState;
+}
+
+Animation* AnimatedTexture::GetCurrentAnimation()
+{
+	return GetAnimAnimationForCurrentState();
+}
+const Animation* AnimatedTexture::GetCurrentAnimation() const
+{
+	return GetAnimAnimationForCurrentState();
 }
 
 std::string AnimatedTexture::ToXMLString() const

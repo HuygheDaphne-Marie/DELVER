@@ -5,6 +5,7 @@
 #include "Texture.h"
 #include "Bullet.h"
 #include "Actor.h"
+#include "Player.h"
 
 #include <iostream>
 
@@ -61,6 +62,10 @@ Point2f Gun::GetAimPos() const
 Point2f Gun::GetGunPos() const
 {
 	return m_GunPos;
+}
+bool Gun::IsFiring() const
+{
+	return m_IsFiring;
 }
 
 void Gun::SetHolder(Actor* holder)

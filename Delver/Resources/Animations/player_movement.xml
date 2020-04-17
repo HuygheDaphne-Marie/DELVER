@@ -72,5 +72,75 @@
 </Animation>
 </AnimationEntry>
 
+<AnimationEntry>
+<RepresentedState>idle_up</RepresentedState>
+<Animation>
+<TexturePath>Resources/Textures/Actors/player_movement.png</TexturePath>
+<Repeating>true</Repeating>
+<Reverse>false</Reverse>
+<StartPos>0 192</StartPos>
+<Width>32</Width>
+<Height>32</Height>
+<AmountOfFrames>8</AmountOfFrames>
+<FrameTime>0.1</FrameTime>
+</Animation>
+</AnimationEntry>
+
+<AnimationEntry>
+<RepresentedState>idle_up_side</RepresentedState>
+<Animation>
+<TexturePath>Resources/Textures/Actors/player_movement.png</TexturePath>
+<Repeating>true</Repeating>
+<Reverse>false</Reverse>
+<StartPos>0 224</StartPos>
+<Width>32</Width>
+<Height>32</Height>
+<AmountOfFrames>8</AmountOfFrames>
+<FrameTime>0.1</FrameTime>
+</Animation>
+</AnimationEntry>
+
+<AnimationEntry>
+<RepresentedState>idle_side</RepresentedState>
+<Animation>
+<TexturePath>Resources/Textures/Actors/player_movement.png</TexturePath>
+<Repeating>true</Repeating>
+<Reverse>false</Reverse>
+<StartPos>0 256</StartPos>
+<Width>32</Width>
+<Height>32</Height>
+<AmountOfFrames>8</AmountOfFrames>
+<FrameTime>0.1</FrameTime>
+</Animation>
+</AnimationEntry>
+
+<AnimationEntry>
+<RepresentedState>idle_down_side</RepresentedState>
+<Animation>
+<TexturePath>Resources/Textures/Actors/player_movement.png</TexturePath>
+<Repeating>true</Repeating>
+<Reverse>false</Reverse>
+<StartPos>0 288</StartPos>
+<Width>32</Width>
+<Height>32</Height>
+<AmountOfFrames>8</AmountOfFrames>
+<FrameTime>0.1</FrameTime>
+</Animation>
+</AnimationEntry>
+
+<AnimationEntry>
+<RepresentedState>idle_down</RepresentedState>
+<Animation>
+<TexturePath>Resources/Textures/Actors/player_movement.png</TexturePath>
+<Repeating>true</Repeating>
+<Reverse>false</Reverse>
+<StartPos>0 320</StartPos>
+<Width>32</Width>
+<Height>32</Height>
+<AmountOfFrames>8</AmountOfFrames>
+<FrameTime>0.1</FrameTime>
+</Animation>
+</AnimationEntry>
+
 </Animations>
 </AnimatedTexture>

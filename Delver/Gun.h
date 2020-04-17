@@ -19,6 +19,7 @@ public:
 
 	Point2f GetAimPos() const;
 	Point2f GetGunPos() const;
+	bool IsFiring() const;
 
 	void SetHolder(Actor* holder);
 

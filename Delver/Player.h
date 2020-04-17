@@ -13,6 +13,7 @@ public:
 	{
 		waiting,
 		moving,
+		firing,
 		dead
 	};
 

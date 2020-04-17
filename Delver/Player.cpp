@@ -16,13 +16,13 @@ Player::Player(const Point2f& pos, Gun* pGunEquiped)
 			pos, 
 			Actor::Dimension{40.f, 40.f}, 
 			Actor::Type::player, 
-			TextureManager::GetInstance()->GetTexture("Resources/Textures/Actors/player_movement.png") 
+			TextureManager::GetInstance()->GetTexture("Resources/Textures/Actors/player.png") 
 		}
 	)
 	, m_State{ State::waiting }
 	, m_IdxEquippedGun{ 0 }
 	, m_StartPosition{ pos }
-	, m_AnimatedTexture{ "Resources/Textures/Actors/player_movement.png" }
+	, m_AnimatedTexture{ "Resources/Textures/Actors/player.png" }
 	, m_LookPos{ pos }
 {
 	if (pGunEquiped != nullptr)
@@ -50,15 +50,30 @@ void Player::Update(float elapsedSec, const Level& level, const Point2f mousePos
 	const Vector2f differenceFromStart{ m_StartPosition, GetPosition() };
 	m_LookPos = mousePos + differenceFromStart;
 
-	m_State = State::waiting;
+	if (m_pGuns[m_IdxEquippedGun]->IsFiring())
+	{
+		if (m_State != State::firing)
+		{
+			SetState(Player::State::firing);
+		}
+		else
+		{
+			Animation* firingAnimation{ m_AnimatedTexture.GetCurrentAnimation() };
+			if (firingAnimation->GetCurrentFrame() == firingAnimation->m_AmountOfFrames - 1)
+			{
+				firingAnimation->SetCurrentFrame(0);
+			}
+		}
+	}
+
+	m_AnimatedTexture.Update(elapsedSec);
+	UpdateTextureStateString();
 
 	if (m_pController != nullptr)
 	{
 		m_pController->Update(elapsedSec);
 	}
 
-	// set right state string
-	m_AnimatedTexture.Update(elapsedSec);
 	Actor::Update(elapsedSec, level);
 
 	if (m_pGuns[m_IdxEquippedGun] != nullptr)
@@ -74,7 +89,6 @@ void Player::Draw() const
 {
 	if (m_pTexture != nullptr)
 	{
-
 		//Actor::Draw();
 		glPushMatrix();
 		{
@@ -92,23 +106,10 @@ void Player::Draw() const
 			m_AnimatedTexture.Draw(destRect);
 		}
 		glPopMatrix();
-
-		
-
 	}
 	else
 	{
 		Actor::Draw();
-	}
-
-	// make sure to draw in propper order:
-	//	- if moving up then player on top and gun below
-	//	- if moving down then gun on top player bottom
-	//	- see if you can make left/right not matter for order?
-
-	if (m_pGuns[m_IdxEquippedGun] != nullptr)
-	{
-		m_pGuns[m_IdxEquippedGun]->Draw();
 	}
 }
 
@@ -155,8 +156,16 @@ Gun* Player::GetEquippedGun() const
 
 void Player::SetState(const State& newstate)
 {
+	if (m_State == newstate)
+	{
+		return;
+	}
+	if (m_State == State::firing && !m_AnimatedTexture.GetCurrentAnimation()->IsAnimationDone())
+	{
+		return;
+	}
+
 	m_State = newstate;
-	UpdateTextureStateString();
 }
 
 Controller* Player::GetController() const
@@ -180,10 +189,15 @@ void Player::UpdateTextureStateString()
 	switch (m_State)
 	{
 	case Player::State::waiting:
-		m_AnimatedTexture.SetState("idle");
+		m_AnimatedTexture.SetState("idle" + postfix);
 		break;
 	case Player::State::moving:
 		m_AnimatedTexture.SetState("run" + postfix);
+		break;
+	case Player::State::firing:
+	{
+		m_AnimatedTexture.SetState("fire" + postfix);
+	}
 		break;
 	case Player::State::dead:
 		m_AnimatedTexture.SetState("dead");

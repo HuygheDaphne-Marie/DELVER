@@ -31,6 +31,8 @@ public:
 	void SetCurrentFrame(int frame);
 	int GetCurrentFrame() const;
 
+	bool IsAnimationDone() const;
+
 	std::string ToXMLString() const;
 
 	static Animation AnimationFromXML(const std::string animationData);

@@ -119,6 +119,16 @@ int Animation::GetCurrentFrame() const
 	return m_CurrentFrame;
 }
 
+bool Animation::IsAnimationDone() const
+{
+	if (m_Repeating)
+	{
+		return false;
+	}
+
+	return m_CurrentFrame == m_AmountOfFrames;
+}
+
 std::string Animation::ToXMLString() const
 {
 	std::string output{ "<Animation>\n" };

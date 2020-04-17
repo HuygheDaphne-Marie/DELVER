@@ -16,7 +16,7 @@ Game::Game( const Window& window )
 	, m_MousePos{0, 0}
 	, m_Camera{ window.width, window.height, 100.f, 100.f, Point2f{ 0, 0 } }
 	, m_Level{ 4, 4 }
-
+	, m_pCrosshairTexture{nullptr}
 {
 	Initialize( );
 }
@@ -27,6 +27,9 @@ Game::~Game( )
 
 void Game::Initialize( )
 {
+	m_pCrosshairTexture = m_pTextureManager->GetTexture("Resources/Textures/UI/Cursor_crosshair.png");
+	SDL_ShowCursor(SDL_DISABLE);
+
 	//TestBulletManager();
 	m_Level.GenerateNextLevel();
 	m_Camera.SetLevelBoundaries(m_Level.GetLevelBounds());
@@ -105,10 +108,13 @@ void Game::Draw( ) const
 
 	// below should be moved to gun
 	Gun* gun{ m_Player.GetEquippedGun() };
-	glColor3f(1.f, 1.f, 1.f);
-	utils::DrawLine(gun->GetAimPos(), gun->GetGunPos());
+	//glColor3f(1.f, 1.f, 1.f);
+	//utils::DrawLine(gun->GetAimPos(), gun->GetGunPos());
 	// up should be moved to gun
 
+	const float crosshairWidth{ m_pCrosshairTexture->GetWidth() };
+	const float crosshairHeight{ m_pCrosshairTexture->GetWidth() };
+	m_pCrosshairTexture->Draw(Rectf{ gun->GetAimPos().x - crosshairWidth, gun->GetAimPos().y - crosshairHeight, crosshairWidth * 2, crosshairHeight * 2 });
 
 	Room* playerRoom = m_Level.GetRoomAt(m_Player.GetPosition());
 	if (playerRoom != nullptr)
