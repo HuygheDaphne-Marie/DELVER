@@ -1,6 +1,7 @@
 #pragma once
 #include "DrawingBehaviour.h"
 #include "Animation.h"
+#include "AnimatedTexture.h"
 #include "Enemy.h"
 #include <map>
 
@@ -17,8 +18,10 @@ protected:
 	std::map<Enemy::State, Animation*> m_Animations;
 	Enemy::State m_LastState;
 	const std::string m_SrcPath;
+	AnimatedTexture m_DeathExplosion;
+	bool m_IsDead;
 
-	Animation* m_CurrentAnimation;
+	Animation* m_pCurrentAnimation;
 
 	Animation* GetAnimation(Enemy::State state) const;
 

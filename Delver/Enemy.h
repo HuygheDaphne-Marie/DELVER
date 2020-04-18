@@ -20,7 +20,8 @@ public:
 		idle,
 		deploying,
 		fighting,
-		undeploying
+		undeploying,
+		dead
 	};
 
 	struct BehaviourSet
@@ -35,6 +36,7 @@ public:
 	int m_CurrentHitpoints;
 	float m_DetectionRange;
 	Actor* m_pTarget;
+	bool m_CanDelete;
 
 	Enemy(const ActorData& actorData, const BehaviourSet& behaviours, float detectionRange, int hitPoints, Gun* gun = nullptr);
 	virtual ~Enemy();

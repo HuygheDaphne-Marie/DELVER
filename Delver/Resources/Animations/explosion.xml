@@ -1,0 +1,20 @@
+<AnimatedTexture>
+<SrcImgPath>Resources/Textures/Effects/explosion.png</SrcImgPath>
+<Animations>
+
+<AnimationEntry>
+<RepresentedState>explosion</RepresentedState>
+<Animation>
+<TexturePath>Resources/Textures/Effects/explosion.png</TexturePath>
+<Repeating>false</Repeating>
+<Reverse>false</Reverse>
+<StartPos>0 256</StartPos>
+<Width>256</Width>
+<Height>256</Height>
+<AmountOfFrames>64</AmountOfFrames>
+<FrameTime>0.03</FrameTime>
+</Animation>
+</AnimationEntry>
+
+</Animations>
+</AnimatedTexture>

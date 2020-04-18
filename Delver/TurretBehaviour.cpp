@@ -26,6 +26,11 @@ TurretBehaviour::~TurretBehaviour()
 
 void TurretBehaviour::Update(float elapsedSec)
 {
+	if (m_pEnemy->IsDead())
+	{
+		return;
+	}
+
 	if (m_pEnemy->IsTargetInRange(*m_pEnemy->m_pTarget))
 	{
 		if (m_pEnemy->m_State != Enemy::State::fighting)

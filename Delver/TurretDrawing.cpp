@@ -10,14 +10,17 @@ TurretDrawing::TurretDrawing(Enemy* pEnemy)
 	, m_SrcPath{ "Resources/Textures/Actors/Turret.png" }
 	, m_Animations{}
 	, m_LastState{ pEnemy->m_State }
-	, m_CurrentAnimation{ nullptr }
+	, m_pCurrentAnimation{ nullptr }
+	, m_DeathExplosion{ "Resources/Textures/Effects/explosion.png" }
+	, m_IsDead{ false }
 {
 	m_Animations[Enemy::State::idle] = new Animation(m_SrcPath, Point2f{ 0, 124 }, 124, 124, 3, 0.5f);
 	m_Animations[Enemy::State::deploying] = new Animation(m_SrcPath, Point2f{ 0, 248 }, 124, 124, 5, TurretBehaviour::m_DeployDuration / 5, false);
 	m_Animations[Enemy::State::fighting] = new Animation(m_SrcPath, Point2f{ 0, 372 }, 124, 124, 8, 2.f/8);
 	m_Animations[Enemy::State::undeploying] = new Animation(m_SrcPath, Point2f{ 496, 248 }, 124, 124, 5, TurretBehaviour::m_DeployDuration / 5, false, true);
 	
-	m_CurrentAnimation = GetAnimation(pEnemy->m_State);
+	m_pCurrentAnimation = GetAnimation(pEnemy->m_State);
+	m_DeathExplosion.SetState("explosion");
 }
 TurretDrawing::~TurretDrawing()
 {
@@ -30,48 +33,74 @@ TurretDrawing::~TurretDrawing()
 
 void TurretDrawing::Update(float elapsedSec)
 {
+	m_IsDead = m_pEnemy->IsDead();
+	if (m_IsDead)
+	{
+		m_DeathExplosion.Update(elapsedSec);
+		m_pEnemy->m_CanDelete = m_DeathExplosion.GetCurrentAnimation()->IsAnimationDone();
+		return;
+	}
+
 	if (m_pEnemy->m_State != m_LastState)
 	{
 		if (m_pEnemy->m_State == Enemy::State::deploying && m_LastState == Enemy::State::undeploying || 
 			m_pEnemy->m_State == Enemy::State::undeploying && m_LastState == Enemy::State::deploying)
 		{
-			int startFrame = m_CurrentAnimation->GetCurrentFrame();
-			m_CurrentAnimation->ResetAnimation();
+			int startFrame = m_pCurrentAnimation->GetCurrentFrame();
+			m_pCurrentAnimation->ResetAnimation();
 		
-			m_CurrentAnimation = GetAnimation(m_pEnemy->m_State);
-			m_CurrentAnimation->SetCurrentFrame(startFrame);
+			m_pCurrentAnimation = GetAnimation(m_pEnemy->m_State);
+			m_pCurrentAnimation->SetCurrentFrame(startFrame);
 			m_LastState = m_pEnemy->m_State;
 			return;
 		}
 
-		if (m_CurrentAnimation != nullptr)
+		if (m_pCurrentAnimation != nullptr)
 		{
-			m_CurrentAnimation->ResetAnimation();
+			m_pCurrentAnimation->ResetAnimation();
 		}
-		m_CurrentAnimation = GetAnimation(m_pEnemy->m_State);
+		m_pCurrentAnimation = GetAnimation(m_pEnemy->m_State);
 		m_LastState = m_pEnemy->m_State;
 	}
 
-	if (m_CurrentAnimation != nullptr && m_LastState != Enemy::State::fighting)
+	if (m_pCurrentAnimation != nullptr && m_LastState != Enemy::State::fighting)
 	{
-		m_CurrentAnimation->Update(elapsedSec);
+		m_pCurrentAnimation->Update(elapsedSec);
 	}
-	if (m_CurrentAnimation != nullptr && m_LastState == Enemy::State::fighting)
+	if (m_pCurrentAnimation != nullptr && m_LastState == Enemy::State::fighting)
 	{
 		SetRightTurretRotationTexture();
 	}
 }
 void TurretDrawing::Draw() const
 {
-	if (m_CurrentAnimation == nullptr)
+	if (m_pCurrentAnimation == nullptr)
 	{
 		return;
 	}
 
-	Point2f pos{ m_pEnemy->GetPosition() };
-	pos.x -= m_pEnemy->m_Width / 2;
-	pos.y -= m_pEnemy->m_Height / 2;
-	m_CurrentAnimation->Draw(Rectf{ pos.x, pos.y, m_pEnemy->m_Width, m_pEnemy->m_Height });
+	bool shouldDrawTurret{ true };
+	const Animation* m_pExplosion{ m_DeathExplosion.GetCurrentAnimation() };
+
+	if (m_IsDead)
+	{
+		shouldDrawTurret = m_pExplosion->GetCurrentFrame() < m_pExplosion->m_AmountOfFrames / 2;
+	}
+
+	if (shouldDrawTurret)
+	{
+		Point2f pos{ m_pEnemy->GetPosition() };
+		pos.x -= m_pEnemy->m_Width / 2;
+		pos.y -= m_pEnemy->m_Height / 2;
+		m_pCurrentAnimation->Draw(Rectf{ pos.x, pos.y, m_pEnemy->m_Width, m_pEnemy->m_Height });
+	}
+	if (m_IsDead)
+	{
+		Point2f pos{ m_pEnemy->GetPosition() };
+		pos.x -= m_pExplosion->m_Width / 2;
+		pos.y -= m_pExplosion->m_Height / 2;
+		m_DeathExplosion.Draw(Rectf{ pos.x, pos.y, m_pExplosion->m_Width, m_pExplosion->m_Height });
+	}
 }
 
 Animation* TurretDrawing::GetAnimation(Enemy::State state) const
@@ -100,8 +129,8 @@ void TurretDrawing::SetRightTurretRotationTexture()
 	}
 
 	const int rightFrame{ int(degrees / textureAngleStep) };
-	if (rightFrame != m_CurrentAnimation->GetCurrentFrame())
+	if (rightFrame != m_pCurrentAnimation->GetCurrentFrame())
 	{
-		m_CurrentAnimation->SetCurrentFrame(rightFrame);
+		m_pCurrentAnimation->SetCurrentFrame(rightFrame);
 	}
 }
