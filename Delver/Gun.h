@@ -17,6 +17,7 @@ public:
 	void UpdateAimPos(const Point2f& aimPos);
 	void UpdateGunPos(const Point2f& gunPos);
 
+	const Actor* GetHolder() const;
 	Point2f GetAimPos() const;
 	Point2f GetGunPos() const;
 	bool IsFiring() const;

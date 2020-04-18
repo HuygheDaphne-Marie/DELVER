@@ -14,7 +14,7 @@ Bullet::Bullet(BulletType type)
 	, m_Velocity{0,0}
 	, m_Position{0,0}
 	, m_pSpecialEffect{nullptr}
-	, m_GunWhichFired{nullptr}
+	, m_pGunWhichFired{nullptr}
 	, m_IsGoingToBeDestroyed{ false }
 {
 }
@@ -53,6 +53,10 @@ void Bullet::SetTexture(Texture* texture)
 {
 	m_pBulletTexture = texture;
 	m_Hitbox = Rectf{ 0,0, texture->GetWidth(), texture->GetHeight() };
+}
+void Bullet::SetFireOrigin(Gun* originGun)
+{
+	m_pGunWhichFired = originGun;
 }
 
 Point2f Bullet::GetPosition() const
@@ -111,6 +115,14 @@ void Bullet::Draw() const
 
 void Bullet::OnHit(Enemy* enemyHit)
 {
+	if (m_pGunWhichFired->GetHolder()->m_Type == Actor::Type::enemy)
+	{
+		return;
+	}
+	if (enemyHit->IsDead())
+	{
+		return;
+	}
 	// TODO: Apply more stuff here depending one defence and such of the Enemy and damage of the bullet
 	enemyHit->m_CurrentHitpoints--;
 	// TODO: Make a special effect on hit and call it here too.
@@ -126,6 +138,8 @@ bool Bullet::CheckCollision(const std::vector<Point2f>& other, utils::HitInfo& h
 }
 void Bullet::HandleCollision(const utils::HitInfo& hitInfo, float elapsedSec)
 {
+
+
 	if (m_pSpecialEffect == nullptr || m_pSpecialEffect->GetType() == SpecialEffect::Type::none)
 	{
 		BulletManager::GetInstance()->QueueForDestroy(this);

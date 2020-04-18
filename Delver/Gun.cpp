@@ -55,6 +55,10 @@ void Gun::UpdateGunPos(const Point2f& gunPos)
 	m_GunPos = gunPos;
 }
 
+const Actor* Gun::GetHolder() const
+{
+	return m_pHolder;
+}
 Point2f Gun::GetAimPos() const
 {
 	return m_AimPos;
@@ -103,6 +107,7 @@ void Gun::Fire(float elapsedSec)
 	Vector2f trajectory{ Vector2f{m_GunPos, m_AimPos}.Normalized() };
 	bulletToFire->SetVelocity(trajectory * m_BulletSpeed);
 	bulletToFire->SetPosition(m_GunPos + (trajectory * averageDistanceToEdge));
+	bulletToFire->SetFireOrigin(this);
 
 	m_CanFire = false;
 	//std::cout << "Bullets flying: " << m_pBulletManager->GetSize() << std::endl;

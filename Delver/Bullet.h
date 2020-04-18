@@ -17,6 +17,7 @@ public:
 	void SetPosition(const Point2f& position);
 	void SetVelocity(const Vector2f& velocity);
 	void SetTexture(Texture* texture);
+	void SetFireOrigin(Gun* originGun);
 
 	Point2f GetPosition() const;
 	Vector2f GetVelocity() const;
@@ -37,7 +38,7 @@ private:
 	Vector2f m_Velocity;
 	Point2f m_Position;
 	SpecialEffect* m_pSpecialEffect;
-	Gun* m_GunWhichFired;
+	Gun* m_pGunWhichFired;
 
 	bool m_IsGoingToBeDestroyed;
 	
