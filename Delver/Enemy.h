@@ -39,6 +39,10 @@ public:
 	bool m_CanDelete;
 
 	Enemy(const ActorData& actorData, const BehaviourSet& behaviours, float detectionRange, int hitPoints, Gun* gun = nullptr);
+	Enemy(const Enemy& other) = delete;
+	Enemy& operator=(const Enemy& other) = delete;
+	Enemy(Enemy&& other) = delete;
+	Enemy& operator=(Enemy&& other) = delete;
 	virtual ~Enemy();
 
 	virtual void Update(float elapsedSec, const Level& level);

@@ -7,6 +7,10 @@ class PeacefulBehaviour : public FightingBehaviour
 {
 public:
 	PeacefulBehaviour(Enemy* pEnemy);
+	PeacefulBehaviour(const PeacefulBehaviour& other) = delete;
+	PeacefulBehaviour& operator=(const PeacefulBehaviour& other) = delete;
+	PeacefulBehaviour(PeacefulBehaviour&& other) = delete;
+	PeacefulBehaviour& operator=(PeacefulBehaviour&& other) = delete;
 	virtual ~PeacefulBehaviour();
 
 	virtual void Update(float elapsedSec) override;

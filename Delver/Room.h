@@ -27,6 +27,10 @@ public:
 	static const int m_RoomRows;
 
 	Room(const GridPos& position);
+	Room(const Room& other) = delete;
+	Room& operator=(const Room& other) = delete;
+	Room(Room&& other) = delete;
+	Room& operator=(Room&& other) = delete;
 	~Room();
 	void Generate();
 	void Initialize();

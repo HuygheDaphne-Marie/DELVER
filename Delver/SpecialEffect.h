@@ -14,6 +14,10 @@ public:
 	};
 
 	SpecialEffect(Type type = Type::none);
+	SpecialEffect(const SpecialEffect& other) = delete;
+	SpecialEffect& operator=(const SpecialEffect& other) = delete;
+	SpecialEffect(SpecialEffect&& other) = delete;
+	SpecialEffect& operator=(SpecialEffect&& other) = delete;
 	virtual ~SpecialEffect();
 	
 	virtual void ApplySpecialEffect(Bullet* bullet, const utils::HitInfo& hitInfo, float elapsedSec) = 0;

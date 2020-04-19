@@ -8,6 +8,7 @@ class Level
 {
 public:
 	Level(int width = 0, int height = 0);
+	// TODO: Rule of 5
 	~Level();
 	void GenerateNextLevel();
 	void Draw() const;

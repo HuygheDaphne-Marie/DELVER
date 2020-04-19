@@ -29,23 +29,19 @@ Enemy::~Enemy()
 	if (m_pMovementBehavior != nullptr)
 	{
 		delete m_pMovementBehavior;
-		m_pMovementBehavior = nullptr;
 	}
 	if (m_pFightingBehaviour != nullptr)
 	{
 		delete m_pFightingBehaviour;
-		m_pFightingBehaviour = nullptr;
 	}
 	if (m_pDrawingBehaviour != nullptr)
 	{
 		delete m_pDrawingBehaviour;
-		m_pDrawingBehaviour = nullptr;
 	}
 
 	if (m_pEquippedGun != nullptr)
 	{
 		delete m_pEquippedGun;
-		m_pEquippedGun = nullptr;
 	}
 }
 

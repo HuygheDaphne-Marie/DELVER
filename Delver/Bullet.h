@@ -11,6 +11,10 @@ class Bullet
 {
 public:
 	Bullet(BulletType type);
+	Bullet(const Bullet& other) = delete;
+	Bullet& operator=(const Bullet& other) = delete;
+	Bullet(Bullet&& other) = delete;
+	Bullet& operator=(Bullet&& other) = delete;
 	~Bullet();
 	void SetType(const BulletType& type);
 	void SetSpecialEffect(SpecialEffect* specialEffect);

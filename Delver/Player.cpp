@@ -36,12 +36,10 @@ Player::~Player()
 	for (Gun* gun : m_pGuns)
 	{
 		delete gun;
-		gun = nullptr;
 	}
 	if (m_pController != nullptr)
 	{
 		delete m_pController;
-		m_pController = nullptr;
 	}
 }
 

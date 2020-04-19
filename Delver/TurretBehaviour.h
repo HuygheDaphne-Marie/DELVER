@@ -11,6 +11,10 @@ public:
 	static const float m_DeployDuration;
 
 	TurretBehaviour(Enemy* pEnemy, Actor* target, const Level& level);
+	TurretBehaviour(const TurretBehaviour& other) = delete;
+	TurretBehaviour& operator=(const TurretBehaviour& other) = delete;
+	TurretBehaviour(TurretBehaviour&& other) = delete;
+	TurretBehaviour& operator=(TurretBehaviour&& other) = delete;
 	virtual ~TurretBehaviour();
 
 	virtual void Update(float elapsedSec) override;

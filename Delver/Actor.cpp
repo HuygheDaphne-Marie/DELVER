@@ -19,7 +19,6 @@ Actor::Actor(const ActorData& data, float acceleration, float frictionFactor)
 }
 Actor::~Actor()
 {
-	m_pTexture = nullptr;
 }
 
 void Actor::Update(float elapsedSec, const Level& level)

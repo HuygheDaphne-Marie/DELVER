@@ -9,6 +9,10 @@ class TurretDrawing : public DrawingBehaviour
 {
 public:
 	TurretDrawing(Enemy* pEnemy);
+	TurretDrawing(const TurretDrawing& other) = delete;
+	TurretDrawing& operator=(const TurretDrawing& other) = delete;
+	TurretDrawing(TurretDrawing&& other) = delete;
+	TurretDrawing& operator=(TurretDrawing&& other) = delete;
 	virtual ~TurretDrawing();
 
 	virtual void Update(float elapsedSec) override;

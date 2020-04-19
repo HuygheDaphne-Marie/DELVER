@@ -11,6 +11,10 @@ class Gun
 public:
 	Gun(float recoilResist, float bulletSpeed, float fireRate, Texture* texture, 
 		BulletType typeBullet, SpecialEffect::Type typeSpecial = SpecialEffect::Type::none);
+	Gun(const Gun& other) = delete;
+	Gun& operator=(const Gun& other) = delete;
+	Gun(Gun&& other) = delete;
+	Gun& operator=(Gun&& other) = delete;
 	~Gun();
 
 	void UpdateGun(float elapsedSec);

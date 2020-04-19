@@ -44,6 +44,10 @@ public:
 	float m_Height;
 
 	Actor(const ActorData& data, float acceleration = 2000.f, float frictionFactor = 0.9f);
+	Actor(const Actor& other) = delete;
+	Actor& operator=(const Actor& other) = delete;
+	Actor(Actor&& other) = delete;
+	Actor& operator=(Actor&& other) = delete;
 	virtual ~Actor();
 
 	virtual void Update(float elapsedSec, const Level& level);
