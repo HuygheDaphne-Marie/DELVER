@@ -136,6 +136,16 @@ void Game::ResumeGame()
 	m_IsPaused = false;
 	SDL_ShowCursor(SDL_DISABLE);
 }
+void Game::HandleNewLevel()
+{
+	m_Player.SetPosition(m_Level.GetPlayerSpawnPoint());
+	m_Camera.SetCenterPos(m_Player.GetPosition());
+
+	BulletManager::GetInstance()->ClearAll();
+	EnemyManager::GetInstance()->ClearAll();
+
+	// spawn new ones for the new level
+}
 
 void Game::ProcessKeyDownEvent( const SDL_KeyboardEvent & e )
 {

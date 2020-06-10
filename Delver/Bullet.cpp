@@ -22,14 +22,15 @@ Bullet::~Bullet()
 {
 	if (m_pSpecialEffect != nullptr)
 	{
-		switch (m_pSpecialEffect->GetType())
-		{
-		case SpecialEffect::Type::bounce:
-		case SpecialEffect::Type::warp:
-			delete m_pSpecialEffect;
-			m_pSpecialEffect = nullptr;
-			break;
-		}
+		delete m_pSpecialEffect;
+		//m_pSpecialEffect = nullptr;
+		//switch (m_pSpecialEffect->GetType())
+		//{
+		//case SpecialEffect::Type::bounce:
+		//case SpecialEffect::Type::warp:
+
+		//	break;
+		//}
 	}
 }
 

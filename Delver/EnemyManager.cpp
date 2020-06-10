@@ -96,3 +96,12 @@ void EnemyManager::DestroyEnemiesInDestroyQueue()
 	}
 	m_EnemiesToDelete.clear();
 }
+
+void EnemyManager::ClearAll()
+{
+	for (Enemy* enemy : m_Enemies)
+	{
+		delete enemy;
+	}
+	m_Enemies.clear();
+}

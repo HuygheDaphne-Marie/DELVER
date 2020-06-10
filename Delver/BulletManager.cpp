@@ -110,3 +110,12 @@ size_t BulletManager::GetSize() const
 {
 	return m_Bullets.size();
 }
+
+void BulletManager::ClearAll()
+{
+	for (Bullet* bullet : m_Bullets)
+	{
+		delete bullet;
+	}
+	m_Bullets.clear();
+}

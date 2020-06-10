@@ -26,6 +26,7 @@ public:
 
 	void PauseGame();
 	void ResumeGame();
+	void HandleNewLevel();
 
 	// Event handling
 	void ProcessKeyDownEvent( const SDL_KeyboardEvent& e );

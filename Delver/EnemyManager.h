@@ -27,6 +27,8 @@ public:
 	void CheckCollision(Bullet* bulletToCheckWith);
 	void QueueToDestroy(Enemy* enemy);
 
+	void ClearAll();
+
 private:
 	EnemyManager();
 

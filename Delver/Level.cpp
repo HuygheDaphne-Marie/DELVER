@@ -38,8 +38,9 @@ void Level::Update(const Point2f& playerPos)
 			if (centerTile->GetType() == Tile::Type::stairs)
 			{
 				m_pGame->PauseGame();
-				// generate new level
-				// continue game
+				GenerateNextLevel();
+				m_pGame->HandleNewLevel();
+				m_pGame->ResumeGame();
 			}
 		}			
 	}
@@ -312,6 +313,7 @@ void Level::DestroyLevel()
 			room = nullptr;
 		}
 	}
+	m_Rooms.clear();
 	m_IsGenerated = false;
 }
 

@@ -27,6 +27,8 @@ public:
 
 	size_t GetSize() const;
 
+	void ClearAll();
+
 private:
 	std::vector<Bullet*> m_Bullets;
 	std::vector<Bullet*> m_BulletsToDelete;
