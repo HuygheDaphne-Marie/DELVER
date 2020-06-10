@@ -108,6 +108,8 @@ void Level::Generate()
 	Room* startRoom{ GenerateStart() };
 	GenerateAdjacentRoomsOfRoom(startRoom);
 
+	FindAndSetEndRoom();
+
 	for (Room* room : m_Rooms)
 	{
 		if (room != nullptr)
@@ -126,6 +128,7 @@ Room* Level::GenerateStart() // make start room which is open from all sides
 	int idx = utils::IndexFromGridPos(center, m_LevelCols);
 	m_Rooms[idx] = centerRoom;
 	centerRoom->SetConnection(true, true, true, true);
+	centerRoom->SetDepth(0);
 
 	m_PlayerSpawn = centerRoom->GetBottomLeft();
 	m_PlayerSpawn.x += Room::m_RoomCols * Tile::m_Side / 2;
@@ -223,6 +226,7 @@ void Level::GenerateRoomAt(const GridPos& newRoomPos, Room* parentRoom) // retur
 	// otherwise just make the room 
 	Room* newRoom{ new Room(newRoomPos) };
 	newRoom->SetHasPillars(true);
+	newRoom->SetDepth(parentRoom->GetDepth() + 1);
 	m_Rooms[utils::IndexFromGridPos(newRoomPos, m_LevelCols)] = newRoom;
 	ConnectRooms(parentRoom, newRoom);
 
@@ -345,4 +349,28 @@ int Level::GetBottommostRoomRow() const
 		}
 	}
 	return 0;
+}
+
+void Level::FindAndSetEndRoom()
+{
+	Room* deepestRoom{ nullptr };
+	for (Room* room : m_Rooms)
+	{
+		if (room != nullptr)
+		{
+			if (deepestRoom == nullptr)
+			{
+				deepestRoom = room;
+			}
+			else
+			{
+				if (room->GetDepth() > deepestRoom->GetDepth())
+				{
+					deepestRoom = room;
+				}
+			}
+		}
+	}
+	deepestRoom->SetIsEnd(true);
+	deepestRoom->SetHasPillars(false);
 }

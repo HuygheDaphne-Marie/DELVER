@@ -19,6 +19,8 @@ Room::Room(const GridPos& position)
 	, m_IsGenerated{false}
 	, m_HasPillars{false}
 	, m_Barriers{}
+	, m_Depth{-1}
+	, m_IsEnd{false}
 {
 }
 Room::~Room()
@@ -43,6 +45,10 @@ void Room::Generate()
 	if (m_HasPillars)
 	{
 		GeneratePillars();
+	}
+	if (m_IsEnd)
+	{
+		m_Tiles[m_Tiles.size() / 2]->SetTexture(TextureManager::GetInstance()->GetTexture("pee pee poo poo"));
 	}
 
 	m_IsGenerated = true;
@@ -131,6 +137,30 @@ void Room::SetHasPillars(bool newValue)
 	if (!m_IsGenerated)
 	{
 		m_HasPillars = newValue;
+	}
+}
+
+int Room::GetDepth()
+{
+	return m_Depth;
+}
+void Room::SetDepth(int depth)
+{
+	if (m_Depth == -1)
+	{
+		m_Depth = depth;
+	}
+}
+
+bool Room::GetIsEnd()
+{
+	return m_IsEnd;
+}
+void Room::SetIsEnd(bool isEnd)
+{
+	if (!m_IsEnd)
+	{
+		m_IsEnd = isEnd;
 	}
 }
 

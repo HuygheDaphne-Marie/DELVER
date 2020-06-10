@@ -53,6 +53,12 @@ public:
 	bool GetHasPillars();
 	void SetHasPillars(bool newValue);
 
+	int GetDepth();
+	void SetDepth(int depth);
+
+	bool GetIsEnd();
+	void SetIsEnd(bool isEnd);
+
 	void MakeRoomNavMap(const GridPos& roomLeftBottom, std::vector<bool>& navMap, const int navMapCols) const; // could use a better name (ApplyRoomToNavMap??) idk yet
 
 private:
@@ -69,6 +75,9 @@ private:
 	bool m_IsRightOpen;
 	bool m_IsGenerated;
 	bool m_HasPillars;
+	
+	int m_Depth;
+	bool m_IsEnd;
 
 	std::vector<std::vector<Point2f>> m_Barriers;
 

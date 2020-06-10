@@ -49,5 +49,7 @@ private:
 	int GetTopmostRoomRow() const;
 	int GetLeftmostRoomCol() const;
 	int GetBottommostRoomRow() const;
+
+	void FindAndSetEndRoom();
 };
 
