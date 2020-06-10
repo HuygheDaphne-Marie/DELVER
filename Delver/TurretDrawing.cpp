@@ -5,22 +5,19 @@
 #include "Vector2f.h"
 #include <iterator>
 
+TurretDrawing::TurretDrawing()
+	: TurretDrawing(nullptr)
+{
+}
 TurretDrawing::TurretDrawing(Enemy* pEnemy)
 	: DrawingBehaviour(pEnemy)
 	, m_SrcPath{ "Resources/Textures/Actors/Turret.png" }
 	, m_Animations{}
-	, m_LastState{ pEnemy->m_State }
+	, m_LastState{}
 	, m_pCurrentAnimation{ nullptr }
 	, m_DeathExplosion{ "Resources/Textures/Effects/explosion.png" }
 	, m_IsDead{ false }
 {
-	m_Animations[Enemy::State::idle] = new Animation(m_SrcPath, Point2f{ 0, 124 }, 124, 124, 3, 0.5f);
-	m_Animations[Enemy::State::deploying] = new Animation(m_SrcPath, Point2f{ 0, 248 }, 124, 124, 5, TurretBehaviour::m_DeployDuration / 5, false);
-	m_Animations[Enemy::State::fighting] = new Animation(m_SrcPath, Point2f{ 0, 372 }, 124, 124, 8, 2.f/8);
-	m_Animations[Enemy::State::undeploying] = new Animation(m_SrcPath, Point2f{ 496, 248 }, 124, 124, 5, TurretBehaviour::m_DeployDuration / 5, false, true);
-	
-	m_pCurrentAnimation = GetAnimation(pEnemy->m_State);
-	m_DeathExplosion.SetState("explosion");
 }
 TurretDrawing::~TurretDrawing()
 {
@@ -31,8 +28,29 @@ TurretDrawing::~TurretDrawing()
 	}
 }
 
+void TurretDrawing::Initialize()
+{
+	if (m_pEnemy != nullptr)
+	{
+		m_LastState = m_pEnemy->m_State;
+
+		m_Animations[Enemy::State::idle] = new Animation(m_SrcPath, Point2f{ 0, 124 }, 124, 124, 3, 0.5f);
+		m_Animations[Enemy::State::deploying] = new Animation(m_SrcPath, Point2f{ 0, 248 }, 124, 124, 5, TurretBehaviour::m_DeployDuration / 5, false);
+		m_Animations[Enemy::State::fighting] = new Animation(m_SrcPath, Point2f{ 0, 372 }, 124, 124, 8, 2.f / 8);
+		m_Animations[Enemy::State::undeploying] = new Animation(m_SrcPath, Point2f{ 496, 248 }, 124, 124, 5, TurretBehaviour::m_DeployDuration / 5, false, true);
+
+		m_pCurrentAnimation = GetAnimation(m_pEnemy->m_State);
+		m_DeathExplosion.SetState("explosion");
+	}
+}
+
 void TurretDrawing::Update(float elapsedSec)
 {
+	if (m_pEnemy == nullptr)
+	{
+		return;
+	}
+
 	m_IsDead = m_pEnemy->IsDead();
 	if (m_IsDead)
 	{
@@ -74,6 +92,11 @@ void TurretDrawing::Update(float elapsedSec)
 }
 void TurretDrawing::Draw() const
 {
+	if (m_pEnemy == nullptr)
+	{
+		return;
+	}
+
 	if (m_pCurrentAnimation == nullptr)
 	{
 		return;

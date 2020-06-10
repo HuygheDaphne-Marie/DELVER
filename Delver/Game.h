@@ -8,6 +8,7 @@
 #include "Camera.h"
 #include "Level.h"
 #include "Enemy.h"
+#include "EnemyFactory.h"
 
 #include <vector>
 
@@ -26,7 +27,10 @@ public:
 
 	void PauseGame();
 	void ResumeGame();
+	void HandleOldLevel();
 	void HandleNewLevel();
+
+	EnemyFactory* GetEnemyFactory();
 
 	// Event handling
 	void ProcessKeyDownEvent( const SDL_KeyboardEvent& e );
@@ -51,6 +55,8 @@ private:
 	Level m_Level;
 
 	bool m_IsPaused;
+
+	EnemyFactory m_EnemyFactory;
 
 	// FUNCTIONS
 	void Initialize( );

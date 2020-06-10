@@ -11,6 +11,7 @@ Level::Level(int width, int height, Game* game)
 	, m_PlayerSpawn{0, 0}
 	, m_NavMap{this}
 	, m_pGame{game}
+	, m_CurrentLevel{0}
 {
 	
 }
@@ -23,6 +24,7 @@ void Level::GenerateNextLevel()
 {
 	DestroyLevel();
 	Generate();
+	m_CurrentLevel++;
 }
 void Level::Update(const Point2f& playerPos)
 {
@@ -38,6 +40,7 @@ void Level::Update(const Point2f& playerPos)
 			if (centerTile->GetType() == Tile::Type::stairs)
 			{
 				m_pGame->PauseGame();
+				m_pGame->HandleOldLevel();
 				GenerateNextLevel();
 				m_pGame->HandleNewLevel();
 				m_pGame->ResumeGame();
@@ -141,7 +144,12 @@ void Level::Generate()
 	}
 	m_IsGenerated = true;
 
-	m_NavMap.ReconstructNavMap(this);
+	for (Room* room : m_Rooms)
+	{
+		SpawnEnemiesForRoom(room);
+	}
+
+	// m_NavMap.ReconstructNavMap(this);
 }
 Room* Level::GenerateStart() // make start room which is open from all sides
 {
@@ -396,4 +404,33 @@ void Level::FindAndSetEndRoom()
 	}
 	deepestRoom->SetIsEnd(true);
 	deepestRoom->SetHasPillars(false);
+}
+
+void Level::SpawnEnemiesForRoom(const Room* room)
+{
+	if (room == nullptr)
+	{
+		return;
+	}
+
+	for (int i{ 0 }; i < room->m_AmountOfEnemiesToSpawn; i++)
+	{
+		for (int attempt{0}; attempt < 10; attempt++)
+		{
+			GridPos randomPos{ utils::GetRand(1, room->m_RoomCols - 2), utils::GetRand(1, room->m_RoomRows - 2) };
+			Tile* randomTile{ room->GetTile(randomPos) };
+
+			if (randomTile != nullptr && randomTile->GetType() == Tile::Type::floor)
+			{
+				Point2f spawnPos
+				{ 
+					room->GetBottomLeft().x + randomTile->GetBottomLeft().x + randomTile->m_Side / 2, 
+					room->GetBottomLeft().y + randomTile->GetBottomLeft().y + randomTile->m_Side / 2 
+				};
+				Enemy* enemy{ m_pGame->GetEnemyFactory()->CreateEnemyOfType(Enemy::Type::turret, spawnPos) };
+				EnemyManager::GetInstance()->AddEnemy(enemy);
+				break;
+			}
+		}
+	}
 }

@@ -168,6 +168,9 @@
     <ClCompile Include="EnemyManager.cpp">
       <Filter>Game Files\Managers</Filter>
     </ClCompile>
+    <ClCompile Include="EnemyFactory.cpp">
+      <Filter>Game Files\Managers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -285,6 +288,9 @@
       <Filter>Game Files\Managers</Filter>
     </ClInclude>
     <ClInclude Include="EnemyManager.h">
+      <Filter>Game Files\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyFactory.h">
       <Filter>Game Files\Managers</Filter>
     </ClInclude>
   </ItemGroup>

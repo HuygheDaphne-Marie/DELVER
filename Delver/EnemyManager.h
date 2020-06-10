@@ -3,6 +3,7 @@
 class Enemy;
 class Level;
 class Bullet;
+class Room;
 
 #include <vector>
 
@@ -28,6 +29,8 @@ public:
 	void QueueToDestroy(Enemy* enemy);
 
 	void ClearAll();
+
+	void SpawnEnemiesForRoom(const Room* room);
 
 private:
 	EnemyManager();

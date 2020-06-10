@@ -8,6 +8,7 @@
 class TurretDrawing : public DrawingBehaviour
 {
 public:
+	TurretDrawing();
 	TurretDrawing(Enemy* pEnemy);
 	TurretDrawing(const TurretDrawing& other) = delete;
 	TurretDrawing& operator=(const TurretDrawing& other) = delete;
@@ -17,6 +18,7 @@ public:
 
 	virtual void Update(float elapsedSec) override;
 	virtual void Draw() const override;
+	virtual void Initialize() override;
 
 protected:
 	std::map<Enemy::State, Animation*> m_Animations;

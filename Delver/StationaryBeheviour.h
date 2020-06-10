@@ -4,6 +4,7 @@
 class StationaryBeheviour : public MovementBehaviour
 {
 public:
+	StationaryBeheviour();
 	StationaryBeheviour(Enemy* pEnemy);
 	StationaryBeheviour(const StationaryBeheviour& other) = delete;
 	StationaryBeheviour& operator=(const StationaryBeheviour& other) = delete;

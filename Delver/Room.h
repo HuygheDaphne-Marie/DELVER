@@ -59,9 +59,11 @@ public:
 	bool GetIsEnd();
 	void SetIsEnd(bool isEnd);
 
-	Tile* GetTile(const GridPos& pos);
+	Tile* GetTile(const GridPos& pos) const;
 
 	void MakeRoomNavMap(const GridPos& roomLeftBottom, std::vector<bool>& navMap, const int navMapCols) const; // could use a better name (ApplyRoomToNavMap??) idk yet
+
+	int m_AmountOfEnemiesToSpawn;
 
 private:
 	static const int m_HallwayWidth;

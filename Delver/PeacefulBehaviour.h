@@ -6,6 +6,7 @@ class Enemy;
 class PeacefulBehaviour : public FightingBehaviour
 {
 public:
+	PeacefulBehaviour();
 	PeacefulBehaviour(Enemy* pEnemy);
 	PeacefulBehaviour(const PeacefulBehaviour& other) = delete;
 	PeacefulBehaviour& operator=(const PeacefulBehaviour& other) = delete;

@@ -8,13 +8,16 @@
 
 const float TurretBehaviour::m_DeployDuration = 0.5f;
 
+TurretBehaviour::TurretBehaviour(Actor* target, const Level& level)
+	: TurretBehaviour(nullptr, target, level)
+{
+}
 TurretBehaviour::TurretBehaviour(Enemy* pEnemy, Actor* target, const Level& level)
 	: FightingBehaviour(pEnemy)
-	//, m_pTarget{target}
+	, m_pTarget{target}
 	, m_Timer{ 0.f }
 	, m_Level{ level }
 {
-	pEnemy->m_pTarget = target;
 }
 TurretBehaviour::~TurretBehaviour()
 {
@@ -23,9 +26,18 @@ TurretBehaviour::~TurretBehaviour()
 	//	m_pTarget = nullptr;
 	//}
 }
+void TurretBehaviour::Initialize()
+{
+	m_pEnemy->m_pTarget = m_pTarget;
+}
 
 void TurretBehaviour::Update(float elapsedSec)
 {
+	if (m_pEnemy == nullptr)
+	{
+		return;
+	}
+
 	if (m_pEnemy->IsDead())
 	{
 		return;

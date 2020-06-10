@@ -2,6 +2,7 @@
 #include "Room.h"
 #include "utils.h"
 #include "TextureManager.h"
+#include "EnemyManager.h"
 
 const int Room::m_RoomCols = 19;
 const int Room::m_RoomRows = 19;
@@ -21,6 +22,7 @@ Room::Room(const GridPos& position)
 	, m_Barriers{}
 	, m_Depth{-1}
 	, m_IsEnd{false}
+	, m_AmountOfEnemiesToSpawn{ utils::GetRand(0, 2) }
 {
 }
 Room::~Room()
@@ -53,12 +55,15 @@ void Room::Generate()
 		//m_Tiles[m_Tiles.size() / 2]->SetTexture(TextureManager::GetInstance()->GetTexture("pee pee poo poo"));
 	}
 
+	//m_AmountOfEnemiesToSpawn = ; // TODO: make more dynamic
+
 	m_IsGenerated = true;
 	Initialize();
 }
 void Room::Initialize()
 {
 	InitBarriers();
+	// EnemyManager::GetInstance()->SpawnEnemiesForRoom(this);
 }
 
 void Room::Draw() const
@@ -166,7 +171,7 @@ void Room::SetIsEnd(bool isEnd)
 	}
 }
 
-Tile* Room::GetTile(const GridPos& pos)
+Tile* Room::GetTile(const GridPos& pos) const
 {
 	if (!utils::GridPosValid(pos, m_RoomCols, m_RoomRows))
 	{

@@ -3,6 +3,7 @@
 
 #include "Enemy.h"
 #include "Bullet.h"
+#include "Room.h"
 
 EnemyManager::EnemyManager()
 	: m_Enemies{}
@@ -105,3 +106,27 @@ void EnemyManager::ClearAll()
 	}
 	m_Enemies.clear();
 }
+
+//void EnemyManager::SpawnEnemiesForRoom(const Room* room)
+//{
+//	for (int i{0}; i < room->m_AmountOfEnemiesToSpawn; i++)
+//	{
+//		// Try to get random pos
+//		GridPos randomPos{ utils::GetRand(1, room->m_RoomCols - 2), utils::GetRand(1, room->m_RoomRows - 2) };
+//		Tile* randomTile{ room->GetTile(randomPos) };
+//
+//		int attempts{ 0 };
+//		const int maxAttempts{ 10 };
+//		do
+//		{
+//			randomPos = GridPos{ utils::GetRand(1, room->m_RoomCols - 2), utils::GetRand(1, room->m_RoomRows - 2) };
+//			attempts++;
+//		} while (randomTile != nullptr && randomTile->GetType() == Tile::Type::floor || attempts < maxAttempts);
+//
+//		// If successful, place enemy there
+//		if (attempts < maxAttempts)
+//		{
+//			Point2f spawnPos{ randomTile->GetBottomLeft() };
+//		}
+//	}
+//}

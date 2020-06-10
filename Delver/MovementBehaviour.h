@@ -13,6 +13,9 @@ public:
 	virtual ~MovementBehaviour();
 
 	virtual void Update(float elapsedSec) = 0;
+	virtual void Initialize();
+
+	void SetEnemy(Enemy* enemy);
 
 protected:
 	Enemy* m_pEnemy;

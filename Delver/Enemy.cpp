@@ -47,6 +47,19 @@ Enemy::~Enemy()
 
 void Enemy::Initialize()
 {
+	if (m_pMovementBehavior != nullptr)
+	{
+		m_pMovementBehavior->SetEnemy(this);
+	}
+	if (m_pFightingBehaviour != nullptr)
+	{
+		m_pFightingBehaviour->SetEnemy(this);
+	}
+	if (m_pDrawingBehaviour != nullptr)
+	{
+		m_pDrawingBehaviour->SetEnemy(this);
+	}
+
 	if (m_pEquippedGun != nullptr)
 	{
 		m_pEquippedGun->SetHolder(this);
@@ -117,14 +130,17 @@ void Enemy::SetBehaviour(const Enemy::BehaviourSet& behaviour)
 	if (behaviour.drawingBehaviour != nullptr)
 	{
 		SetDrawingBehaviour(behaviour.drawingBehaviour);
+		m_pDrawingBehaviour->SetEnemy(this);
 	}
 	if (behaviour.movementBehaviour != nullptr)
 	{
 		SetMovementBehaviour(behaviour.movementBehaviour);
+		m_pMovementBehavior->SetEnemy(this);
 	}
 	if (behaviour.fightingBehaviour != nullptr)
 	{
 		SetFightingBehaviour(behaviour.fightingBehaviour);
+		m_pFightingBehaviour->SetEnemy(this);
 	}
 }
 void Enemy::SetMovementBehaviour(MovementBehaviour* newBehaviour)

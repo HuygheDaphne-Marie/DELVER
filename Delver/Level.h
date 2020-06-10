@@ -37,6 +37,7 @@ private:
 
 	NavMap m_NavMap;
 	Game* m_pGame;
+	int m_CurrentLevel;
 
 	void Generate();
 	Room* GenerateStart(); // make start room which is open from all sides
@@ -54,5 +55,6 @@ private:
 	int GetBottommostRoomRow() const;
 
 	void FindAndSetEndRoom();
+	void SpawnEnemiesForRoom(const Room* room);
 };
 

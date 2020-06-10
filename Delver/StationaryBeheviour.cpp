@@ -2,6 +2,10 @@
 #include "StationaryBeheviour.h"
 #include "Enemy.h"
 
+StationaryBeheviour::StationaryBeheviour()
+	: StationaryBeheviour(nullptr)
+{
+}
 StationaryBeheviour::StationaryBeheviour(Enemy* pEnemy)
 	: MovementBehaviour(pEnemy)
 	, m_StartPos{pEnemy->GetPosition()}

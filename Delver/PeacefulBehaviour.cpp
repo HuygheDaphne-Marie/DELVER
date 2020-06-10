@@ -3,6 +3,10 @@
 
 #include "Enemy.h"
 
+PeacefulBehaviour::PeacefulBehaviour()
+	: PeacefulBehaviour(nullptr)
+{
+}
 PeacefulBehaviour::PeacefulBehaviour(Enemy* pEnemy)
 	: FightingBehaviour{pEnemy}
 {

@@ -7,17 +7,13 @@
 
 Game::Game( const Window& window )
 	: m_Window{ window }
-	//, BulletManager::GetInstance(){ BulletManager::GetInstance() }
-	//, TextureManager::GetInstance(){ TextureManager::GetInstance() }
-	//, EnemyManager::GetInstance(){ EnemyManager::GetInstance() }
 	, m_Player{ Point2f{window.width / 2, window.height / 2} }
-	// , m_TestEnemy{ Actor::ActorData{Point2f{ 0, 0 }, Actor::Dimension{48.f, 48.f, Rectf{0, 0, 48.f, 48.f}}}, Enemy::BehaviourSet{}, 400.f, 1, nullptr }
-	// , m_TestEnemy{ Point2f{ 0, 0 }, 400.f, 1, nullptr, 48.f, 48.f }
 	, m_MousePos{0, 0}
 	, m_Camera{ window.width, window.height, 100.f, 100.f, Point2f{ 0, 0 } }
 	, m_Level{ 4, 4, this }
 	, m_pCrosshairTexture{nullptr}
 	, m_IsPaused{false}
+	, m_EnemyFactory{ &m_Player, &m_Level, {Enemy::Type::turret} }
 {
 	Initialize( );
 }
@@ -40,34 +36,12 @@ void Game::Initialize( )
 	m_Camera.SetCenterPos(m_Player.GetPosition());
 
 	EnemyManager::GetInstance()->m_pCurrentLevel = &m_Level;
-
-
-
-	// Enemy testing // 
-	Point2f pos{ m_Level.GetPlayerSpawnPoint() };
-	pos.x += 500.f;
-
-	Enemy* newEnemy{ new Enemy{ Actor::ActorData{pos, Actor::Dimension{48.f, 48.f, Rectf{0, 0, 48.f, 48.f}}}, Enemy::BehaviourSet{}, 400.f, 1 } };
-	newEnemy->EquipGun(new Gun(0.5f, 400.f, 0.1f, nullptr, BulletType::light));
-
-	Enemy::BehaviourSet turretBehaviour{};
-	turretBehaviour.fightingBehaviour = new TurretBehaviour(newEnemy, &m_Player, m_Level);
-	turretBehaviour.drawingBehaviour = new TurretDrawing(newEnemy);
-
-	newEnemy->SetBehaviour(turretBehaviour);
-
-	EnemyManager::GetInstance()->AddEnemy(newEnemy);
 }
 void Game::Cleanup( )
 {
 	delete BulletManager::GetInstance();
-	//BulletManager::GetInstance() = nullptr;
-
 	delete TextureManager::GetInstance();
-	//TextureManager::GetInstance() = nullptr;
-
 	delete EnemyManager::GetInstance();
-	//EnemyManager::GetInstance() = nullptr;
 }
 
 void Game::Update( float elapsedSec )
@@ -81,7 +55,6 @@ void Game::Update( float elapsedSec )
 	BulletManager::GetInstance()->UpdateBullets(elapsedSec, m_Level);
 	m_Player.Update(elapsedSec, m_Level, m_MousePos + m_Camera.GetClampDisplacement(m_Player.GetPosition()));
 
-	// m_TestEnemy.Update(elapsedSec, m_Level);
 	EnemyManager::GetInstance()->UpdateEnemies(elapsedSec);
 
 	m_Camera.UpdatePos(m_Player.GetPosition());
@@ -96,18 +69,12 @@ void Game::Draw( ) const
 
 	m_Level.Draw();
 
-	//m_TestEnemy.Draw();
 	EnemyManager::GetInstance()->DrawEnemies();
 	m_Player.Draw();
 
 	BulletManager::GetInstance()->DrawBullets();
 
-	// below should be moved to gun
 	Gun* gun{ m_Player.GetEquippedGun() };
-	//glColor3f(1.f, 1.f, 1.f);
-	//utils::DrawLine(gun->GetAimPos(), gun->GetGunPos());
-	// up should be moved to gun
-
 	const float crosshairWidth{ m_pCrosshairTexture->GetWidth() };
 	const float crosshairHeight{ m_pCrosshairTexture->GetWidth() };
 	m_pCrosshairTexture->Draw(Rectf{ gun->GetAimPos().x - crosshairWidth, gun->GetAimPos().y - crosshairHeight, crosshairWidth * 2, crosshairHeight * 2 });
@@ -136,15 +103,22 @@ void Game::ResumeGame()
 	m_IsPaused = false;
 	SDL_ShowCursor(SDL_DISABLE);
 }
+
+void Game::HandleOldLevel()
+{
+	BulletManager::GetInstance()->ClearAll();
+	EnemyManager::GetInstance()->ClearAll();
+}
 void Game::HandleNewLevel()
 {
 	m_Player.SetPosition(m_Level.GetPlayerSpawnPoint());
+	m_Camera.SetLevelBoundaries(m_Level.GetLevelBounds());
 	m_Camera.SetCenterPos(m_Player.GetPosition());
+}
 
-	BulletManager::GetInstance()->ClearAll();
-	EnemyManager::GetInstance()->ClearAll();
-
-	// spawn new ones for the new level
+EnemyFactory* Game::GetEnemyFactory()
+{
+	return &m_EnemyFactory;
 }
 
 void Game::ProcessKeyDownEvent( const SDL_KeyboardEvent & e )
