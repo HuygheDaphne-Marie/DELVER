@@ -50,10 +50,14 @@ public:
 	void SetBottomOpen(bool isOpen);
 	void SetRightOpen(bool isOpen);
 
+	bool GetHasPillars();
+	void SetHasPillars(bool newValue);
+
 	void MakeRoomNavMap(const GridPos& roomLeftBottom, std::vector<bool>& navMap, const int navMapCols) const; // could use a better name (ApplyRoomToNavMap??) idk yet
 
 private:
 	static const int m_HallwayWidth;
+	static const int m_EdgeClearance;
 
 	const GridPos m_RoomPos;
 	const Point2f m_BottomLeft;
@@ -64,11 +68,16 @@ private:
 	bool m_IsBottomOpen;
 	bool m_IsRightOpen;
 	bool m_IsGenerated;
+	bool m_HasPillars;
 
 	std::vector<std::vector<Point2f>> m_Barriers;
 
 	void GenerateEdges();
 	void GenerateHallway(GridPos& hallwayStart, bool isHorizontal);
+
+	void GeneratePillars();
+	void GeneratePillars(int AmountOfPillarsWanted);
+	void GeneratePillars(std::vector<GridPos>& BarrierPosistions);
 
 	void InitBarriers();
 

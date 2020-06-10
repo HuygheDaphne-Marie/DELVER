@@ -221,7 +221,8 @@ void Level::GenerateRoomAt(const GridPos& newRoomPos, Room* parentRoom) // retur
 	}
 
 	// otherwise just make the room 
-	Room* newRoom{ new Room(newRoomPos) }; // TODO IMPORTANT: will need to generate some random connections at some point
+	Room* newRoom{ new Room(newRoomPos) };
+	newRoom->SetHasPillars(true);
 	m_Rooms[utils::IndexFromGridPos(newRoomPos, m_LevelCols)] = newRoom;
 	ConnectRooms(parentRoom, newRoom);
 

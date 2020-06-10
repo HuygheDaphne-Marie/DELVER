@@ -40,6 +40,7 @@ TextureManager::TextureManager()
 	}
 #pragma region walls
 	// Normal Segments
+	, m_Wall_Single{ "Resources/Textures/Level/wall_single.png" }
 	, m_Wall_Horizontal{ "Resources/Textures/Level/wall_horizontal.png" }
 	, m_Wall_Vertical{ "Resources/Textures/Level/wall_vertical.png" }
 	// Corners

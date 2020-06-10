@@ -7,9 +7,9 @@
 
 Game::Game( const Window& window )
 	: m_Window{ window }
-	, m_pBulletManager{ BulletManager::GetInstance() }
-	, m_pTextureManager{ TextureManager::GetInstance() }
-	, m_pEnemyManager{ EnemyManager::GetInstance() }
+	//, BulletManager::GetInstance(){ BulletManager::GetInstance() }
+	//, TextureManager::GetInstance(){ TextureManager::GetInstance() }
+	//, EnemyManager::GetInstance(){ EnemyManager::GetInstance() }
 	, m_Player{ Point2f{window.width / 2, window.height / 2} }
 	// , m_TestEnemy{ Actor::ActorData{Point2f{ 0, 0 }, Actor::Dimension{48.f, 48.f, Rectf{0, 0, 48.f, 48.f}}}, Enemy::BehaviourSet{}, 400.f, 1, nullptr }
 	// , m_TestEnemy{ Point2f{ 0, 0 }, 400.f, 1, nullptr, 48.f, 48.f }
@@ -27,7 +27,7 @@ Game::~Game( )
 
 void Game::Initialize( )
 {
-	m_pCrosshairTexture = m_pTextureManager->GetTexture("Resources/Textures/UI/Cursor_crosshair.png");
+	m_pCrosshairTexture = TextureManager::GetInstance()->GetTexture("Resources/Textures/UI/Cursor_crosshair.png");
 	SDL_ShowCursor(SDL_DISABLE);
 
 	//TestBulletManager();
@@ -38,7 +38,7 @@ void Game::Initialize( )
 	m_Player.SetPosition(m_Level.GetPlayerSpawnPoint());
 	m_Camera.SetCenterPos(m_Player.GetPosition());
 
-	m_pEnemyManager->m_pCurrentLevel = &m_Level;
+	EnemyManager::GetInstance()->m_pCurrentLevel = &m_Level;
 
 
 
@@ -55,27 +55,27 @@ void Game::Initialize( )
 
 	newEnemy->SetBehaviour(turretBehaviour);
 
-	m_pEnemyManager->AddEnemy(newEnemy);
+	EnemyManager::GetInstance()->AddEnemy(newEnemy);
 }
 void Game::Cleanup( )
 {
-	delete m_pBulletManager;
-	m_pBulletManager = nullptr;
+	delete BulletManager::GetInstance();
+	//BulletManager::GetInstance() = nullptr;
 
-	delete m_pTextureManager;
-	m_pTextureManager = nullptr;
+	delete TextureManager::GetInstance();
+	//TextureManager::GetInstance() = nullptr;
 
-	delete m_pEnemyManager;
-	m_pEnemyManager = nullptr;
+	delete EnemyManager::GetInstance();
+	//EnemyManager::GetInstance() = nullptr;
 }
 
 void Game::Update( float elapsedSec )
 {
-	m_pBulletManager->UpdateBullets(elapsedSec, m_Level);
+	BulletManager::GetInstance()->UpdateBullets(elapsedSec, m_Level);
 	m_Player.Update(elapsedSec, m_Level, m_MousePos + m_Camera.GetClampDisplacement(m_Player.GetPosition()));
 
 	// m_TestEnemy.Update(elapsedSec, m_Level);
-	m_pEnemyManager->UpdateEnemies(elapsedSec);
+	EnemyManager::GetInstance()->UpdateEnemies(elapsedSec);
 
 	m_Camera.UpdatePos(m_Player.GetPosition());
 
@@ -101,10 +101,10 @@ void Game::Draw( ) const
 	m_Level.Draw();
 
 	//m_TestEnemy.Draw();
-	m_pEnemyManager->DrawEnemies();
+	EnemyManager::GetInstance()->DrawEnemies();
 	m_Player.Draw();
 
-	m_pBulletManager->DrawBullets();
+	BulletManager::GetInstance()->DrawBullets();
 
 	// below should be moved to gun
 	Gun* gun{ m_Player.GetEquippedGun() };
@@ -126,6 +126,7 @@ void Game::Draw( ) const
 			utils::DrawPolygon(wall);
 		}
 	}
+	
 	glPopMatrix();
 }
 
@@ -203,8 +204,8 @@ void Game::ClearBackground( ) const
 // Tests
 void Game::TestBulletManager()
 {
-	Bullet* pSomeBullet = m_pBulletManager->GetBullet(BulletType::light, SpecialEffect::Type::warp);
-	m_pBulletManager->QueueForDestroy(pSomeBullet);
+	Bullet* pSomeBullet = BulletManager::GetInstance()->GetBullet(BulletType::light, SpecialEffect::Type::warp);
+	BulletManager::GetInstance()->QueueForDestroy(pSomeBullet);
 	BulletManager* bm = BulletManager::GetInstance();
 	pSomeBullet = bm->GetBullet(BulletType::medium);
 	bm->QueueForDestroy(pSomeBullet);

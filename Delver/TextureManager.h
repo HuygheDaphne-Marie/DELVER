@@ -15,6 +15,7 @@ public:
 
 #pragma region walls
 	// Wall
+	const std::string m_Wall_Single;
 	const std::string m_Wall_Horizontal;
 	const std::string m_Wall_Vertical;
 	// Wall corners

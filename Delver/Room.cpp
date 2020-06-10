@@ -6,6 +6,7 @@
 const int Room::m_RoomCols = 19;
 const int Room::m_RoomRows = 19;
 const int Room::m_HallwayWidth = 3;
+const int Room::m_EdgeClearance = 5;
 
 Room::Room(const GridPos& position)
 	: m_RoomPos{position}
@@ -16,6 +17,7 @@ Room::Room(const GridPos& position)
 	, m_IsBottomOpen{false}
 	, m_IsRightOpen{false}
 	, m_IsGenerated{false}
+	, m_HasPillars{false}
 	, m_Barriers{}
 {
 }
@@ -38,6 +40,10 @@ void Room::Generate()
 	}
 
 	GenerateEdges();
+	if (m_HasPillars)
+	{
+		GeneratePillars();
+	}
 
 	m_IsGenerated = true;
 	Initialize();
@@ -116,6 +122,18 @@ void Room::SetRightOpen(bool isOpen)
 	m_IsRightOpen = isOpen;
 }
 
+bool Room::GetHasPillars()
+{
+	return m_HasPillars;
+}
+void Room::SetHasPillars(bool newValue)
+{
+	if (!m_IsGenerated)
+	{
+		m_HasPillars = newValue;
+	}
+}
+
 void Room::MakeRoomNavMap(const GridPos& roomLeftBottom, std::vector<bool>& navMap, const int navMapCols) const
 {
 	for (Tile* tile : m_Tiles)
@@ -177,6 +195,33 @@ void Room::GenerateHallway(GridPos& hallwayStart, bool isHorizontal)
 	}
 }
 
+void Room::GeneratePillars()
+{
+	const int minPillars{0}, maxPillars{ int(m_Tiles.size() * 0.05f) };
+	GeneratePillars(utils::GetRand(minPillars, maxPillars));
+}
+void Room::GeneratePillars(int AmountOfPillarsWanted)
+{
+	std::vector<GridPos> Posistions{};
+
+	const int maxX{ m_RoomCols - m_EdgeClearance }, maxY{ m_RoomRows - m_EdgeClearance };
+	for (int i{0}; i < AmountOfPillarsWanted; i++)
+	{
+		Posistions.push_back(GridPos{ utils::GetRand(m_EdgeClearance, maxX), utils::GetRand(m_EdgeClearance, maxY) });
+	}
+	GeneratePillars(Posistions);
+}
+void Room::GeneratePillars(std::vector<GridPos>& PillarPosistions)
+{
+	for(GridPos& PillarPos : PillarPosistions)
+	{
+		if (utils::GridPosValid(PillarPos, m_RoomCols, m_RoomRows))
+		{
+			SetTile(PillarPos, Tile::Type::wall);
+		}
+	}
+}
+
 void Room::InitBarriers()
 {
 	for (const Tile* tile : m_Tiles)
@@ -210,6 +255,10 @@ Texture* Room::GetWallTextureForTile(const Tile& tile) const
 }
 Texture* Room::GetWallTextureForTile(bool topIsWall, bool bottomIsWall, bool leftIsWall, bool rightIsWall) const
 {
+	if (!leftIsWall && !rightIsWall && !topIsWall && !bottomIsWall)
+	{
+		return TextureManager::GetInstance()->GetTexture(TextureManager::GetInstance()->m_Wall_Single);
+	}
 #pragma region wall_segments
 	if (leftIsWall && rightIsWall)
 	{

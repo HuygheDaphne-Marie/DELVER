@@ -34,10 +34,10 @@ public:
 private:
 	// DATA MEMBERS
 	const Window m_Window;
-	BulletManager* m_pBulletManager;
-	TextureManager* m_pTextureManager;
-	EnemyManager* m_pEnemyManager;
-	
+	//BulletManager* m_pBulletManager;
+	//TextureManager* m_pTextureManager;
+	//EnemyManager* m_pEnemyManager;
+
 	Player m_Player;
 
 	Point2f m_MousePos;
