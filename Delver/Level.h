@@ -11,6 +11,7 @@ public:
 	// TODO: Rule of 5
 	~Level();
 	void GenerateNextLevel();
+	void Update(Point2f& playerPos);
 	void Draw() const;
 
 	const std::vector<Room*>& GetAllRooms() const;

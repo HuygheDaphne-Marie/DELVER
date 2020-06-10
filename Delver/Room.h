@@ -59,6 +59,8 @@ public:
 	bool GetIsEnd();
 	void SetIsEnd(bool isEnd);
 
+	Tile* GetTile(GridPos& pos);
+
 	void MakeRoomNavMap(const GridPos& roomLeftBottom, std::vector<bool>& navMap, const int navMapCols) const; // could use a better name (ApplyRoomToNavMap??) idk yet
 
 private:

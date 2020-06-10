@@ -10,7 +10,8 @@ public:
 		nothing,
 		wall,
 		wallSide,
-		floor
+		floor,
+		stairs
 	};
 
 	Tile(const GridPos& pos, Type tileType = Type::nothing);

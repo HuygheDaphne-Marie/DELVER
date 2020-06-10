@@ -48,7 +48,9 @@ void Room::Generate()
 	}
 	if (m_IsEnd)
 	{
-		m_Tiles[m_Tiles.size() / 2]->SetTexture(TextureManager::GetInstance()->GetTexture("pee pee poo poo"));
+		GridPos centerPos{ m_RoomCols / 2, m_RoomRows / 2 };
+		SetTile(centerPos, Tile::Type::stairs);
+		//m_Tiles[m_Tiles.size() / 2]->SetTexture(TextureManager::GetInstance()->GetTexture("pee pee poo poo"));
 	}
 
 	m_IsGenerated = true;
@@ -162,6 +164,15 @@ void Room::SetIsEnd(bool isEnd)
 	{
 		m_IsEnd = isEnd;
 	}
+}
+
+Tile* Room::GetTile(GridPos& pos)
+{
+	if (!utils::GridPosValid(pos, m_RoomCols, m_RoomRows))
+	{
+		return nullptr;
+	}
+	return m_Tiles[utils::IndexFromGridPos(pos, m_RoomCols)];
 }
 
 void Room::MakeRoomNavMap(const GridPos& roomLeftBottom, std::vector<bool>& navMap, const int navMapCols) const
@@ -432,13 +443,15 @@ void Room::SetTile(const GridPos& pos, Tile::Type tileType)
 		break;
 	case Tile::Type::wall:
 		UpdateWallTexture(*tile);
-
 		break;
 	case Tile::Type::wallSide:
 		tile->SetTexture(TextureManager::GetInstance()->GetTexture(TextureManager::GetInstance()->m_Wall_Side));
 		break;
 	case Tile::Type::floor:
 		tile->SetTexture(TextureManager::GetInstance()->GetTexture(TextureManager::GetInstance()->m_FLOORS));
+		break;
+	case Tile::Type::stairs:
+		tile->SetTexture(nullptr); //tile->SetTexture(TextureManager::GetInstance()->GetTexture(TextureManager::GetInstance()->m_Stairs));
 		break;
 	}
 	UpdateNeighbourTiles(*tile, oldType);

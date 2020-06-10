@@ -23,6 +23,26 @@ void Level::GenerateNextLevel()
 	DestroyLevel();
 	Generate();
 }
+void Level::Update(Point2f& playerPos)
+{
+	const Uint8* pStates = SDL_GetKeyboardState(nullptr);
+	if (pStates[SDL_SCANCODE_E])
+	{
+		// check if standing on stair tile
+		Room* room{ GetRoomAt(playerPos) };
+		if (room->GetIsEnd())
+		{
+			GridPos centerPos{ room->m_RoomCols / 2, room->m_RoomRows / 2 };
+			Tile* centerTile{ room->GetTile(centerPos) };
+			if (centerTile->GetType() == Tile::Type::stairs)
+			{
+				// pause game
+				// generate new level
+				// continue game
+			}
+		}			
+	}
+}
 void Level::Draw() const
 {
 	for (Room* room : m_Rooms)
