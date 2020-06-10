@@ -166,7 +166,7 @@ void Room::SetIsEnd(bool isEnd)
 	}
 }
 
-Tile* Room::GetTile(GridPos& pos)
+Tile* Room::GetTile(const GridPos& pos)
 {
 	if (!utils::GridPosValid(pos, m_RoomCols, m_RoomRows))
 	{
@@ -252,9 +252,9 @@ void Room::GeneratePillars(int AmountOfPillarsWanted)
 	}
 	GeneratePillars(Posistions);
 }
-void Room::GeneratePillars(std::vector<GridPos>& PillarPosistions)
+void Room::GeneratePillars(const std::vector<GridPos>& PillarPosistions)
 {
-	for(GridPos& PillarPos : PillarPosistions)
+	for(const GridPos& PillarPos : PillarPosistions)
 	{
 		if (utils::GridPosValid(PillarPos, m_RoomCols, m_RoomRows))
 		{

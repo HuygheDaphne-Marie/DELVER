@@ -59,7 +59,7 @@ public:
 	bool GetIsEnd();
 	void SetIsEnd(bool isEnd);
 
-	Tile* GetTile(GridPos& pos);
+	Tile* GetTile(const GridPos& pos);
 
 	void MakeRoomNavMap(const GridPos& roomLeftBottom, std::vector<bool>& navMap, const int navMapCols) const; // could use a better name (ApplyRoomToNavMap??) idk yet
 
@@ -88,7 +88,7 @@ private:
 
 	void GeneratePillars();
 	void GeneratePillars(int AmountOfPillarsWanted);
-	void GeneratePillars(std::vector<GridPos>& BarrierPosistions);
+	void GeneratePillars(const std::vector<GridPos>& BarrierPosistions);
 
 	void InitBarriers();
 

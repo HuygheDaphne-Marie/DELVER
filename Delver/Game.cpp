@@ -15,8 +15,9 @@ Game::Game( const Window& window )
 	// , m_TestEnemy{ Point2f{ 0, 0 }, 400.f, 1, nullptr, 48.f, 48.f }
 	, m_MousePos{0, 0}
 	, m_Camera{ window.width, window.height, 100.f, 100.f, Point2f{ 0, 0 } }
-	, m_Level{ 4, 4 }
+	, m_Level{ 4, 4, this }
 	, m_pCrosshairTexture{nullptr}
+	, m_IsPaused{false}
 {
 	Initialize( );
 }
@@ -71,6 +72,12 @@ void Game::Cleanup( )
 
 void Game::Update( float elapsedSec )
 {
+	m_Level.Update(m_Player.GetPosition());
+	if (m_IsPaused)
+	{
+		return;
+	}
+
 	BulletManager::GetInstance()->UpdateBullets(elapsedSec, m_Level);
 	m_Player.Update(elapsedSec, m_Level, m_MousePos + m_Camera.GetClampDisplacement(m_Player.GetPosition()));
 
@@ -78,17 +85,6 @@ void Game::Update( float elapsedSec )
 	EnemyManager::GetInstance()->UpdateEnemies(elapsedSec);
 
 	m_Camera.UpdatePos(m_Player.GetPosition());
-
-	// Check keyboard state
-	//const Uint8 *pStates = SDL_GetKeyboardState( nullptr );
-	//if ( pStates[SDL_SCANCODE_RIGHT] )
-	//{
-	//	std::cout << "Right arrow key is down\n";
-	//}
-	//if ( pStates[SDL_SCANCODE_LEFT] && pStates[SDL_SCANCODE_UP])
-	//{
-	//	std::cout << "Left and up arrow keys are down\n";
-	//}
 }
 
 void Game::Draw( ) const
@@ -128,6 +124,17 @@ void Game::Draw( ) const
 	}
 	
 	glPopMatrix();
+}
+
+void Game::PauseGame()
+{
+	m_IsPaused = true;
+	SDL_ShowCursor(SDL_ENABLE);
+}
+void Game::ResumeGame()
+{
+	m_IsPaused = false;
+	SDL_ShowCursor(SDL_DISABLE);
 }
 
 void Game::ProcessKeyDownEvent( const SDL_KeyboardEvent & e )

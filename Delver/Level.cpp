@@ -1,15 +1,16 @@
 #include "pch.h"
 #include "Level.h"
-
+#include "Game.h"
 #include "Room.h"
 
-Level::Level(int width, int height)
+Level::Level(int width, int height, Game* game)
 	: m_Rooms{}
 	, m_LevelCols{width}
 	, m_LevelRows{height}
 	, m_IsGenerated{false}
 	, m_PlayerSpawn{0, 0}
 	, m_NavMap{this}
+	, m_pGame{game}
 {
 	
 }
@@ -23,7 +24,7 @@ void Level::GenerateNextLevel()
 	DestroyLevel();
 	Generate();
 }
-void Level::Update(Point2f& playerPos)
+void Level::Update(const Point2f& playerPos)
 {
 	const Uint8* pStates = SDL_GetKeyboardState(nullptr);
 	if (pStates[SDL_SCANCODE_E])
@@ -36,7 +37,7 @@ void Level::Update(Point2f& playerPos)
 			Tile* centerTile{ room->GetTile(centerPos) };
 			if (centerTile->GetType() == Tile::Type::stairs)
 			{
-				// pause game
+				m_pGame->PauseGame();
 				// generate new level
 				// continue game
 			}

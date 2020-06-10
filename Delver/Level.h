@@ -3,15 +3,16 @@
 #include "NavMap.h"
 
 class Room;
+class Game;
 
 class Level
 {
 public:
-	Level(int width = 0, int height = 0);
+	Level(int width = 0, int height = 0, Game* game = nullptr);
 	// TODO: Rule of 5
 	~Level();
 	void GenerateNextLevel();
-	void Update(Point2f& playerPos);
+	void Update(const Point2f& playerPos);
 	void Draw() const;
 
 	const std::vector<Room*>& GetAllRooms() const;
@@ -35,6 +36,7 @@ private:
 	Point2f m_PlayerSpawn;
 
 	NavMap m_NavMap;
+	Game* m_pGame;
 
 	void Generate();
 	Room* GenerateStart(); // make start room which is open from all sides

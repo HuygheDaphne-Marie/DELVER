@@ -24,6 +24,9 @@ public:
 	void Update( float elapsedSec );
 	void Draw( ) const;
 
+	void PauseGame();
+	void ResumeGame();
+
 	// Event handling
 	void ProcessKeyDownEvent( const SDL_KeyboardEvent& e );
 	void ProcessKeyUpEvent( const SDL_KeyboardEvent& e );
@@ -45,6 +48,8 @@ private:
 
 	Camera m_Camera;
 	Level m_Level;
+
+	bool m_IsPaused;
 
 	// FUNCTIONS
 	void Initialize( );
