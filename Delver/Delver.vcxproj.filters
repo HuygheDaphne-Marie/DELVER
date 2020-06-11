@@ -49,6 +49,12 @@
     <Filter Include="Game Files\Managers">
       <UniqueIdentifier>{fde83383-aff9-4a77-aa78-b6b5a0376eab}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game Files\Items">
+      <UniqueIdentifier>{dcddf41b-a962-480b-991c-be9dce2d765f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game Files\Items\Loot">
+      <UniqueIdentifier>{53d2eef3-2358-4e4b-90f5-f6794c9ed87e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Core.cpp">
@@ -171,6 +177,21 @@
     <ClCompile Include="EnemyFactory.cpp">
       <Filter>Game Files\Managers</Filter>
     </ClCompile>
+    <ClCompile Include="LootDropper.cpp">
+      <Filter>Game Files\Items\Loot</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemManager.cpp">
+      <Filter>Game Files\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="LootTable.cpp">
+      <Filter>Game Files\Items\Loot</Filter>
+    </ClCompile>
+    <ClCompile Include="Item.cpp">
+      <Filter>Game Files\Items</Filter>
+    </ClCompile>
+    <ClCompile Include="Pickup.cpp">
+      <Filter>Game Files\Items</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -292,6 +313,21 @@
     </ClInclude>
     <ClInclude Include="EnemyFactory.h">
       <Filter>Game Files\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="LootDropper.h">
+      <Filter>Game Files\Items\Loot</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemManager.h">
+      <Filter>Game Files\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="LootTable.h">
+      <Filter>Game Files\Items\Loot</Filter>
+    </ClInclude>
+    <ClInclude Include="Item.h">
+      <Filter>Game Files\Items</Filter>
+    </ClInclude>
+    <ClInclude Include="Pickup.h">
+      <Filter>Game Files\Items</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
