@@ -17,7 +17,7 @@ public:
 
 	void AddItem(Item* item);
 
-	void QueueForDestroy(Item* bullet);
+	void QueueForDestroy(Item* item);
 
 	void UpdateItems(float elapsedSec, Player& player);
 	void DrawItems() const;

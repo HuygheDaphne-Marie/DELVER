@@ -4,6 +4,7 @@
 #include "Gun.h"
 #include "TextureManager.h"
 #include "PlayerKeyboardController.h"
+#include "Pickup.h"
 
 #include "AnimatedTexture.h"
 #include <iostream>
@@ -24,6 +25,7 @@ Player::Player(const Point2f& pos, Gun* pGunEquiped)
 	, m_StartPosition{ pos }
 	, m_AnimatedTexture{ "Resources/Textures/Actors/player.png" }
 	, m_LookPos{ pos }
+	, m_pPickup{ nullptr }
 {
 	if (pGunEquiped != nullptr)
 	{
@@ -164,6 +166,19 @@ void Player::SetState(const State& newstate)
 	}
 
 	m_State = newstate;
+}
+
+Pickup* Player::GetPickup() const
+{
+	return m_pPickup;
+}
+void Player::SetPickup(Pickup* pickup)
+{
+	if (m_pPickup != nullptr && pickup != nullptr) // if we're setting pickup to nullptr and there is still a pickup running
+	{
+		m_pPickup->StopEffect();
+	}
+	m_pPickup = pickup;
 }
 
 Controller* Player::GetController() const

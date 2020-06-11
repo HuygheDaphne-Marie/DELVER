@@ -33,6 +33,8 @@ public:
 	
 	void Draw() const;
 
+	SpecialEffect::Type m_TypeOfSpecialEffectLoaded;
+
 private:
 	const float m_RecoilResist;
 	const float m_BulletSpeed;
@@ -48,7 +50,6 @@ private:
 	Actor* m_pHolder;
 
 	BulletType m_TypeOfBulletLoaded;
-	SpecialEffect::Type m_TypeOfSpecialEffectLoaded;
 
 	void Fire(float elapsedSec);
 };

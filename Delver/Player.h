@@ -4,6 +4,7 @@
 #include "Animation.h"
 #include "AnimatedTexture.h"
 
+class Pickup;
 class Gun;
 
 class Player final : public Actor
@@ -32,6 +33,9 @@ public:
 	void SetController(Controller* controller);
 	void SetState(const State& newstate);
 
+	Pickup* GetPickup() const;
+	void SetPickup(Pickup* pickup);
+
 private:
 	State m_State;
 	std::vector<Gun*> m_pGuns;
@@ -41,6 +45,7 @@ private:
 
 	AnimatedTexture m_AnimatedTexture;
 	Point2f m_LookPos;
+	Pickup* m_pPickup;
 
 	void UpdateTextureStateString();
 

@@ -4,14 +4,18 @@
 #include "TextureManager.h"
 #include <sstream>
 
+#include "Gun.h"
+#include "SpecialEffect.h"
+#include "ItemManager.h"
 
 Pickup::Pickup(PickupType type, float effectDuration, const Point2f& pos, const Vector2f& velocity)
 	: Item(ItemType::pickup, pos, velocity)
 	, m_Type{ type }
 	, m_EffectDuration{ effectDuration }
 	, m_EffectTimer{ 0 }
-	, m_pAffectPlayer{ nullptr }
+	, m_pAffectedPlayer{ nullptr }
 	, m_pTexture{ nullptr }
+	, m_EffectActive{ false }
 {
 	switch (type)
 	{
@@ -34,8 +38,9 @@ Pickup::Pickup(const std::string& stringData)
 	, m_Type{ PickupType::bounce }
 	, m_EffectDuration{ 0 }
 	, m_EffectTimer{ 0 }
-	, m_pAffectPlayer{ nullptr }
+	, m_pAffectedPlayer{ nullptr }
 	, m_pTexture{ nullptr }
+	, m_EffectActive{ false }
 {
 	std::string type{ utils::GetAttributeValue("Type", stringData) };
 	if (type == "bounce")
@@ -63,16 +68,30 @@ Pickup::Pickup(const Pickup& other)
 	, m_Type{ other.m_Type }
 	, m_EffectDuration{ other.m_EffectDuration }
 	, m_EffectTimer{ 0 }
-	, m_pAffectPlayer{ nullptr }
+	, m_pAffectedPlayer{ nullptr }
 	, m_pTexture{ other.m_pTexture }
+	, m_EffectActive{ false }
 {
 }
 Pickup::~Pickup()
 {
-	m_pAffectPlayer = nullptr;
+	m_pAffectedPlayer = nullptr;
 	m_pTexture = nullptr;
 }
 
+void Pickup::Update(float elapsedSec, Player& player)
+{
+	if (m_EffectActive)
+	{
+		m_EffectTimer += elapsedSec;
+		if (m_EffectTimer > m_EffectDuration)
+		{
+			StopEffect();
+		}
+	}
+
+	Item::Update(elapsedSec, player);
+}
 void Pickup::Draw() const
 {
 	if (m_PickedUp)
@@ -83,6 +102,14 @@ void Pickup::Draw() const
 }
 void Pickup::OnPickup(Player& player)
 {
+	if (m_PickedUp)
+	{
+		return;
+	}
+
+	m_pAffectedPlayer = &player;
+	StartEffect();
+	
 	// check if player has active powerup
 		// if so stop it and delete it
 	// tell player to start this power up
@@ -97,4 +124,37 @@ void Pickup::OnPickup(Player& player)
 	// this way pickup would need to be the one which sets and unsets the effect on the player, so Pickup would need a start and end function
 
 	Item::OnPickup(player);
+}
+
+void Pickup::StartEffect()
+{
+	if (m_pAffectedPlayer != nullptr)
+	{
+		SpecialEffect::Type effectToBeApplied{};
+
+		switch (m_Type)
+		{
+		case Pickup::PickupType::bounce:
+			effectToBeApplied = SpecialEffect::Type::bounce;
+			break;
+		case Pickup::PickupType::warp:
+			effectToBeApplied = SpecialEffect::Type::warp;
+			break;
+		}
+
+		m_pAffectedPlayer->GetEquippedGun()->m_TypeOfSpecialEffectLoaded = effectToBeApplied;
+		m_EffectActive = true;
+		m_pAffectedPlayer->SetPickup(this);
+	}
+}
+void Pickup::StopEffect()
+{
+	if (m_pAffectedPlayer != nullptr)
+	{
+		m_pAffectedPlayer->GetEquippedGun()->m_TypeOfSpecialEffectLoaded = SpecialEffect::Type::none;
+		m_EffectActive = false;
+		m_pAffectedPlayer->SetPickup(nullptr);
+		ItemManager::GetInstance()->QueueForDestroy(this);
+		m_pAffectedPlayer = nullptr;
+	}
 }

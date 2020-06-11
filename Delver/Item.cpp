@@ -17,6 +17,11 @@ Item::~Item()
 
 void Item::Update(float elapsedSec, Player& player)
 {
+	if (m_PickedUp)
+	{
+		return;
+	}
+
 	m_Posistion += m_Velocity * elapsedSec;
 	m_Velocity *= 0.9f;
 

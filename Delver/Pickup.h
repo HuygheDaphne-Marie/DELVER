@@ -18,14 +18,21 @@ public:
 	Pickup& operator=(Pickup&& other) = delete;
 	~Pickup();
 
+	virtual void Update(float elapsedSec, Player& player) override;
 	virtual void Draw() const override;
 	virtual void OnPickup(Player& player) override;
+
+	void StartEffect();
+	void StopEffect();
+	// StartEffect();
+	// StopEffect();
 
 private:
 	PickupType m_Type;
 	float m_EffectDuration;
 	float m_EffectTimer;
-	Player* m_pAffectPlayer;
+	Player* m_pAffectedPlayer;
 	Texture* m_pTexture;
+	bool m_EffectActive;
 };
 
