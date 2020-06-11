@@ -159,6 +159,7 @@ Room* Level::GenerateStart() // make start room which is open from all sides
 	m_Rooms[idx] = centerRoom;
 	centerRoom->SetConnection(true, true, true, true);
 	centerRoom->SetDepth(0);
+	centerRoom->m_AmountOfEnemiesToSpawn = 0;
 
 	m_PlayerSpawn = centerRoom->GetBottomLeft();
 	m_PlayerSpawn.x += Room::m_RoomCols * Tile::m_Side / 2;
