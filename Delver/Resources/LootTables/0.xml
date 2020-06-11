@@ -1,0 +1,26 @@
+<LootTable>
+<RelatedEnemy>turret</RelatedEnemy>
+<Entries>
+
+<Entry>
+<Pickup>
+<Type>bounce</Type>
+<EffectDuration>2.0</EffectDuration>
+<Posistion>0 0</Posistion>
+<Velocity>0 0</Velocity>
+</Pickup>
+<Chance>100</Chance>
+</Entry>
+
+<Entry>
+<Pickup>
+<Type>warp</Type>
+<EffectDuration>2.0</EffectDuration>
+<Posistion>0 0</Posistion>
+<Velocity>0 0</Velocity>
+</Pickup>
+<Chance>50</Chance>
+</Entry>
+
+</Entries>
+</LootTable>

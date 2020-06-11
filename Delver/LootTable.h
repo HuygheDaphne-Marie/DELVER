@@ -3,7 +3,6 @@
 #include "Item.h"
 #include "Pickup.h"
 #include <vector>
-#include <unordered_map>
 
 class LootTable
 {
@@ -15,7 +14,15 @@ public:
 
 	const Enemy::Type m_RelatedEnemy;
 private:
-	std::unordered_map<Item*, float> m_Table; // Item, chance to drop
+	struct TableEntry
+	{
+		Item* item;
+		float dropChance;
+		// might add more later
+	};
+
+	std::vector<TableEntry> m_Table;
+	bool m_LoadSuccess;
 
 	void LoadLootTable();
 	void LoadTableEntries(const std::string& stringData);

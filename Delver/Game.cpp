@@ -2,8 +2,8 @@
 #include "Game.h"
 #include "Room.h"
 
-#include "TurretBehaviour.h"
-#include "TurretDrawing.h"
+#include "LootDropper.h"
+#include "Pickup.h";
 
 Game::Game( const Window& window )
 	: m_Window{ window }
@@ -36,6 +36,22 @@ void Game::Initialize( )
 	m_Camera.SetCenterPos(m_Player.GetPosition());
 
 	EnemyManager::GetInstance()->m_pCurrentLevel = &m_Level;
+
+
+	// TESTING
+
+	LootDropper ld{};
+	ld.DropLoot(Enemy::Type::turret, m_Player.GetPosition());
+
+	//LootTable lt{ Enemy::Type::turret };
+	//std::vector<Item*> items{ lt.RollTable() };
+
+	//for (Item* item : items)
+	//{
+	//	delete item;
+	//}
+
+	//Pickup pickup{ Pickup::PickupType::bounce, 2.0f, m_Player.GetPosition() };
 }
 void Game::Cleanup( )
 {

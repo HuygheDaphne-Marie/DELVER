@@ -8,13 +8,19 @@
 LootTable::LootTable(const Enemy::Type& relatedEnemy)
 	: m_RelatedEnemy{relatedEnemy}
 	, m_Table{}
+	, m_LoadSuccess{false}
 {
+	LoadLootTable();
 }
 LootTable::~LootTable()
 {
-	for (std::unordered_map<Item*, float>::value_type& value : m_Table)
+	for (TableEntry& entry : m_Table)
 	{
-		delete value.first;
+		if (entry.item != nullptr)
+		{
+			delete entry.item;
+			entry.item = nullptr;
+		}
 	}
 	m_Table.clear();
 }
@@ -22,18 +28,22 @@ LootTable::~LootTable()
 std::vector<Item*> LootTable::RollTable()
 {
 	std::vector<Item*> droppedItems{};
+	if (!m_LoadSuccess)
+	{
+		return droppedItems;
+	}
 
-	for (std::unordered_map<Item*, float>::iterator itr{m_Table.begin()}; itr != m_Table.end(); itr++)
+	for (TableEntry entry : m_Table)
 	{
 		float rolledChance{ utils::GetRand(0, 100) / 100.f };
-		if (rolledChance < (*itr).second)
+		if (rolledChance < entry.dropChance)
 		{
-			if ((*itr).first->m_ItemType == Item::ItemType::pickup)
+			if (entry.item->m_ItemType == Item::ItemType::pickup)
 			{
-				Pickup* tablePickup{ static_cast<Pickup*>((*itr).first) };
+				Pickup* tablePickup{ static_cast<Pickup*>(entry.item) };
 				droppedItems.push_back(new Pickup(*tablePickup));
 			}
-			
+
 		}
 	}
 
@@ -42,7 +52,12 @@ std::vector<Item*> LootTable::RollTable()
 
 void LootTable::LoadLootTable()
 {
-	std::ifstream ifs{ "lootTables/" + std::to_string(int(m_RelatedEnemy)) + ".xml" };
+	if (m_LoadSuccess)
+	{
+		return;
+	}
+
+	std::ifstream ifs{ "Resources/LootTables/" + std::to_string(int(m_RelatedEnemy)) + ".xml" };
 	if (!ifs.good())
 	{
 		// file does not exist
@@ -68,7 +83,7 @@ void LootTable::LoadTableEntries(const std::string& stringData)
 
 	while (!allExtracted)
 	{
-		std::string entry{ utils::GetAttributeValue("AnimationEntry", entries) };
+		std::string entry{ utils::GetAttributeValue("Entry", entries) };
 		if (entry == "")
 		{
 			allExtracted = true;
@@ -82,7 +97,7 @@ void LootTable::LoadTableEntries(const std::string& stringData)
 			ss << utils::GetAttributeValue("Chance", entry);
 			ss >> chance;
 
-			m_Table.insert({ pickup, chance });
+			m_Table.push_back(TableEntry{pickup, chance});
 		}
 		
 		if (!allExtracted)
@@ -90,4 +105,6 @@ void LootTable::LoadTableEntries(const std::string& stringData)
 			entries = entries.substr(entries.find(delimiter) + delimiter.size());
 		}
 	}
+
+	m_LoadSuccess = true;
 }

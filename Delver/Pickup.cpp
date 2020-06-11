@@ -5,7 +5,7 @@
 #include <sstream>
 
 
-Pickup::Pickup(const PickupType& type, float effectDuration, const Point2f& pos, const Vector2f& velocity)
+Pickup::Pickup(PickupType type, float effectDuration, const Point2f& pos, const Vector2f& velocity)
 	: Item(ItemType::pickup, pos, 10.f, 10.f, velocity)
 	, m_Type{ type }
 	, m_EffectDuration{ effectDuration }
@@ -41,10 +41,18 @@ Pickup::Pickup(const std::string& stringData)
 	if (type == "bounce")
 	{
 		m_Type = PickupType::bounce;
+		m_pTexture = TextureManager::GetInstance()->GetTexture("bounce_pickup_texture");
 	}
 	else if (type == "warp")
 	{
 		m_Type = PickupType::warp;
+		m_pTexture = TextureManager::GetInstance()->GetTexture("warp_pickup_texture");
+	}
+
+	if (m_pTexture != nullptr)
+	{
+		m_Width = m_pTexture->GetWidth();
+		m_Height = m_pTexture->GetHeight();
 	}
 
 	std::string effectDuration{ utils::GetAttributeValue("EffectDuration", stringData) };
@@ -67,6 +75,8 @@ Pickup::Pickup(const Pickup& other)
 }
 Pickup::~Pickup()
 {
+	m_pAffectPlayer = nullptr;
+	m_pTexture = nullptr;
 }
 
 void Pickup::Draw() const

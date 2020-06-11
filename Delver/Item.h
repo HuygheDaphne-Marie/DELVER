@@ -10,7 +10,7 @@ public:
 	};
 
 	const ItemType m_ItemType;
-	const Point2f m_SpawnPos;
+	Point2f m_SpawnPos;
 	float m_Width, m_Height;
 	Point2f m_Posistion;
 	Vector2f m_Velocity;

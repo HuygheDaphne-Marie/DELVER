@@ -3,16 +3,22 @@
 #include "LootTable.h"
 #include "Enemy.h"
 
+
+
 class LootDropper
 {
 public:
 	LootDropper();
+	~LootDropper();
 
 	void DropLoot(const Enemy::Type& enemyType, Point2f deathPos);
 
+	static const float m_DropSpeed;
 private:
-	std::vector<LootTable> m_LootTables;
+	std::vector<LootTable*> m_pLootTables;
 
-	void LoadLootTable(const Enemy::Type& enemyType);
+	LootTable* LoadLootTable(const Enemy::Type& enemyType);
+
+	void GiveRandomVelocity(Item* drop);
 };
 

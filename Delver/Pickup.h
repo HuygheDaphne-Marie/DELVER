@@ -10,7 +10,7 @@ public:
 		warp
 	};
 
-	Pickup(const PickupType& type, float effectDuration, const Point2f& pos, const Vector2f& velocity = Vector2f{ 0,0 });
+	Pickup(PickupType type, float effectDuration, const Point2f& pos, const Vector2f& velocity = Vector2f{ 0,0 });
 	Pickup(const std::string& stringData);
 	Pickup(const Pickup& other);
 	Pickup& operator=(const Pickup& other) = delete;
