@@ -49,12 +49,6 @@ Pickup::Pickup(const std::string& stringData)
 		m_pTexture = TextureManager::GetInstance()->GetTexture("warp_pickup_texture");
 	}
 
-	//if (m_pTexture != nullptr)
-	//{
-	//	m_Width = m_pTexture->GetWidth();
-	//	m_Height = m_pTexture->GetHeight();
-	//}
-
 	std::string effectDuration{ utils::GetAttributeValue("EffectDuration", stringData) };
 	std::stringstream ss{};
 	ss << effectDuration;
@@ -89,7 +83,18 @@ void Pickup::Draw() const
 }
 void Pickup::OnPickup(Player& player)
 {
-	// do things
+	// check if player has active powerup
+		// if so stop it and delete it
+	// tell player to start this power up
+
+	// Player will need: bool HasActivePickup(), void Start/StopPickup, and a ptr to the pickup
+	
+	// cleanest would be: 
+	// 1. stop other pickups
+	// 2. get player's gun
+	// 3. set effect on gun
+
+	// this way pickup would need to be the one which sets and unsets the effect on the player, so Pickup would need a start and end function
 
 	Item::OnPickup(player);
 }

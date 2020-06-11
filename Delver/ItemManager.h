@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include "Player.h"
 class Item;
 
 class ItemManager
@@ -18,7 +19,7 @@ public:
 
 	void QueueForDestroy(Item* bullet);
 
-	void UpdateItems(float elapsedSec);
+	void UpdateItems(float elapsedSec, Player& player);
 	void DrawItems() const;
 
 	size_t GetSize() const;

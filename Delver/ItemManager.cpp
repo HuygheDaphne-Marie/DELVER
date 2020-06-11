@@ -68,12 +68,12 @@ void ItemManager::DestroyItems()
 	m_ItemsToDelete.clear();
 }
 
-void ItemManager::UpdateItems(float elapsedSec)
+void ItemManager::UpdateItems(float elapsedSec, Player& player)
 {
 	DestroyItems();
 	for (Item* item : m_Items)
 	{
-		item->Update(elapsedSec);
+		item->Update(elapsedSec, player);
 	}
 }
 void ItemManager::DrawItems() const

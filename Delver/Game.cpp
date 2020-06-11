@@ -41,17 +41,7 @@ void Game::Initialize( )
 	// TESTING
 
 	LootDropper ld{};
-	ld.DropLoot(Enemy::Type::turret, m_Player.GetPosition());
-
-	//LootTable lt{ Enemy::Type::turret };
-	//std::vector<Item*> items{ lt.RollTable() };
-
-	//for (Item* item : items)
-	//{
-	//	delete item;
-	//}
-
-	//Pickup pickup{ Pickup::PickupType::bounce, 2.0f, m_Player.GetPosition() };
+	ld.DropLoot(Enemy::Type::turret, m_Player.GetPosition() + Vector2f{50.f, 10.f});
 }
 void Game::Cleanup( )
 {
@@ -73,7 +63,7 @@ void Game::Update( float elapsedSec )
 	m_Player.Update(elapsedSec, m_Level, m_MousePos + m_Camera.GetClampDisplacement(m_Player.GetPosition()));
 
 	EnemyManager::GetInstance()->UpdateEnemies(elapsedSec);
-	ItemManager::GetInstance()->UpdateItems(elapsedSec);
+	ItemManager::GetInstance()->UpdateItems(elapsedSec, m_Player);
 
 	m_Camera.UpdatePos(m_Player.GetPosition());
 }

@@ -14,7 +14,7 @@ Player::Player(const Point2f& pos, Gun* pGunEquiped)
 		Actor::ActorData
 		{ 
 			pos, 
-			Actor::Dimension{40.f, 40.f}, 
+			Actor::Dimension{40.f, 40.f},
 			Actor::Type::player, 
 			TextureManager::GetInstance()->GetTexture("Resources/Textures/Actors/player.png") 
 		}
