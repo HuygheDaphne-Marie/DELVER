@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "Item.h"
 
-Item::Item(const ItemType& itemType, const Point2f& pos, float width, float height, const Vector2f& velocity)
+Item::Item(const ItemType& itemType, const Point2f& pos, const Vector2f& velocity, float width, float height)
 	: m_ItemType{ itemType }
 	, m_SpawnPos{ pos }
 	, m_Posistion{ pos }
@@ -18,6 +18,7 @@ Item::~Item()
 void Item::Update(float elapsedSec)
 {
 	m_Posistion += m_Velocity * elapsedSec;
+	m_Velocity *= 0.9f;
 }
 
 void Item::OnPickup(Player& player)

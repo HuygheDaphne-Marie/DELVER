@@ -6,7 +6,7 @@
 
 
 Pickup::Pickup(PickupType type, float effectDuration, const Point2f& pos, const Vector2f& velocity)
-	: Item(ItemType::pickup, pos, 10.f, 10.f, velocity)
+	: Item(ItemType::pickup, pos, velocity)
 	, m_Type{ type }
 	, m_EffectDuration{ effectDuration }
 	, m_EffectTimer{ 0 }
@@ -23,14 +23,14 @@ Pickup::Pickup(PickupType type, float effectDuration, const Point2f& pos, const 
 		break;
 	}
 
-	if (m_pTexture != nullptr)
-	{
-		m_Width = m_pTexture->GetWidth();
-		m_Height = m_pTexture->GetHeight();
-	}
+	//if (m_pTexture != nullptr)
+	//{
+	//	m_Width = m_pTexture->GetWidth();
+	//	m_Height = m_pTexture->GetHeight();
+	//}
 }
 Pickup::Pickup(const std::string& stringData)
-	: Item(ItemType::pickup, Point2f{0,0}, 0.f, 0.f)
+	: Item(ItemType::pickup, Point2f{0,0})
 	, m_Type{ PickupType::bounce }
 	, m_EffectDuration{ 0 }
 	, m_EffectTimer{ 0 }
@@ -49,11 +49,11 @@ Pickup::Pickup(const std::string& stringData)
 		m_pTexture = TextureManager::GetInstance()->GetTexture("warp_pickup_texture");
 	}
 
-	if (m_pTexture != nullptr)
-	{
-		m_Width = m_pTexture->GetWidth();
-		m_Height = m_pTexture->GetHeight();
-	}
+	//if (m_pTexture != nullptr)
+	//{
+	//	m_Width = m_pTexture->GetWidth();
+	//	m_Height = m_pTexture->GetHeight();
+	//}
 
 	std::string effectDuration{ utils::GetAttributeValue("EffectDuration", stringData) };
 	std::stringstream ss{};
@@ -65,7 +65,7 @@ Pickup::Pickup(const std::string& stringData)
 	m_Velocity = Vector2f{ velocityPos.x, velocityPos.y };
 }
 Pickup::Pickup(const Pickup& other)
-	: Item(ItemType::pickup, other.m_Posistion, other.m_Width, other.m_Height)
+	: Item(ItemType::pickup, other.m_Posistion, other.m_Velocity, other.m_Width, other.m_Height)
 	, m_Type{ other.m_Type }
 	, m_EffectDuration{ other.m_EffectDuration }
 	, m_EffectTimer{ 0 }
@@ -85,7 +85,7 @@ void Pickup::Draw() const
 	{
 		return;
 	}
-	m_pTexture->Draw(m_Posistion);
+	m_pTexture->Draw(m_Posistion, Rectf{0, 0, m_Width, m_Height});
 }
 void Pickup::OnPickup(Player& player)
 {

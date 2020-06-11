@@ -58,6 +58,7 @@ void Game::Cleanup( )
 	delete BulletManager::GetInstance();
 	delete TextureManager::GetInstance();
 	delete EnemyManager::GetInstance();
+	delete ItemManager::GetInstance();
 }
 
 void Game::Update( float elapsedSec )
@@ -72,6 +73,7 @@ void Game::Update( float elapsedSec )
 	m_Player.Update(elapsedSec, m_Level, m_MousePos + m_Camera.GetClampDisplacement(m_Player.GetPosition()));
 
 	EnemyManager::GetInstance()->UpdateEnemies(elapsedSec);
+	ItemManager::GetInstance()->UpdateItems(elapsedSec);
 
 	m_Camera.UpdatePos(m_Player.GetPosition());
 }
@@ -84,6 +86,8 @@ void Game::Draw( ) const
 	m_Camera.Transform();
 
 	m_Level.Draw();
+
+	ItemManager::GetInstance()->DrawItems();
 
 	EnemyManager::GetInstance()->DrawEnemies();
 	m_Player.Draw();

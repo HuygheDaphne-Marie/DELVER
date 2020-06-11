@@ -1,7 +1,8 @@
 #include "pch.h"
 #include "LootDropper.h"
+#include "ItemManager.h"
 
-const float LootDropper::m_DropSpeed = 50.f;
+const float LootDropper::m_DropSpeed = 250.f;
 
 LootDropper::LootDropper()
 	: m_pLootTables{}
@@ -42,7 +43,7 @@ void LootDropper::DropLoot(const Enemy::Type& enemyType, Point2f deathPos)
 			item->m_SpawnPos = deathPos;
 			GiveRandomVelocity(item);
 
-			// add to item manager's list
+			ItemManager::GetInstance()->AddItem(item);
 		}
 	}
 }

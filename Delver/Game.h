@@ -3,6 +3,7 @@
 #include "BulletManager.h"
 #include "TextureManager.h"
 #include "EnemyManager.h"
+#include "ItemManager.h"
 #include "Gun.h"
 #include "Player.h"
 #include "Camera.h"

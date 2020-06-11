@@ -16,7 +16,7 @@ public:
 	Vector2f m_Velocity;
 	bool m_PickedUp;
 
-	Item(const ItemType& itemType, const Point2f& pos, float width, float height, const Vector2f& velocity = Vector2f{ 0,0 });
+	Item(const ItemType& itemType, const Point2f& pos, const Vector2f& velocity = Vector2f{ 0,0 }, float width = 20.f, float height = 20.f);
 	virtual ~Item();
 
 	virtual void Update(float elapsedSec);

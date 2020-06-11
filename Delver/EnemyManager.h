@@ -30,7 +30,7 @@ public:
 
 	void ClearAll();
 
-	void SpawnEnemiesForRoom(const Room* room);
+	//void SpawnEnemiesForRoom(const Room* room);
 
 private:
 	EnemyManager();
