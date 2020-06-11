@@ -119,6 +119,9 @@ bool Enemy::IsDead() const
 void Enemy::HandleDeath()
 {
 	// TODO: make enemy animate a dead thiny with blood and stuff
+	m_State = Enemy::State::dead;
+	m_pEquippedGun->StopFiring();
+
 	if (m_CanDelete)
 	{
 		EnemyManager::GetInstance()->QueueToDestroy(this);
