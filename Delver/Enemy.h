@@ -37,6 +37,7 @@ public:
 	float m_DetectionRange;
 	Actor* m_pTarget;
 	bool m_CanDelete;
+	bool m_DeathHandled;
 
 	Enemy(const ActorData& actorData, const BehaviourSet& behaviours, float detectionRange, int hitPoints, Gun* gun = nullptr);
 	Enemy(const Enemy& other) = delete;

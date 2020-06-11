@@ -21,6 +21,7 @@ Enemy::Enemy(const ActorData& actorData, const BehaviourSet& behaviours, float d
 	, m_State{ State::idle }
 	, m_pTarget{ nullptr }
 	, m_CanDelete{ false }
+	, m_DeathHandled{ false }
 {
 	Initialize();
 }
@@ -118,6 +119,11 @@ bool Enemy::IsDead() const
 }
 void Enemy::HandleDeath()
 {
+	if (m_DeathHandled)
+	{
+		return;
+	}
+
 	// TODO: make enemy animate a dead thiny with blood and stuff
 	m_State = Enemy::State::dead;
 	m_pEquippedGun->StopFiring();
@@ -126,6 +132,7 @@ void Enemy::HandleDeath()
 	{
 		EnemyManager::GetInstance()->QueueToDestroy(this);
 	}
+	m_DeathHandled = true;
 }
 
 void Enemy::SetBehaviour(const Enemy::BehaviourSet& behaviour)
