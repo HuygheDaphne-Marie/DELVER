@@ -27,6 +27,9 @@ public:
 	// StartEffect();
 	// StopEffect();
 
+	const float GetEffectDuration() const;
+	const float GetEffectTimer() const;
+
 private:
 	PickupType m_Type;
 	float m_EffectDuration;

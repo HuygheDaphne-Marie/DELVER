@@ -5,9 +5,9 @@
 #include "LootDropper.h"
 #include "Pickup.h";
 
-
 #include "ResumeButton.h"
 #include "FloorDisplay.h"
+#include "PickupDisplay.h"
 
 Game::Game( const Window& window )
 	: m_Window{ window }
@@ -50,9 +50,11 @@ void Game::Initialize( )
 #pragma region Menu Setup
 	ResumeButton* resumeBtn{ new ResumeButton{this, Rectf{0, 0, 50, 50}, Color4f{1, 1, 1, 1}} };
 	FloorDisplay* floorDisplay{ new FloorDisplay(&m_Level, Point2f{10, 60}) };
+	PickupDisplay* pickupDisplay{ new PickupDisplay(&m_Player, Point2f{ PickupDisplay::m_CircleRadius, PickupDisplay::m_CircleRadius }) };
 
 	m_Menu.AddComponent(Menu::State::paused, resumeBtn);
 	m_Menu.AddComponent(Menu::State::playing, floorDisplay);
+	m_Menu.AddComponent(Menu::State::playing, pickupDisplay);
 #pragma endregion
 }
 void Game::Cleanup( )

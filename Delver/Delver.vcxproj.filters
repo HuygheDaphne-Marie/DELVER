@@ -222,6 +222,9 @@
     <ClCompile Include="StringPrinter.cpp">
       <Filter>Game Files\UI\Components</Filter>
     </ClCompile>
+    <ClCompile Include="PickupDisplay.cpp">
+      <Filter>Game Files\UI\Components\PlayerInfo</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -373,6 +376,9 @@
     </ClInclude>
     <ClInclude Include="StringPrinter.h">
       <Filter>Game Files\UI\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="PickupDisplay.h">
+      <Filter>Game Files\UI\Components\PlayerInfo</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

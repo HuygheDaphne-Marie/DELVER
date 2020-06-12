@@ -158,3 +158,12 @@ void Pickup::StopEffect()
 		m_pAffectedPlayer = nullptr;
 	}
 }
+
+const float Pickup::GetEffectDuration() const
+{
+	return m_EffectDuration;
+}
+const float Pickup::GetEffectTimer() const
+{
+	return m_EffectTimer;
+}
