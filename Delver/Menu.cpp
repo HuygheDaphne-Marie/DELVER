@@ -87,6 +87,7 @@ void Menu::AddComponent(State menuState, MenuComponent* component)
 		std::vector<MenuComponent*> newComponentsList{ component };
 		m_StateComponents.insert({ menuState, newComponentsList });
 	}
+	component->SetMenu(this);
 }
 void Menu::RemoveComponent(MenuComponent* component) // Doesn't delete the component, that's up to you!
 {
