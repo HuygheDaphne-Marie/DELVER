@@ -48,7 +48,7 @@ void Game::Initialize( )
 
 	// Menu Setup
 #pragma region Menu Setup
-	ResumeButton* resumeBtn{ new ResumeButton{this, Rectf{0, 0, 50, 50}, Color4f{1, 1, 1, 1}} };
+	ResumeButton* resumeBtn{ new ResumeButton{this, Rectf{0, 0, 150, 50}, Color4f{0.5f, 0.5f, 0.5f, 1}} };
 	FloorDisplay* floorDisplay{ new FloorDisplay(&m_Level, Point2f{10, 60}) };
 	PickupDisplay* pickupDisplay{ new PickupDisplay(&m_Player, Point2f{ PickupDisplay::m_CircleRadius, PickupDisplay::m_CircleRadius }) };
 
@@ -157,16 +157,16 @@ void Game::ProcessKeyDownEvent( const SDL_KeyboardEvent & e )
 void Game::ProcessKeyUpEvent( const SDL_KeyboardEvent& e )
 {
 	//std::cout << "KEYUP event: " << e.keysym.sym << std::endl;
-	//switch ( e.keysym.sym )
-	//{
-	//case SDLK_p:
-	//case SDLK_p:
-	//	PauseGame(); // temp
-	//	break;
-	//case SDLK_r:
-	//	ResumeGame(); // temp
-	//	break;
-	//}
+	switch ( e.keysym.sym )
+	{
+	case SDLK_ESCAPE:
+	case SDLK_p:
+		PauseGame(); // temp
+		break;
+	case SDLK_r:
+		ResumeGame(); // temp
+		break;
+	}
 	m_Menu.OnPress(e);
 }
 void Game::ProcessMouseMotionEvent( const SDL_MouseMotionEvent& e )

@@ -8,6 +8,7 @@
 StringPrinter::StringPrinter(const std::string& monospaceFontFile, int characterSize)
 	: m_pFontTexture{ nullptr }
 	, m_CharacterString{ "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789: " }
+	, m_CharacterWidth{}
 {
 	std::string textureName{ GetFontTextureName(monospaceFontFile, characterSize) };
 	m_pFontTexture = TextureManager::GetInstance()->GetTexture(textureName, false);
@@ -16,6 +17,7 @@ StringPrinter::StringPrinter(const std::string& monospaceFontFile, int character
 		m_pFontTexture = new Texture(m_CharacterString, monospaceFontFile, characterSize, Color4f{ 1,1,1,1 });
 		TextureManager::GetInstance()->AddTexture(textureName, m_pFontTexture);
 	}
+	m_CharacterWidth = m_pFontTexture->GetWidth() / m_CharacterString.size();
 }
 StringPrinter::~StringPrinter()
 {
@@ -24,17 +26,26 @@ StringPrinter::~StringPrinter()
 
 void StringPrinter::PrintString(const std::string& string, const Point2f& leftBottom) const
 {
-	const float charSize{ m_pFontTexture->GetWidth() / m_CharacterString.size() };
-	Rectf charRect{ 0, 0, charSize, m_pFontTexture->GetHeight() };
+	Rectf charRect{ 0, 0, m_CharacterWidth, m_pFontTexture->GetHeight() };
 	Point2f drawPos{ leftBottom };
 
 	for (char c : string)
 	{
 		charRect.left = GetCharOffset(c);
 		m_pFontTexture->Draw(drawPos, charRect);
-		drawPos.x += charSize;
+		drawPos.x += m_CharacterWidth;
 	}
 }
+
+float StringPrinter::GetCharacterWidth() const
+{
+	return m_CharacterWidth;
+}
+float StringPrinter::GetCharacterHeight() const
+{
+	return m_pFontTexture->GetHeight();
+}
+
 
 std::string StringPrinter::GetFontTextureName(const std::string& monospaceFontFile, int characterSize)
 {
@@ -44,14 +55,13 @@ std::string StringPrinter::GetFontTextureName(const std::string& monospaceFontFi
 float StringPrinter::GetCharOffset(char c) const
 {
 	float offset{ 0 };
-	const float charSize{ m_pFontTexture->GetWidth() / m_CharacterString.size() };
 	for (char stringChar : m_CharacterString)
 	{
 		if (c == stringChar)
 		{
 			break;
 		}
-		offset += charSize;
+		offset += m_CharacterWidth;
 	}
 	return offset;
 }

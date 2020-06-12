@@ -1,12 +1,13 @@
 #pragma once
 #include "MenuComponent.h"
+#include "StringPrinter.h"
 
 class Game;
 
 class ResumeButton : public MenuComponent
 {
 public:
-	ResumeButton(Game* game, const Rectf& btnRect, const Color4f& btnColor);
+	ResumeButton(Game* game, const Rectf& btnRect, const Color4f& btnColor = Color4f{1,1,1,1});
 	ResumeButton(const ResumeButton& other) = delete;
 	ResumeButton& operator=(const ResumeButton& other) = delete;
 	ResumeButton(ResumeButton&& other) = delete;
@@ -23,5 +24,7 @@ private:
 	Game* m_pGame;
 	const Rectf m_BtnRect;
 	const Color4f m_BtnColor;
+	StringPrinter m_Printer;
+	const std::string m_Text;
 };
 
