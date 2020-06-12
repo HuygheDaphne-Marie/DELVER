@@ -95,6 +95,11 @@ void Enemy::Update(float elapsedSec, const Level& level)
 	{
 		HandleDeath();
 	}
+
+	if (m_CanDelete)
+	{
+		EnemyManager::GetInstance()->QueueToDestroy(this);
+	}
 }
 void Enemy::Draw() const
 {

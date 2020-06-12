@@ -9,6 +9,7 @@ EnemyManager::EnemyManager()
 	: m_Enemies{}
 	, m_EnemiesToDelete{}
 	, m_pCurrentLevel{nullptr}
+	, m_LootDropper{}
 {
 }
 EnemyManager::~EnemyManager()
@@ -65,6 +66,7 @@ void EnemyManager::CheckCollision(Bullet* bulletToCheckWith)
 }
 void EnemyManager::QueueToDestroy(Enemy* enemy)
 {
+	m_LootDropper.DropLoot(enemy->m_EnemyType, enemy->GetPosition());
 	m_EnemiesToDelete.push_back(enemy);
 }
 

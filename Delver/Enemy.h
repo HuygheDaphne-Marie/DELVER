@@ -39,6 +39,8 @@ public:
 	bool m_CanDelete;
 	bool m_DeathHandled;
 
+	Enemy::Type m_EnemyType;
+
 	Enemy(const ActorData& actorData, const BehaviourSet& behaviours, float detectionRange, int hitPoints, Gun* gun = nullptr);
 	Enemy(const Enemy& other) = delete;
 	Enemy& operator=(const Enemy& other) = delete;

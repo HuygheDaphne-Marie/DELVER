@@ -6,6 +6,7 @@ class Bullet;
 class Room;
 
 #include <vector>
+#include "LootDropper.h";
 
 class EnemyManager final
 {
@@ -37,6 +38,8 @@ private:
 
 	std::vector<Enemy*> m_Enemies;
 	std::vector<Enemy*> m_EnemiesToDelete;
+
+	LootDropper m_LootDropper;
 
 	void Cleanup();
 	void DestroyEnemiesInDestroyQueue();

@@ -35,6 +35,7 @@ Enemy* EnemyFactory::CreateEnemyOfType(Enemy::Type type, const Point2f& pos)
 
 		Enemy* newEnemy{ new Enemy{ Actor::ActorData{pos, Actor::Dimension{48.f, 48.f, Rectf{0, 0, 48.f, 48.f}}}, turretBehaviour, 400.f, 1 } };
 		newEnemy->EquipGun(new Gun(0.5f, 400.f, 0.1f, nullptr, BulletType::light));
+		newEnemy->m_EnemyType = type;
 		return newEnemy;
 	}
 		break;
