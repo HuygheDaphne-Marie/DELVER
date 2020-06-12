@@ -11,6 +11,8 @@
 #include "Enemy.h"
 #include "EnemyFactory.h"
 
+#include "Menu.h"
+
 #include <vector>
 
 class Game
@@ -58,6 +60,8 @@ private:
 	bool m_IsPaused;
 
 	EnemyFactory m_EnemyFactory;
+
+	Menu m_Menu;
 
 	// FUNCTIONS
 	void Initialize( );

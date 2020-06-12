@@ -5,8 +5,8 @@
 #include "LootDropper.h"
 #include "Pickup.h";
 
-#include "Menu.h"
-#include "PauseButton.h"
+
+#include "ResumeButton.h"
 
 Game::Game( const Window& window )
 	: m_Window{ window }
@@ -17,6 +17,7 @@ Game::Game( const Window& window )
 	, m_pCrosshairTexture{nullptr}
 	, m_IsPaused{false}
 	, m_EnemyFactory{ &m_Player, &m_Level, {Enemy::Type::turret} }
+	, m_Menu{}
 {
 	Initialize( );
 }
@@ -44,12 +45,14 @@ void Game::Initialize( )
 	LootDropper ld{};
 	ld.DropLoot(Enemy::Type::turret, m_Player.GetPosition() + Vector2f{50.f, 10.f});
 
-	Menu testMenu{};
-	PauseButton* testComponent{ new PauseButton{this, Rectf{0, 0, 50, 50}, Color4f{1, 1, 1, 1}} };
-	testMenu.AddComponent(testMenu.m_MenuState, testComponent);
-	testMenu.AddComponent(testMenu.m_MenuState, testComponent);
-	testMenu.RemoveComponent(testMenu.m_MenuState, testComponent);
-	delete testComponent;
+	
+	// Menu Setup
+#pragma region Menu Setup
+	ResumeButton* resumeBtn{ new ResumeButton{this, Rectf{0, 0, 50, 50}, Color4f{1, 1, 1, 1}} };
+
+
+	m_Menu.AddComponent(Menu::State::paused, resumeBtn);
+#pragma endregion
 }
 void Game::Cleanup( )
 {
@@ -74,6 +77,7 @@ void Game::Update( float elapsedSec )
 	ItemManager::GetInstance()->UpdateItems(elapsedSec, m_Player);
 
 	m_Camera.UpdatePos(m_Player.GetPosition());
+	m_Menu.Update(elapsedSec);
 }
 
 void Game::Draw( ) const
@@ -109,17 +113,21 @@ void Game::Draw( ) const
 	}
 	
 	glPopMatrix();
+
+	m_Menu.Draw();
 }
 
 void Game::PauseGame()
 {
 	m_IsPaused = true;
 	SDL_ShowCursor(SDL_ENABLE);
+	m_Menu.m_MenuState = Menu::State::paused;
 }
 void Game::ResumeGame()
 {
 	m_IsPaused = false;
 	SDL_ShowCursor(SDL_DISABLE);
+	m_Menu.m_MenuState = Menu::State::playing;
 }
 
 void Game::HandleOldLevel()
@@ -148,18 +156,15 @@ void Game::ProcessKeyUpEvent( const SDL_KeyboardEvent& e )
 	//std::cout << "KEYUP event: " << e.keysym.sym << std::endl;
 	//switch ( e.keysym.sym )
 	//{
-	//case SDLK_LEFT:
-	//	//std::cout << "Left arrow key released\n";
+	//case SDLK_p:
+	//case SDLK_p:
+	//	PauseGame(); // temp
 	//	break;
-	//case SDLK_RIGHT:
-	//	//std::cout << "`Right arrow key released\n";
-	//	break;
-	//case SDLK_1:
-	//case SDLK_KP_1:
-	//	//std::cout << "Key 1 released\n";
+	//case SDLK_r:
+	//	ResumeGame(); // temp
 	//	break;
 	//}
-
+	m_Menu.OnPress(e);
 }
 void Game::ProcessMouseMotionEvent( const SDL_MouseMotionEvent& e )
 {
@@ -202,6 +207,9 @@ void Game::ProcessMouseUpEvent( const SDL_MouseButtonEvent& e )
 	//	std::cout << " middle button " << std::endl;
 	//	break;
 	}
+
+	const Point2f clickPos{ float(e.x), m_Window.height - float(e.y) };
+	m_Menu.OnClick(clickPos);
 }
 
 void Game::ClearBackground( ) const

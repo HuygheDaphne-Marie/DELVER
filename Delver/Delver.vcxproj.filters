@@ -207,7 +207,7 @@
     <ClCompile Include="MenuComponent.cpp">
       <Filter>Game Files\UI\Components</Filter>
     </ClCompile>
-    <ClCompile Include="PauseButton.cpp">
+    <ClCompile Include="ResumeButton.cpp">
       <Filter>Game Files\UI\Components\Buttons</Filter>
     </ClCompile>
   </ItemGroup>
@@ -353,7 +353,7 @@
     <ClInclude Include="MenuComponent.h">
       <Filter>Game Files\UI\Components</Filter>
     </ClInclude>
-    <ClInclude Include="PauseButton.h">
+    <ClInclude Include="ResumeButton.h">
       <Filter>Game Files\UI\Components\Buttons</Filter>
     </ClInclude>
   </ItemGroup>
