@@ -27,6 +27,8 @@ public:
 
 	void SetLevelDimensions(int width, int height);
 
+	int GetCurrentLevel() const;
+
 private:
 	std::vector<Room*> m_Rooms;
 	int m_LevelCols;

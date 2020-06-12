@@ -122,6 +122,11 @@ void Level::SetLevelDimensions(int width, int height)
 	m_LevelRows = height;
 }
 
+int Level::GetCurrentLevel() const
+{
+	return m_CurrentLevel;
+}
+
 void Level::Generate()
 {
 	// Make empty level according to size

@@ -62,12 +62,10 @@ TextureManager::TextureManager()
 }
 TextureManager::~TextureManager()
 {
-	for (std::unordered_map<std::string, Texture*>::value_type& value : m_Textures)
+	for (std::unordered_map<std::string, Texture*>::iterator itr{m_Textures.begin()}; itr != m_Textures.end(); itr++)
 	{
-		delete value.second;
-		value.second = nullptr;
+		delete itr->second;
 	}
-
 	m_Textures.clear();
 }
 
@@ -124,7 +122,7 @@ Texture* TextureManager::GetTexture(const std::string& textureName) const
 	}
 	return m_Textures.find(m_NO_TEXTURE)->second;
 }
-Texture* TextureManager::GetTexture(const std::string& textureName)
+Texture* TextureManager::GetTexture(const std::string& textureName, bool tryget)
 {
 	auto pair{ m_Textures.find(textureName) };
 
@@ -132,7 +130,7 @@ Texture* TextureManager::GetTexture(const std::string& textureName)
 	{
 		return pair->second;
 	}
-	else
+	else if(tryget)
 	{
 		Texture* newTexture{ new Texture(textureName) };
 		if (newTexture->IsCreationOk())
@@ -145,5 +143,18 @@ Texture* TextureManager::GetTexture(const std::string& textureName)
 			delete newTexture;
 		}
 	}
+	if (!tryget)
+	{
+		return nullptr;
+	}
 	return m_Textures.find(m_NO_TEXTURE)->second;
+}
+
+void TextureManager::AddTexture(const std::string& textureName, Texture* texture)
+{
+	if (texture == nullptr || m_Textures.find(textureName) != m_Textures.end())
+	{
+		return;
+	}
+	m_Textures.insert({ textureName, texture });
 }

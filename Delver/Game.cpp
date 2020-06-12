@@ -7,6 +7,7 @@
 
 
 #include "ResumeButton.h"
+#include "FloorDisplay.h"
 
 Game::Game( const Window& window )
 	: m_Window{ window }
@@ -45,13 +46,13 @@ void Game::Initialize( )
 	LootDropper ld{};
 	ld.DropLoot(Enemy::Type::turret, m_Player.GetPosition() + Vector2f{50.f, 10.f});
 
-	
 	// Menu Setup
 #pragma region Menu Setup
 	ResumeButton* resumeBtn{ new ResumeButton{this, Rectf{0, 0, 50, 50}, Color4f{1, 1, 1, 1}} };
-
+	FloorDisplay* floorDisplay{ new FloorDisplay(&m_Level, Point2f{10, 60}) };
 
 	m_Menu.AddComponent(Menu::State::paused, resumeBtn);
+	m_Menu.AddComponent(Menu::State::playing, floorDisplay);
 #pragma endregion
 }
 void Game::Cleanup( )

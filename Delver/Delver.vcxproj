@@ -165,6 +165,7 @@
     <ClCompile Include="EnemyFactory.cpp" />
     <ClCompile Include="EnemyManager.cpp" />
     <ClCompile Include="FightingBehaviour.cpp" />
+    <ClCompile Include="FloorDisplay.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Gun.cpp" />
     <ClCompile Include="Item.cpp" />
@@ -182,6 +183,7 @@
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="StationaryBeheviour.cpp" />
+    <ClCompile Include="StringPrinter.cpp" />
     <ClCompile Include="TextureManager.cpp" />
     <ClCompile Include="Matrix2x3.cpp" />
     <ClCompile Include="pch.cpp">
@@ -221,6 +223,7 @@
     <ClInclude Include="EnemyFactory.h" />
     <ClInclude Include="EnemyManager.h" />
     <ClInclude Include="FightingBehaviour.h" />
+    <ClInclude Include="FloorDisplay.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Gun.h" />
     <ClInclude Include="Item.h" />
@@ -237,6 +240,7 @@
     <ClInclude Include="PlayerKeyboardController.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="StationaryBeheviour.h" />
+    <ClInclude Include="StringPrinter.h" />
     <ClInclude Include="TextureManager.h" />
     <ClInclude Include="Matrix2x3.h" />
     <ClInclude Include="pch.h" />

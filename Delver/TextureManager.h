@@ -42,7 +42,9 @@ public:
 
 	Texture* GetTexture(const std::vector<std::string>& textureList) const;
 	Texture* GetTexture(const std::string& textureName) const;
-	Texture* GetTexture(const std::string& textureName);
+	Texture* GetTexture(const std::string& textureName, bool tryget = true);
+
+	void AddTexture(const std::string& textureName, Texture* texture);
 
 private:
 	const std::string m_NO_TEXTURE;

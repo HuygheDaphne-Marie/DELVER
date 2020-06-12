@@ -64,6 +64,12 @@
     <Filter Include="Game Files\UI\Components\Buttons">
       <UniqueIdentifier>{57b20f29-a8fc-454d-9832-afc1156421ed}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game Files\UI\Components\PlayerInfo">
+      <UniqueIdentifier>{7fed253a-558e-4f18-bffd-1c493b547af2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game Files\UI\Components\LevelInfo">
+      <UniqueIdentifier>{bf6d457c-aed4-4915-ae2b-8ec880d8093e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Core.cpp">
@@ -210,6 +216,12 @@
     <ClCompile Include="ResumeButton.cpp">
       <Filter>Game Files\UI\Components\Buttons</Filter>
     </ClCompile>
+    <ClCompile Include="FloorDisplay.cpp">
+      <Filter>Game Files\UI\Components\LevelInfo</Filter>
+    </ClCompile>
+    <ClCompile Include="StringPrinter.cpp">
+      <Filter>Game Files\UI\Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -355,6 +367,12 @@
     </ClInclude>
     <ClInclude Include="ResumeButton.h">
       <Filter>Game Files\UI\Components\Buttons</Filter>
+    </ClInclude>
+    <ClInclude Include="FloorDisplay.h">
+      <Filter>Game Files\UI\Components\LevelInfo</Filter>
+    </ClInclude>
+    <ClInclude Include="StringPrinter.h">
+      <Filter>Game Files\UI\Components</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
