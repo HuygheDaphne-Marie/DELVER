@@ -5,6 +5,9 @@
 #include "LootDropper.h"
 #include "Pickup.h";
 
+#include "Menu.h"
+#include "MenuComponent.h"
+
 Game::Game( const Window& window )
 	: m_Window{ window }
 	, m_Player{ Point2f{window.width / 2, window.height / 2} }
@@ -37,11 +40,16 @@ void Game::Initialize( )
 
 	EnemyManager::GetInstance()->m_pCurrentLevel = &m_Level;
 
-
 	// TESTING
-
 	LootDropper ld{};
 	ld.DropLoot(Enemy::Type::turret, m_Player.GetPosition() + Vector2f{50.f, 10.f});
+
+	Menu testMenu{};
+	MenuComponent* testComponent{ new MenuComponent{} };
+	testMenu.AddComponent(testMenu.m_MenuState, testComponent);
+	testMenu.AddComponent(testMenu.m_MenuState, testComponent);
+	testMenu.RemoveComponent(testMenu.m_MenuState, testComponent);
+	delete testComponent;
 }
 void Game::Cleanup( )
 {

@@ -79,8 +79,8 @@ void Menu::AddComponent(State menuState, MenuComponent* component)
 	std::unordered_map<State, std::vector<MenuComponent*>>::const_iterator itr{ m_StateComponents.find(menuState) };
 	if (itr != m_StateComponents.end())
 	{
-		std::vector<MenuComponent*> components{ *GetComponentsForMenuState(menuState) };
-		components.push_back(component);
+		std::vector<MenuComponent*>* components{ GetComponentsForMenuState(menuState) };
+		components->push_back(component);
 	}
 	else
 	{
@@ -93,13 +93,15 @@ void Menu::RemoveComponent(State menuState, MenuComponent* component) // Doesn't
 	std::unordered_map<State, std::vector<MenuComponent*>>::const_iterator itr{ m_StateComponents.find(menuState) };
 	if (itr != m_StateComponents.end())
 	{
-		std::vector<MenuComponent*> components{ *GetComponentsForMenuState(menuState) };
-		for (std::vector<MenuComponent*>::iterator itr{ components.begin() }; itr != components.end(); itr++)
+		std::vector<MenuComponent*>* components{ GetComponentsForMenuState(menuState) };
+		for (int i{0}; i < components->size(); i++)
 		{
-			if (*itr == component)
+			if (components->at(i) == component)
 			{
-				components.erase(itr);
-				break;
+				components->at(i) = nullptr;
+				components->at(i) = components->at(components->size() - 1);
+				i--;
+				components->pop_back();
 			}
 		}
 	}
