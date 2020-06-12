@@ -55,6 +55,12 @@
     <Filter Include="Game Files\Items\Loot">
       <UniqueIdentifier>{53d2eef3-2358-4e4b-90f5-f6794c9ed87e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game Files\UI">
+      <UniqueIdentifier>{a929aaeb-74dc-47eb-bd2c-3d2056c0b3ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game Files\UI\Components">
+      <UniqueIdentifier>{dc60872d-68ed-4284-aed9-9cd90b2b8c60}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Core.cpp">
@@ -192,6 +198,12 @@
     <ClCompile Include="Pickup.cpp">
       <Filter>Game Files\Items</Filter>
     </ClCompile>
+    <ClCompile Include="Menu.cpp">
+      <Filter>Game Files\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuComponent.cpp">
+      <Filter>Game Files\UI\Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -328,6 +340,12 @@
     </ClInclude>
     <ClInclude Include="Pickup.h">
       <Filter>Game Files\Items</Filter>
+    </ClInclude>
+    <ClInclude Include="Menu.h">
+      <Filter>Game Files\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuComponent.h">
+      <Filter>Game Files\UI\Components</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
