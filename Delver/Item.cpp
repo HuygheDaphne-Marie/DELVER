@@ -1,13 +1,14 @@
 #include "pch.h"
 #include "Item.h"
 
-Item::Item(const ItemType& itemType, const Point2f& pos, const Vector2f& velocity, float width, float height)
+const float Item::m_Width = 30.f;
+const float Item::m_Height = 30.f;
+
+Item::Item(const ItemType& itemType, const Point2f& pos, const Vector2f& velocity)
 	: m_ItemType{ itemType }
 	, m_SpawnPos{ pos }
 	, m_Posistion{ pos }
 	, m_Velocity{ velocity }
-	, m_Width{ width }
-	, m_Height{ height }
 	, m_PickedUp{ false }
 {
 }

@@ -31,6 +31,11 @@ public:
 	// Wall side
 	const std::string m_Wall_Side;
 #pragma endregion
+#pragma region Items
+	const std::string m_Pickup_Bounce;
+	const std::string m_Pickup_Warp;
+#pragma endregion
+
 
 	TextureManager(const TextureManager& other) = delete;
 	TextureManager& operator=(const TextureManager& other) = delete;

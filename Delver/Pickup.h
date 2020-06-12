@@ -29,6 +29,7 @@ public:
 
 	const float GetEffectDuration() const;
 	const float GetEffectTimer() const;
+	const Texture* GetTexture() const;
 
 private:
 	PickupType m_Type;

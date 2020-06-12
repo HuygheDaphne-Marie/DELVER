@@ -56,6 +56,11 @@ TextureManager::TextureManager()
 	// Wall side
 	, m_Wall_Side{ "Resources/Textures/Level/wall_side.png" }
 #pragma endregion
+#pragma region Items
+	, m_Pickup_Bounce{ "Resources/Textures/Items/Bounce.png" }
+	, m_Pickup_Warp{ "Resources/Textures/Items/warp.png" }
+#pragma endregion
+
 	, m_NO_TEXTURE{ "Resources/Textures/noTexture.png" }
 {
 	InitializeTextures();

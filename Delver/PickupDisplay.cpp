@@ -26,10 +26,10 @@ void PickupDisplay::Draw() const
 	if (pickup != nullptr)
 	{
 		DrawCircle();
-		//pickup-> // get texture and put in middle of circle
+		pickup->GetTexture()->Draw(Rectf{ m_Center.x - Item::m_Width / 2, m_Center.y - Item::m_Height / 2, Item::m_Width, Item::m_Height });
 	}
-	// circle with texture in the middle, which becomes smaller as there is less time left
 }
+	
 
 void PickupDisplay::OnClick(const Point2f& clickPos)
 {

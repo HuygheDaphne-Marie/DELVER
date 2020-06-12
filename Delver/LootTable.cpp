@@ -96,6 +96,7 @@ void LootTable::LoadTableEntries(const std::string& stringData)
 			float chance{};
 			ss << utils::GetAttributeValue("Chance", entry);
 			ss >> chance;
+			ss.clear();
 
 			m_Table.push_back(TableEntry{pickup, chance});
 		}

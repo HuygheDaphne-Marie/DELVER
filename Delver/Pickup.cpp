@@ -20,10 +20,10 @@ Pickup::Pickup(PickupType type, float effectDuration, const Point2f& pos, const 
 	switch (type)
 	{
 	case PickupType::bounce:
-		m_pTexture = TextureManager::GetInstance()->GetTexture("bounce_pickup_texture");
+		m_pTexture = TextureManager::GetInstance()->GetTexture(TextureManager::GetInstance()->m_Pickup_Bounce);
 		break;
 	case PickupType::warp: 
-		m_pTexture = TextureManager::GetInstance()->GetTexture("warp_pickup_texture");
+		m_pTexture = TextureManager::GetInstance()->GetTexture(TextureManager::GetInstance()->m_Pickup_Warp);
 		break;
 	}
 
@@ -46,12 +46,12 @@ Pickup::Pickup(const std::string& stringData)
 	if (type == "bounce")
 	{
 		m_Type = PickupType::bounce;
-		m_pTexture = TextureManager::GetInstance()->GetTexture("bounce_pickup_texture");
+		m_pTexture = TextureManager::GetInstance()->GetTexture(TextureManager::GetInstance()->m_Pickup_Bounce);
 	}
 	else if (type == "warp")
 	{
 		m_Type = PickupType::warp;
-		m_pTexture = TextureManager::GetInstance()->GetTexture("warp_pickup_texture");
+		m_pTexture = TextureManager::GetInstance()->GetTexture(TextureManager::GetInstance()->m_Pickup_Warp);
 	}
 
 	std::string effectDuration{ utils::GetAttributeValue("EffectDuration", stringData) };
@@ -64,7 +64,7 @@ Pickup::Pickup(const std::string& stringData)
 	m_Velocity = Vector2f{ velocityPos.x, velocityPos.y };
 }
 Pickup::Pickup(const Pickup& other)
-	: Item(ItemType::pickup, other.m_Posistion, other.m_Velocity, other.m_Width, other.m_Height)
+	: Item(ItemType::pickup, other.m_Posistion, other.m_Velocity)
 	, m_Type{ other.m_Type }
 	, m_EffectDuration{ other.m_EffectDuration }
 	, m_EffectTimer{ 0 }
@@ -98,7 +98,7 @@ void Pickup::Draw() const
 	{
 		return;
 	}
-	m_pTexture->Draw(m_Posistion, Rectf{0, 0, m_Width, m_Height});
+	m_pTexture->Draw(Rectf{ m_Posistion.x, m_Posistion.y, m_Width, m_Height});
 }
 void Pickup::OnPickup(Player& player)
 {
@@ -166,4 +166,8 @@ const float Pickup::GetEffectDuration() const
 const float Pickup::GetEffectTimer() const
 {
 	return m_EffectTimer;
+}
+const Texture* Pickup::GetTexture() const
+{
+	return m_pTexture;
 }
