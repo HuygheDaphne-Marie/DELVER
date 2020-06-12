@@ -6,7 +6,7 @@
 #include "Pickup.h";
 
 #include "Menu.h"
-#include "MenuComponent.h"
+#include "PauseButton.h"
 
 Game::Game( const Window& window )
 	: m_Window{ window }
@@ -45,7 +45,7 @@ void Game::Initialize( )
 	ld.DropLoot(Enemy::Type::turret, m_Player.GetPosition() + Vector2f{50.f, 10.f});
 
 	Menu testMenu{};
-	MenuComponent* testComponent{ new MenuComponent{} };
+	PauseButton* testComponent{ new PauseButton{this, Rectf{0, 0, 50, 50}, Color4f{1, 1, 1, 1}} };
 	testMenu.AddComponent(testMenu.m_MenuState, testComponent);
 	testMenu.AddComponent(testMenu.m_MenuState, testComponent);
 	testMenu.RemoveComponent(testMenu.m_MenuState, testComponent);

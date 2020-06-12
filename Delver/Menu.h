@@ -27,6 +27,7 @@ public:
 	void OnPress(const SDL_KeyboardEvent& e);
 
 	void AddComponent(State menuState, MenuComponent* component);
+	void RemoveComponent(MenuComponent* component);
 	void RemoveComponent(State menuState, MenuComponent* component);
 
 	const std::vector<MenuComponent*>* GetComponentsForCurrentMenuState() const;

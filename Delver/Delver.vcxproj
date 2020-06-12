@@ -172,6 +172,7 @@
     <ClCompile Include="LootDropper.cpp" />
     <ClCompile Include="LootTable.cpp" />
     <ClCompile Include="Menu.cpp" />
+    <ClCompile Include="PauseButton.cpp" />
     <ClCompile Include="MenuComponent.cpp" />
     <ClCompile Include="MovementBehaviour.cpp" />
     <ClCompile Include="NavMap.cpp" />
@@ -227,6 +228,7 @@
     <ClInclude Include="LootDropper.h" />
     <ClInclude Include="LootTable.h" />
     <ClInclude Include="Menu.h" />
+    <ClInclude Include="PauseButton.h" />
     <ClInclude Include="MenuComponent.h" />
     <ClInclude Include="MovementBehaviour.h" />
     <ClInclude Include="NavMap.h" />
