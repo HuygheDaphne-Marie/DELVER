@@ -81,7 +81,7 @@ void BulletManager::DestroyBullets()
 	m_BulletsToDelete.clear();
 }
 
-void BulletManager::UpdateBullets(float elapsedSec, const Level& currentLevel)
+void BulletManager::UpdateBullets(float elapsedSec, const Level& currentLevel, Player& player)
 {
 	DestroyBullets();
 	for (Bullet* bullet : m_Bullets)
@@ -90,7 +90,7 @@ void BulletManager::UpdateBullets(float elapsedSec, const Level& currentLevel)
 		Room* roomAtPos{ currentLevel.GetRoomAt(bulletPos) };
 		if (roomAtPos != nullptr)
 		{
-			bullet->Update(elapsedSec, roomAtPos->GetBarriers());
+			bullet->Update(elapsedSec, roomAtPos->GetBarriers(), player);
 		}
 		else
 		{

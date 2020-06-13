@@ -1,6 +1,7 @@
 #pragma once
 #include "Vector2f.h"
 #include "BulletType.h"
+#include "Player.h"
 
 class Texture;
 class SpecialEffect;
@@ -27,10 +28,11 @@ public:
 	Vector2f GetVelocity() const;
 	bool IsGoingToBeDestroyed() const;
 
-	void Update(float elapsedSec, const std::vector<std::vector<Point2f>>& wallsVector);
+	void Update(float elapsedSec, const std::vector<std::vector<Point2f>>& wallsVector, Player& player);
 	void Draw() const;
 
 	void OnHit(Enemy* enemyHit);
+	void OnHit(Player& playerhit);
 	
 	//bool CheckCollision(const Rectf& other) const;
 	//bool HandleCollision(const Rectf& other) const;

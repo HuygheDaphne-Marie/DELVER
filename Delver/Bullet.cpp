@@ -73,7 +73,7 @@ bool Bullet::IsGoingToBeDestroyed() const
 	return m_IsGoingToBeDestroyed;
 }
 
-void Bullet::Update(float elapsedSec, const std::vector<std::vector<Point2f>>& wallsVector)
+void Bullet::Update(float elapsedSec, const std::vector<std::vector<Point2f>>& wallsVector, Player& player)
 {
 	bool hasHitAWall{ false };
 	for (const std::vector<Point2f>& wall : wallsVector)
@@ -92,6 +92,10 @@ void Bullet::Update(float elapsedSec, const std::vector<std::vector<Point2f>>& w
 
 	// TODO: check colisions with non-walls and such
 	EnemyManager::GetInstance()->CheckCollision(this);
+	if (player.isPointInCollisionRect(m_Position))
+	{
+		OnHit(player);
+	}
 }
 void Bullet::Draw() const
 {
@@ -127,6 +131,12 @@ void Bullet::OnHit(Enemy* enemyHit)
 	// TODO: Apply more stuff here depending one defence and such of the Enemy and damage of the bullet
 	enemyHit->m_CurrentHitpoints--;
 	// TODO: Make a special effect on hit and call it here too.
+	BulletManager::GetInstance()->QueueForDestroy(this);
+	m_IsGoingToBeDestroyed = true;
+}
+void Bullet::OnHit(Player& playerHit)
+{
+	playerHit.m_CurrentHp--;
 	BulletManager::GetInstance()->QueueForDestroy(this);
 	m_IsGoingToBeDestroyed = true;
 }

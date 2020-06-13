@@ -76,7 +76,7 @@ void Game::Update( float elapsedSec )
 		return;
 	}
 
-	BulletManager::GetInstance()->UpdateBullets(elapsedSec, m_Level);
+	BulletManager::GetInstance()->UpdateBullets(elapsedSec, m_Level, m_Player);
 	m_Player.Update(elapsedSec, m_Level, m_MousePos + m_Camera.GetClampDisplacement(m_Player.GetPosition()));
 
 	EnemyManager::GetInstance()->UpdateEnemies(elapsedSec);

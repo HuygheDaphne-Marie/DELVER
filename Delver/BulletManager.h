@@ -3,6 +3,7 @@
 #include "BulletType.h"
 #include "SpecialEffect.h"
 #include "Level.h"
+#include "Player.h"
 
 // TODO: make into memory pool, save dat memory
 
@@ -22,7 +23,7 @@ public:
 	Bullet* GetBullet(const BulletType typeWanted, SpecialEffect::Type specialEffectWanted = SpecialEffect::Type::none);
 	void QueueForDestroy(Bullet* bullet);
 	
-	void UpdateBullets(float elapsedSec, const Level& currentLevel);
+	void UpdateBullets(float elapsedSec, const Level& currentLevel, Player& player);
 	void DrawBullets() const;
 
 	size_t GetSize() const;
