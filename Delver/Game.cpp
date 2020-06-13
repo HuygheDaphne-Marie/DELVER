@@ -14,6 +14,8 @@
 #include "SoundStream.h"
 #include "SoundManager.h"
 
+#include <iostream>
+
 Game::Game( const Window& window )
 	: m_Window{ window }
 	, m_Player{ Point2f{window.width / 2, window.height / 2}, 5 }
@@ -143,6 +145,11 @@ void Game::Draw( ) const
 
 void Game::PauseGame()
 {
+	if (m_IsPaused)
+	{
+		return;
+	}
+
 	m_IsPaused = true;
 	SDL_ShowCursor(SDL_ENABLE);
 	m_Menu.m_MenuState = Menu::State::paused;
@@ -177,8 +184,17 @@ void Game::ResetGame()
 	HandleOldLevel();
 	m_Level.Reset();
 	m_Player.m_CurrentHp = m_Player.m_MaxHP;
+	m_Player.SetState(Player::State::waiting);
 	HandleNewLevel();
 	ResumeGame();
+}
+void Game::PrintControls()
+{
+	std::cout << "I: Display this info\n";
+	std::cout << "WASD keys: Movement\n";
+	std::cout << "Left mouse button: Fire Weapon\n";
+	std::cout << "P: Pause game\n";
+	std::cout << "R: Resume game\n";
 }
 
 void Game::ProcessKeyDownEvent( const SDL_KeyboardEvent & e )
@@ -190,12 +206,14 @@ void Game::ProcessKeyUpEvent( const SDL_KeyboardEvent& e )
 	//std::cout << "KEYUP event: " << e.keysym.sym << std::endl;
 	switch ( e.keysym.sym )
 	{
-	case SDLK_ESCAPE:
+	case SDLK_i:
+		PrintControls();
+		break;
 	case SDLK_p:
-		PauseGame(); // temp
+		PauseGame();
 		break;
 	case SDLK_r:
-		ResumeGame(); // temp
+		ResumeGame();
 		break;
 	}
 	m_Menu.OnPress(e);

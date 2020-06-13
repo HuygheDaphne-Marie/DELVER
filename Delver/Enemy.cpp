@@ -42,6 +42,7 @@ Enemy::~Enemy()
 
 	if (m_pEquippedGun != nullptr)
 	{
+		m_pEquippedGun->SetHolder(nullptr);
 		delete m_pEquippedGun;
 	}
 }

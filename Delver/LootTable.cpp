@@ -35,7 +35,7 @@ std::vector<Item*> LootTable::RollTable()
 
 	for (TableEntry entry : m_Table)
 	{
-		float rolledChance{ utils::GetRand(0, 100) / 100.f };
+		float rolledChance{ utils::GetRand(0, 100) / 1.f };
 		if (rolledChance < entry.dropChance)
 		{
 			if (entry.item->m_ItemType == Item::ItemType::pickup)

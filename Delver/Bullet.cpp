@@ -92,7 +92,8 @@ void Bullet::Update(float elapsedSec, const std::vector<std::vector<Point2f>>& w
 
 	// TODO: check colisions with non-walls and such
 	EnemyManager::GetInstance()->CheckCollision(this);
-	if (m_pGunWhichFired->GetHolder()->m_Type == Actor::Type::enemy && player.isPointInCollisionRect(m_Position))
+	bool FiredByEnemy{ m_pGunWhichFired->GetHolder() == nullptr || m_pGunWhichFired->GetHolder()->m_Type == Actor::Type::enemy };
+	if (FiredByEnemy && player.isPointInCollisionRect(m_Position))
 	{
 		OnHit(player);
 	}

@@ -43,7 +43,7 @@ public:
 	float m_Width;
 	float m_Height;
 
-	Actor(const ActorData& data, float acceleration = 2000.f, float frictionFactor = 0.9f);
+	Actor(const ActorData& data, float acceleration = 1500.f, float frictionFactor = 0.9f);
 	Actor(const Actor& other) = delete;
 	Actor& operator=(const Actor& other) = delete;
 	Actor(Actor&& other) = delete;
