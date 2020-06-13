@@ -10,6 +10,7 @@
 #include "PickupDisplay.h"
 #include "HealthDisplay.h"
 #include "RestartButton.h"
+#include "SoundDisplay.h"
 
 #include "SoundManager.h"
 
@@ -52,17 +53,22 @@ void Game::Initialize( )
 
 	// Menu Setup
 #pragma region Menu Setup
-	ResumeButton* resumeBtn{ new ResumeButton{this, Rectf{0, 0, 150, 50}} };
+	ResumeButton* resumeBtn{ new ResumeButton{ this, Rectf{m_Window.width / 2 - 75, m_Window.height / 2 - 25, 150, 50} } };
 	FloorDisplay* floorDisplay{ new FloorDisplay(&m_Level, Point2f{10, 60}) };
 	PickupDisplay* pickupDisplay{ new PickupDisplay(&m_Player, Point2f{ m_Window.width - PickupDisplay::m_CircleRadius, PickupDisplay::m_CircleRadius }) };
 	HealthDisplay* healthDisplay{ new HealthDisplay(&m_Player, Point2f{20.f, 20.f}) };
 	RestartButton* restartBtn{ new RestartButton(this, Rectf{m_Window.width / 2 - 75, m_Window.height / 2 - 25, 150, 50} ) };
+	SoundDisplay* soundDisplay{ new SoundDisplay(Point2f{SoundDisplay::m_Spacing, m_Window.height - (SoundDisplay::m_Spacing + SoundDisplay::m_ButtonSide)}) };
 
 	m_Menu.AddComponent(Menu::State::paused, resumeBtn);
+	m_Menu.AddComponent(Menu::State::paused, soundDisplay);
+	m_Menu.AddComponent(Menu::State::gameover, soundDisplay);
+	m_Menu.AddComponent(Menu::State::gameover, restartBtn);
 	m_Menu.AddComponent(Menu::State::playing, floorDisplay);
 	m_Menu.AddComponent(Menu::State::playing, pickupDisplay);
 	m_Menu.AddComponent(Menu::State::playing, healthDisplay);
-	m_Menu.AddComponent(Menu::State::gameover, restartBtn);
+
+
 #pragma endregion
 }
 void Game::Cleanup( )

@@ -185,6 +185,7 @@
     <ClCompile Include="PlayerKeyboardController.cpp" />
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="SoundDisplay.cpp" />
     <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="StationaryBeheviour.cpp" />
     <ClCompile Include="StringPrinter.cpp" />
@@ -247,6 +248,7 @@
     <ClInclude Include="Pickup.h" />
     <ClInclude Include="PlayerKeyboardController.h" />
     <ClInclude Include="Level.h" />
+    <ClInclude Include="SoundDisplay.h" />
     <ClInclude Include="SoundManager.h" />
     <ClInclude Include="StationaryBeheviour.h" />
     <ClInclude Include="StringPrinter.h" />

@@ -7,13 +7,24 @@ Menu::Menu()
 	, m_StateComponents{}
 {
 }
+
+//for (int i{0}; i < itr->second.size(); i++)
+//{
+//	if (itr->second.at(i) != nullptr)
+//	{
+//		delete itr->second.at(i);
+//		itr->second.at(i) = nullptr;
+//	}
+//}
 Menu::~Menu()
 {
 	for (std::unordered_map<State, std::vector<MenuComponent*>>::iterator itr{ m_StateComponents.begin() }; itr != m_StateComponents.end(); itr++)
 	{
 		for (MenuComponent* component : itr->second)
 		{
-			delete component;
+			MenuComponent* lastPtrToComponent{ component };
+			RemoveComponent(component);
+			delete lastPtrToComponent;
 		}
 		itr->second.clear();
 	}

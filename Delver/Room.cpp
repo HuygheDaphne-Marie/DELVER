@@ -456,7 +456,7 @@ void Room::SetTile(const GridPos& pos, Tile::Type tileType)
 		tile->SetTexture(TextureManager::GetInstance()->GetTexture(TextureManager::GetInstance()->m_FLOORS));
 		break;
 	case Tile::Type::stairs:
-		tile->SetTexture(nullptr); //tile->SetTexture(TextureManager::GetInstance()->GetTexture(TextureManager::GetInstance()->m_Stairs));
+		tile->SetTexture(TextureManager::GetInstance()->GetTexture("Resources/Textures/Level/stairs.png"));
 		break;
 	}
 	UpdateNeighbourTiles(*tile, oldType);

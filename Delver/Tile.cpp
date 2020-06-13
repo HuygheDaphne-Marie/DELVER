@@ -117,6 +117,9 @@ void Tile::Draw() const
 	case Tile::Type::floor:
 		glColor3f(0.2f, 0.3f, 0);
 		break;
+	case Tile::Type::stairs:
+		glColor3f(1.f, 1.f, 1.f);
+		break;
 	}
 	utils::FillRect(Point2f{m_TilePos.x * m_Side, m_TilePos.y * m_Side}, m_Side, m_Side);
 }

@@ -70,6 +70,9 @@
     <Filter Include="Game Files\UI\Components\LevelInfo">
       <UniqueIdentifier>{bf6d457c-aed4-4915-ae2b-8ec880d8093e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game Files\UI\Components\Sound">
+      <UniqueIdentifier>{4160703c-b753-42c9-a8c0-24c1a86b35e1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Core.cpp">
@@ -237,6 +240,9 @@
     <ClCompile Include="VolumeBtn.cpp">
       <Filter>Game Files\UI\Components\Buttons</Filter>
     </ClCompile>
+    <ClCompile Include="SoundDisplay.cpp">
+      <Filter>Game Files\UI\Components\Sound</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -403,6 +409,9 @@
     </ClInclude>
     <ClInclude Include="VolumeBtn.h">
       <Filter>Game Files\UI\Components\Buttons</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundDisplay.h">
+      <Filter>Game Files\UI\Components\Sound</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
