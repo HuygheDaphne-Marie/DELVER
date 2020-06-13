@@ -234,6 +234,9 @@
     <ClCompile Include="SoundManager.cpp">
       <Filter>Game Files\Managers</Filter>
     </ClCompile>
+    <ClCompile Include="VolumeBtn.cpp">
+      <Filter>Game Files\UI\Components\Buttons</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -397,6 +400,9 @@
     </ClInclude>
     <ClInclude Include="SoundManager.h">
       <Filter>Game Files\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="VolumeBtn.h">
+      <Filter>Game Files\UI\Components\Buttons</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

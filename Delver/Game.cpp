@@ -52,11 +52,11 @@ void Game::Initialize( )
 
 	// Menu Setup
 #pragma region Menu Setup
-	ResumeButton* resumeBtn{ new ResumeButton{this, Rectf{0, 0, 150, 50}, Color4f{0.5f, 0.5f, 0.5f, 1}} };
+	ResumeButton* resumeBtn{ new ResumeButton{this, Rectf{0, 0, 150, 50}} };
 	FloorDisplay* floorDisplay{ new FloorDisplay(&m_Level, Point2f{10, 60}) };
 	PickupDisplay* pickupDisplay{ new PickupDisplay(&m_Player, Point2f{ m_Window.width - PickupDisplay::m_CircleRadius, PickupDisplay::m_CircleRadius }) };
 	HealthDisplay* healthDisplay{ new HealthDisplay(&m_Player, Point2f{20.f, 20.f}) };
-	RestartButton* restartBtn{ new RestartButton(this, Rectf{m_Window.width / 2 - 75, m_Window.height / 2 - 25, 150, 50}, Color4f{0.5f, 0.5f, 0.5f, 1}) };
+	RestartButton* restartBtn{ new RestartButton(this, Rectf{m_Window.width / 2 - 75, m_Window.height / 2 - 25, 150, 50} ) };
 
 	m_Menu.AddComponent(Menu::State::paused, resumeBtn);
 	m_Menu.AddComponent(Menu::State::playing, floorDisplay);
@@ -120,16 +120,16 @@ void Game::Draw( ) const
 	const float crosshairHeight{ m_pCrosshairTexture->GetWidth() };
 	m_pCrosshairTexture->Draw(Rectf{ gun->GetAimPos().x - crosshairWidth, gun->GetAimPos().y - crosshairHeight, crosshairWidth * 2, crosshairHeight * 2 });
 
-	Room* playerRoom = m_Level.GetRoomAt(m_Player.GetPosition());
-	if (playerRoom != nullptr)
-	{
-		std::vector<std::vector<Point2f>> walls = playerRoom->GetBarriers();
-		for (std::vector<Point2f> wall : walls)
-		{
-			glColor3f(1.f, 0.f, 0.f);
-			utils::DrawPolygon(wall);
-		}
-	}
+	//Room* playerRoom = m_Level.GetRoomAt(m_Player.GetPosition());
+	//if (playerRoom != nullptr)
+	//{
+	//	std::vector<std::vector<Point2f>> walls = playerRoom->GetBarriers();
+	//	for (std::vector<Point2f> wall : walls)
+	//	{
+	//		glColor3f(1.f, 0.f, 0.f);
+	//		utils::DrawPolygon(wall);
+	//	}
+	//}
 	
 	glPopMatrix();
 

@@ -209,6 +209,7 @@
     <ClCompile Include="TurretDrawing.cpp" />
     <ClCompile Include="utils.cpp" />
     <ClCompile Include="Vector2f.cpp" />
+    <ClCompile Include="VolumeBtn.cpp" />
     <ClCompile Include="WarpEffect.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -265,6 +266,7 @@
     <ClInclude Include="TurretDrawing.h" />
     <ClInclude Include="utils.h" />
     <ClInclude Include="Vector2f.h" />
+    <ClInclude Include="VolumeBtn.h" />
     <ClInclude Include="WarpEffect.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

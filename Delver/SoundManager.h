@@ -1,7 +1,7 @@
 #pragma once
 
-#include "SoundEffect.h";
-#include "SoundStream.h";
+#include "SoundEffect.h"
+#include "SoundStream.h"
 #include <unordered_map>
 
 class SoundManager
