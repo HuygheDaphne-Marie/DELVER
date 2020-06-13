@@ -137,6 +137,7 @@ void Bullet::OnHit(Enemy* enemyHit)
 void Bullet::OnHit(Player& playerHit)
 {
 	playerHit.m_CurrentHp--;
+	playerHit.GotHit();
 	BulletManager::GetInstance()->QueueForDestroy(this);
 	m_IsGoingToBeDestroyed = true;
 }

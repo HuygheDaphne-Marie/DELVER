@@ -5,6 +5,8 @@
 #include "Enemy.h"
 #include <map>
 
+#include "SoundEffect.h"
+
 class TurretDrawing : public DrawingBehaviour
 {
 public:
@@ -26,6 +28,8 @@ protected:
 	const std::string m_SrcPath;
 	AnimatedTexture m_DeathExplosion;
 	bool m_IsDead;
+	bool m_ExplosionSoundPlayed;
+	SoundEffect* m_pDeathSound;
 
 	Animation* m_pCurrentAnimation;
 

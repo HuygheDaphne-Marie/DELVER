@@ -9,6 +9,8 @@
 #include "AnimatedTexture.h"
 #include <iostream>
 
+#include "SoundManager.h"
+
 Player::Player(const Point2f& pos, int health, Gun* pGunEquiped)
 	: Actor
 	(
@@ -28,6 +30,7 @@ Player::Player(const Point2f& pos, int health, Gun* pGunEquiped)
 	, m_pPickup{ nullptr }
 	, m_MaxHP{ health }
 	, m_CurrentHp{ health }
+	, m_pHurtSound{ SoundManager::GetInstance()->GetSoundEffect("Resources/Sound/Hit.wav") }
 {
 	if (pGunEquiped != nullptr)
 	{
@@ -186,6 +189,11 @@ void Player::SetPickup(Pickup* pickup)
 bool Player::IsDead() const
 {
 	return m_CurrentHp <= 0;
+}
+
+void Player::GotHit()
+{
+	SoundManager::GetInstance()->PlaySoundEffect(m_pHurtSound);
 }
 
 Controller* Player::GetController() const

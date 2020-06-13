@@ -4,6 +4,8 @@
 #include "Animation.h"
 #include "AnimatedTexture.h"
 
+#include "SoundEffect.h"
+
 class Pickup;
 class Gun;
 
@@ -38,6 +40,8 @@ public:
 
 	bool IsDead() const;
 
+	void GotHit();
+
 	const int m_MaxHP;
 	int m_CurrentHp;
 
@@ -51,6 +55,8 @@ private:
 	AnimatedTexture m_AnimatedTexture;
 	Point2f m_LookPos;
 	Pickup* m_pPickup;
+
+	SoundEffect* m_pHurtSound;
 
 	void UpdateTextureStateString();
 

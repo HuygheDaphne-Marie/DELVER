@@ -5,6 +5,8 @@
 #include "Vector2f.h"
 #include <iterator>
 
+#include "SoundManager.h"
+
 TurretDrawing::TurretDrawing()
 	: TurretDrawing(nullptr)
 {
@@ -17,6 +19,8 @@ TurretDrawing::TurretDrawing(Enemy* pEnemy)
 	, m_pCurrentAnimation{ nullptr }
 	, m_DeathExplosion{ "Resources/Textures/Effects/explosion.png" }
 	, m_IsDead{ false }
+	, m_ExplosionSoundPlayed{ false }
+	, m_pDeathSound{ SoundManager::GetInstance()->GetSoundEffect("Resources/Sound/Explosion.wav") }
 {
 }
 TurretDrawing::~TurretDrawing()
@@ -54,6 +58,12 @@ void TurretDrawing::Update(float elapsedSec)
 	m_IsDead = m_pEnemy->IsDead();
 	if (m_IsDead)
 	{
+		if (!m_ExplosionSoundPlayed)
+		{
+			SoundManager::GetInstance()->PlaySoundEffect(m_pDeathSound);
+			m_ExplosionSoundPlayed = true;
+		}
+
 		m_DeathExplosion.Update(elapsedSec);
 		m_pEnemy->m_CanDelete = m_DeathExplosion.GetCurrentAnimation()->IsAnimationDone();
 		return;
