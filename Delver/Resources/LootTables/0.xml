@@ -8,12 +8,21 @@
 <Posistion>0 0</Posistion>
 <Velocity>0 0</Velocity>
 </Pickup>
-<Chance>50</Chance>
+<Chance>20</Chance>
 </Entry>
 <Entry>
 <Pickup>
 <Type>warp</Type>
 <EffectDuration>15.0</EffectDuration>
+<Posistion>0 0</Posistion>
+<Velocity>0 0</Velocity>
+</Pickup>
+<Chance>20</Chance>
+</Entry>
+<Entry>
+<Pickup>
+<Type>health</Type>
+<EffectDuration>0.0</EffectDuration>
 <Posistion>0 0</Posistion>
 <Velocity>0 0</Velocity>
 </Pickup>

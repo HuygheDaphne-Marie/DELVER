@@ -8,7 +8,8 @@ public:
 	enum class PickupType
 	{
 		bounce,
-		warp
+		warp,
+		health
 	};
 
 	Pickup(PickupType type, float effectDuration, const Point2f& pos, const Vector2f& velocity = Vector2f{ 0,0 });

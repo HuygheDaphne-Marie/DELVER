@@ -28,13 +28,10 @@ Pickup::Pickup(PickupType type, float effectDuration, const Point2f& pos, const 
 	case PickupType::warp: 
 		m_pTexture = TextureManager::GetInstance()->GetTexture(TextureManager::GetInstance()->m_Pickup_Warp);
 		break;
+	case PickupType::health:
+		m_pTexture = TextureManager::GetInstance()->GetTexture("Resources/Textures/Items/Health.png");
+		break;
 	}
-
-	//if (m_pTexture != nullptr)
-	//{
-	//	m_Width = m_pTexture->GetWidth();
-	//	m_Height = m_pTexture->GetHeight();
-	//}
 }
 Pickup::Pickup(const std::string& stringData)
 	: Item(ItemType::pickup, Point2f{0,0})
@@ -56,6 +53,11 @@ Pickup::Pickup(const std::string& stringData)
 	{
 		m_Type = PickupType::warp;
 		m_pTexture = TextureManager::GetInstance()->GetTexture(TextureManager::GetInstance()->m_Pickup_Warp);
+	}
+	else if (type == "health")
+	{
+		m_Type = PickupType::health;
+		m_pTexture = TextureManager::GetInstance()->GetTexture("Resources/Textures/Items/Health.png");
 	}
 
 	std::string effectDuration{ utils::GetAttributeValue("EffectDuration", stringData) };
@@ -147,8 +149,14 @@ void Pickup::StartEffect()
 		case Pickup::PickupType::warp:
 			effectToBeApplied = SpecialEffect::Type::warp;
 			break;
+		case Pickup::PickupType::health:
+			m_pAffectedPlayer->m_CurrentHp++;
+			ItemManager::GetInstance()->QueueForDestroy(this);
+			return;
+			break;
 		}
 
+		m_pAffectedPlayer->SetPickup(nullptr);
 		m_pAffectedPlayer->GetEquippedGun()->m_TypeOfSpecialEffectLoaded = effectToBeApplied;
 		m_EffectActive = true;
 		m_pAffectedPlayer->SetPickup(this);
