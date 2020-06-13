@@ -1,6 +1,11 @@
 #include "pch.h"
 #include "SoundManager.h"
 
+#include <fstream>
+#include <istream>
+#include <ostream>
+#include <sstream>
+
 SoundManager* SoundManager::GetInstance()
 {
 	static SoundManager* instance;
@@ -17,7 +22,9 @@ SoundManager::SoundManager()
 	, m_SoundStreams{}
 	, m_EffectVolume{50}
 	, m_StreamVolume{50}
+	, m_SettingSaveLoc{ "Resources/Settings/sound.xml" }
 {
+	ReadSettings();
 }
 SoundManager::~SoundManager()
 {
@@ -32,6 +39,8 @@ SoundManager::~SoundManager()
 		delete itr->second;
 	}
 	m_SoundStreams.clear();
+
+	WriteSettings();
 }
 
 SoundEffect* SoundManager::GetSoundEffect(const std::string& soundFile)
@@ -129,4 +138,31 @@ void SoundManager::SetStreamVolume(int volume)
 	{
 		m_pCurrentlyPlayingStream->SetVolume(m_StreamVolume);
 	}
+}
+
+void SoundManager::ReadSettings()
+{
+	std::ifstream ifs{ m_SettingSaveLoc };
+	if (!ifs.good())
+	{
+		// file does not exist
+		return;
+	}
+
+	std::string settings{};
+	std::string line{};
+	while (std::getline(ifs, line, '\n'))
+	{
+		settings += line;
+	}
+
+	std::stringstream ss{};
+	ss << utils::GetAttributeValue("Volume", settings);
+	ss >> m_EffectVolume;
+	m_StreamVolume = m_EffectVolume;
+}
+void SoundManager::WriteSettings()
+{
+	std::ofstream ofs{ m_SettingSaveLoc };
+	ofs << "<Volume>"+std::to_string(m_EffectVolume)+"</Volume>\n";
 }

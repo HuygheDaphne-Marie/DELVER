@@ -27,12 +27,16 @@ public:
 	int GetStreamVolume() const;
 	void SetStreamVolume(int volume);
 
+	void ReadSettings();
+	void WriteSettings();
 
 private:
 	std::unordered_map<std::string, SoundEffect*> m_SoundEffects;
 	std::unordered_map<std::string, SoundStream*> m_SoundStreams;
 
 	SoundStream* m_pCurrentlyPlayingStream;
+
+	const std::string m_SettingSaveLoc;
 
 	int m_EffectVolume;
 	int m_StreamVolume;
