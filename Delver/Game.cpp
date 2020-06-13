@@ -11,7 +11,7 @@
 #include "HealthDisplay.h"
 #include "RestartButton.h"
 #include "SoundDisplay.h"
-
+#include "SoundStream.h"
 #include "SoundManager.h"
 
 Game::Game( const Window& window )
@@ -47,9 +47,8 @@ void Game::Initialize( )
 
 	EnemyManager::GetInstance()->m_pCurrentLevel = &m_Level;
 
-	// TESTING
-	//LootDropper ld{};
-	//ld.DropLoot(Enemy::Type::turret, m_Player.GetPosition() + Vector2f{50.f, 10.f});
+	SoundStream* pBgMusic{ SoundManager::GetInstance()->GetSoundStream("Resources/Sound/White Bat Audio - Knee Deep in the Dead.wav") };
+	SoundManager::GetInstance()->PlaySoundStream(pBgMusic);
 
 	// Menu Setup
 #pragma region Menu Setup
