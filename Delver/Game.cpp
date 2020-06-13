@@ -11,6 +11,8 @@
 #include "HealthDisplay.h"
 #include "RestartButton.h"
 
+#include "SoundManager.h"
+
 Game::Game( const Window& window )
 	: m_Window{ window }
 	, m_Player{ Point2f{window.width / 2, window.height / 2}, 5 }
@@ -69,6 +71,7 @@ void Game::Cleanup( )
 	delete TextureManager::GetInstance();
 	delete EnemyManager::GetInstance();
 	delete ItemManager::GetInstance();
+	delete SoundManager::GetInstance();
 }
 
 void Game::Update( float elapsedSec )
@@ -150,7 +153,7 @@ void Game::HandleOldLevel()
 {
 	BulletManager::GetInstance()->ClearAll();
 	EnemyManager::GetInstance()->ClearAll();
-	ItemManager::GetInstance()->ClearAll();
+	ItemManager::GetInstance()->ClearAllOnLevel();
 }
 void Game::HandleNewLevel()
 {

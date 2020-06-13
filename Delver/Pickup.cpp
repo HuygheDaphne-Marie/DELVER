@@ -8,6 +8,8 @@
 #include "SpecialEffect.h"
 #include "ItemManager.h"
 
+#include "SoundManager.h"
+
 Pickup::Pickup(PickupType type, float effectDuration, const Point2f& pos, const Vector2f& velocity)
 	: Item(ItemType::pickup, pos, velocity)
 	, m_Type{ type }
@@ -16,6 +18,7 @@ Pickup::Pickup(PickupType type, float effectDuration, const Point2f& pos, const 
 	, m_pAffectedPlayer{ nullptr }
 	, m_pTexture{ nullptr }
 	, m_EffectActive{ false }
+	, m_pPickupSound{ SoundManager::GetInstance()->GetSoundEffect("Resources/Sound/Pickup.wav") }
 {
 	switch (type)
 	{
@@ -41,6 +44,7 @@ Pickup::Pickup(const std::string& stringData)
 	, m_pAffectedPlayer{ nullptr }
 	, m_pTexture{ nullptr }
 	, m_EffectActive{ false }
+	, m_pPickupSound{ SoundManager::GetInstance()->GetSoundEffect("Resources/Sound/Pickup.wav") }
 {
 	std::string type{ utils::GetAttributeValue("Type", stringData) };
 	if (type == "bounce")
@@ -71,6 +75,7 @@ Pickup::Pickup(const Pickup& other)
 	, m_pAffectedPlayer{ nullptr }
 	, m_pTexture{ other.m_pTexture }
 	, m_EffectActive{ false }
+	, m_pPickupSound{ SoundManager::GetInstance()->GetSoundEffect("Resources/Sound/Pickup.wav") }
 {
 }
 Pickup::~Pickup()
@@ -106,6 +111,8 @@ void Pickup::OnPickup(Player& player)
 	{
 		return;
 	}
+
+	SoundManager::GetInstance()->PlaySoundEffect(m_pPickupSound);
 
 	m_pAffectedPlayer = &player;
 	StartEffect();

@@ -6,6 +6,7 @@
 #include "Bullet.h"
 #include "Actor.h"
 #include "Player.h"
+#include "SoundManager.h"
 
 #include <iostream>
 
@@ -24,6 +25,7 @@ Gun::Gun(float recoilResist, float bulletSpeed, float fireRate, Texture* texture
 	, m_pHolder{ nullptr }
 	, m_TypeOfBulletLoaded{ typeBullet }
 	, m_TypeOfSpecialEffectLoaded{ typeSpecial }
+	, m_pGunshotEffect{ SoundManager::GetInstance()->GetSoundEffect("Resources/Sound/shot.wav") }
 {
 }
 Gun::~Gun()
@@ -110,6 +112,7 @@ void Gun::Fire(float elapsedSec)
 	bulletToFire->SetFireOrigin(this);
 
 	m_CanFire = false;
+	SoundManager::GetInstance()->PlaySoundEffect(m_pGunshotEffect);
 	//std::cout << "Bullets flying: " << m_pBulletManager->GetSize() << std::endl;
 
 	// move player/enemy back (according to recoil)

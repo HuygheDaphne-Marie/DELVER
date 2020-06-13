@@ -231,6 +231,9 @@
     <ClCompile Include="RestartButton.cpp">
       <Filter>Game Files\UI\Components\Buttons</Filter>
     </ClCompile>
+    <ClCompile Include="SoundManager.cpp">
+      <Filter>Game Files\Managers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -391,6 +394,9 @@
     </ClInclude>
     <ClInclude Include="RestartButton.h">
       <Filter>Game Files\UI\Components\Buttons</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundManager.h">
+      <Filter>Game Files\Managers</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

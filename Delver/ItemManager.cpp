@@ -89,11 +89,13 @@ size_t ItemManager::GetSize() const
 	return m_Items.size();
 }
 
-void ItemManager::ClearAll()
+void ItemManager::ClearAllOnLevel()
 {
 	for (Item* item : m_Items)
 	{
-		delete item;
+		if (!item->m_PickedUp)
+		{
+			QueueForDestroy(item);
+		}
 	}
-	m_Items.clear();
 }

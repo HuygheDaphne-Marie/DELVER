@@ -1,6 +1,7 @@
 #pragma once
 #include "BulletType.h"
 #include "SpecialEffect.h"
+#include "SoundEffect.h"
 
 class BulletManager;
 class Texture;
@@ -50,6 +51,8 @@ private:
 	Actor* m_pHolder;
 
 	BulletType m_TypeOfBulletLoaded;
+
+	SoundEffect* m_pGunshotEffect;
 
 	void Fire(float elapsedSec);
 };

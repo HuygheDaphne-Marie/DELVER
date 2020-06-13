@@ -1,5 +1,6 @@
 #pragma once
 #include "Item.h"
+#include "SoundEffect.h"
 
 class Pickup final : public Item
 {
@@ -38,5 +39,7 @@ private:
 	Player* m_pAffectedPlayer;
 	Texture* m_pTexture;
 	bool m_EffectActive;
+
+	SoundEffect* m_pPickupSound;
 };
 

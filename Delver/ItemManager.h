@@ -24,7 +24,7 @@ public:
 
 	size_t GetSize() const;
 
-	void ClearAll();
+	void ClearAllOnLevel();
 
 private:
 	std::vector<Item*> m_Items;
