@@ -6,7 +6,7 @@ class Bullet;
 class Room;
 
 #include <vector>
-#include "LootDropper.h";
+#include "LootDropper.h"
 
 class EnemyManager final
 {

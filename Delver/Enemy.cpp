@@ -115,7 +115,7 @@ void Enemy::Draw() const
 
 bool Enemy::IsTargetInRange(const Actor& target) const
 {
-	return utils::GetDistance(m_Position, target.GetPosition()) < m_DetectionRange;
+	return utils::GetDistanceSquared(m_Position, target.GetPosition()) < m_DetectionRange * m_DetectionRange;
 }
 
 bool Enemy::IsDead() const

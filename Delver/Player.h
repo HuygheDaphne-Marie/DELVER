@@ -18,7 +18,7 @@ public:
 		dead
 	};
 
-	Player(const Point2f& pos, Gun* pGunEquiped = nullptr);
+	Player(const Point2f& pos, int health, Gun* pGunEquiped = nullptr);
 	~Player();
 
 	//void Update(float elapsedSec, const Level& level) override;
@@ -35,6 +35,11 @@ public:
 
 	Pickup* GetPickup() const;
 	void SetPickup(Pickup* pickup);
+
+	bool IsDead() const;
+
+	const int m_MaxHP;
+	int m_CurrentHp;
 
 private:
 	State m_State;

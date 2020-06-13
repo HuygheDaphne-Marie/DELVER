@@ -91,6 +91,10 @@ float utils::GetDistance(const Point2f& p1, const Point2f& p2)
 {
 	return sqrt(pow(p2.x - p1.x, 2) + pow(p2.y - p1.y, 2));
 }
+float utils::GetDistanceSquared(const Point2f& p1, const Point2f& p2)
+{
+	return pow(p2.x - p1.x, 2) + pow(p2.y - p1.y, 2);
+}
 
 
 bool utils::GridPosValid(const GridPos& pos, int cols, int rows)

@@ -17,7 +17,7 @@ StationaryBeheviour::~StationaryBeheviour()
 
 void StationaryBeheviour::Update(float elapsedSec)
 {
-	if (utils::GetDistance(m_StartPos, m_pEnemy->GetPosition()) > 1.f)
+	if (utils::GetDistanceSquared(m_StartPos, m_pEnemy->GetPosition()) > 1.f)
 	{
 		m_pEnemy->SetPosition(m_StartPos);
 	}

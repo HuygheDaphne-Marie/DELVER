@@ -7,6 +7,10 @@ class PickupDisplay : public MenuComponent
 {
 public:
 	PickupDisplay(Player* player, const Point2f& center, const Color4f& circleColor = Color4f{1, 1, 1, 1});
+	PickupDisplay(const PickupDisplay& other) = delete;
+	PickupDisplay& operator=(const PickupDisplay& other) = delete;
+	PickupDisplay(PickupDisplay&& other) = delete;
+	PickupDisplay& operator=(PickupDisplay&& other) = delete;
 	virtual ~PickupDisplay();
 
 	virtual void Update(float elapsedsec) override;

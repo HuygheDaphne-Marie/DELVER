@@ -19,6 +19,7 @@ namespace utils
 	double CartesianYFromPolar(float radius, float angle);
 
 	float GetDistance(const Point2f& p1, const Point2f& p2);
+	float GetDistanceSquared(const Point2f& p1, const Point2f& p2);
 
 	bool GridPosValid(const GridPos& pos, int cols, int rows);
 	GridPos GridPosFromIndex(int index, int cols);

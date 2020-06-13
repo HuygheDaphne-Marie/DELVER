@@ -9,7 +9,7 @@
 #include "AnimatedTexture.h"
 #include <iostream>
 
-Player::Player(const Point2f& pos, Gun* pGunEquiped)
+Player::Player(const Point2f& pos, int health, Gun* pGunEquiped)
 	: Actor
 	(
 		Actor::ActorData
@@ -26,6 +26,8 @@ Player::Player(const Point2f& pos, Gun* pGunEquiped)
 	, m_AnimatedTexture{ "Resources/Textures/Actors/player.png" }
 	, m_LookPos{ pos }
 	, m_pPickup{ nullptr }
+	, m_MaxHP{ health }
+	, m_CurrentHp{ health }
 {
 	if (pGunEquiped != nullptr)
 	{
@@ -179,6 +181,11 @@ void Player::SetPickup(Pickup* pickup)
 		m_pPickup->StopEffect();
 	}
 	m_pPickup = pickup;
+}
+
+bool Player::IsDead() const
+{
+	return m_CurrentHp <= 0;
 }
 
 Controller* Player::GetController() const

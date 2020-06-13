@@ -225,6 +225,9 @@
     <ClCompile Include="PickupDisplay.cpp">
       <Filter>Game Files\UI\Components\PlayerInfo</Filter>
     </ClCompile>
+    <ClCompile Include="HealthDisplay.cpp">
+      <Filter>Game Files\UI\Components\PlayerInfo</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -378,6 +381,9 @@
       <Filter>Game Files\UI\Components</Filter>
     </ClInclude>
     <ClInclude Include="PickupDisplay.h">
+      <Filter>Game Files\UI\Components\PlayerInfo</Filter>
+    </ClInclude>
+    <ClInclude Include="HealthDisplay.h">
       <Filter>Game Files\UI\Components\PlayerInfo</Filter>
     </ClInclude>
   </ItemGroup>
