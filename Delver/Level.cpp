@@ -127,6 +127,12 @@ int Level::GetCurrentLevel() const
 	return m_CurrentLevel;
 }
 
+void Level::Reset()
+{
+	m_CurrentLevel = 0;
+	GenerateNextLevel();
+}
+
 void Level::Generate()
 {
 	// Make empty level according to size

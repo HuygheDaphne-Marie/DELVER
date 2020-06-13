@@ -35,6 +35,8 @@ public:
 
 	EnemyFactory* GetEnemyFactory();
 
+	void ResetGame();
+
 	// Event handling
 	void ProcessKeyDownEvent( const SDL_KeyboardEvent& e );
 	void ProcessKeyUpEvent( const SDL_KeyboardEvent& e );

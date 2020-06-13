@@ -228,6 +228,9 @@
     <ClCompile Include="HealthDisplay.cpp">
       <Filter>Game Files\UI\Components\PlayerInfo</Filter>
     </ClCompile>
+    <ClCompile Include="RestartButton.cpp">
+      <Filter>Game Files\UI\Components\Buttons</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -385,6 +388,9 @@
     </ClInclude>
     <ClInclude Include="HealthDisplay.h">
       <Filter>Game Files\UI\Components\PlayerInfo</Filter>
+    </ClInclude>
+    <ClInclude Include="RestartButton.h">
+      <Filter>Game Files\UI\Components\Buttons</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

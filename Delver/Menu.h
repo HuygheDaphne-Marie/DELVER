@@ -10,7 +10,8 @@ public:
 	enum class State
 	{
 		playing,
-		paused
+		paused,
+		gameover
 	};
 
 	Menu();

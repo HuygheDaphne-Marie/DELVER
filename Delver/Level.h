@@ -29,6 +29,8 @@ public:
 
 	int GetCurrentLevel() const;
 
+	void Reset();
+
 private:
 	std::vector<Room*> m_Rooms;
 	int m_LevelCols;
