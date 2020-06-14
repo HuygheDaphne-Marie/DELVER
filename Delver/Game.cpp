@@ -193,8 +193,9 @@ void Game::PrintControls()
 	std::cout << "I: Display this info\n";
 	std::cout << "WASD keys: Movement\n";
 	std::cout << "Left mouse button: Fire Weapon\n";
-	std::cout << "P: Pause game\n";
-	std::cout << "R: Resume game\n";
+	std::cout << "P: Pause game (When not paused)\n";
+	std::cout << "R: Resume game (When paused)\n";
+	std::cout << "E: Go down stairs (Will only work when standing on stairs in the center of a room)\n";
 }
 
 void Game::ProcessKeyDownEvent( const SDL_KeyboardEvent & e )
