@@ -44,7 +44,8 @@ private:
 	Vector2f m_Velocity;
 	Point2f m_Position;
 	SpecialEffect* m_pSpecialEffect;
-	Gun* m_pGunWhichFired;
+	//Gun* m_pGunWhichFired;
+	Actor::Type m_FiredByType;
 
 	bool m_IsGoingToBeDestroyed;
 	

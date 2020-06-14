@@ -14,7 +14,7 @@ public:
 
 	Pickup(PickupType type, float effectDuration, const Point2f& pos, const Vector2f& velocity = Vector2f{ 0,0 });
 	Pickup(const std::string& stringData);
-	Pickup(const Pickup& other);
+	Pickup(const Pickup& other) = delete;
 	Pickup& operator=(const Pickup& other) = delete;
 	Pickup(Pickup&& other) = delete;
 	Pickup& operator=(Pickup&& other) = delete;
@@ -32,6 +32,7 @@ public:
 	const float GetEffectDuration() const;
 	const float GetEffectTimer() const;
 	const Texture* GetTexture() const;
+	const PickupType GetPickupType() const;
 
 private:
 	PickupType m_Type;

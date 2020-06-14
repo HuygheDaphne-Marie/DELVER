@@ -133,6 +133,7 @@ void Enemy::HandleDeath()
 	// TODO: make enemy animate a dead thiny with blood and stuff
 	m_State = Enemy::State::dead;
 	m_pEquippedGun->StopFiring();
+	m_pEquippedGun->SetHolder(nullptr);
 
 	if (m_CanDelete)
 	{

@@ -14,8 +14,9 @@ Bullet::Bullet(BulletType type)
 	, m_Velocity{0,0}
 	, m_Position{0,0}
 	, m_pSpecialEffect{nullptr}
-	, m_pGunWhichFired{nullptr}
+	//, m_pGunWhichFired{nullptr}
 	, m_IsGoingToBeDestroyed{ false }
+	, m_FiredByType{ Actor::Type::enemy }
 {
 }
 Bullet::~Bullet()
@@ -57,7 +58,15 @@ void Bullet::SetTexture(Texture* texture)
 }
 void Bullet::SetFireOrigin(Gun* originGun)
 {
-	m_pGunWhichFired = originGun;
+	//m_pGunWhichFired = originGun;
+	if (originGun == nullptr || originGun->GetHolder() == nullptr)
+	{
+		m_FiredByType = Actor::Type::enemy;
+	}
+	else
+	{
+		m_FiredByType = originGun->GetHolder()->m_Type;
+	}	
 }
 
 Point2f Bullet::GetPosition() const
@@ -92,8 +101,8 @@ void Bullet::Update(float elapsedSec, const std::vector<std::vector<Point2f>>& w
 
 	// TODO: check colisions with non-walls and such
 	EnemyManager::GetInstance()->CheckCollision(this);
-	bool FiredByEnemy{ m_pGunWhichFired->GetHolder() == nullptr || m_pGunWhichFired->GetHolder()->m_Type == Actor::Type::enemy };
-	if (FiredByEnemy && player.isPointInCollisionRect(m_Position))
+	//bool FiredByEnemy{ m_pGunWhichFired == nullptr || m_pGunWhichFired->GetHolder() == nullptr || m_pGunWhichFired->GetHolder()->m_Type == Actor::Type::enemy };
+	if (m_FiredByType == Actor::Type::enemy && player.isPointInCollisionRect(m_Position))
 	{
 		OnHit(player);
 	}
@@ -121,7 +130,7 @@ void Bullet::Draw() const
 
 void Bullet::OnHit(Enemy* enemyHit)
 {
-	if (m_pGunWhichFired->GetHolder()->m_Type == Actor::Type::enemy)
+	if (m_FiredByType == Actor::Type::enemy)
 	{
 		return;
 	}

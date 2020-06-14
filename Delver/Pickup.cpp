@@ -69,17 +69,17 @@ Pickup::Pickup(const std::string& stringData)
 	const Point2f velocityPos{ utils::ToPoint2f(utils::GetAttributeValue("Posistion", stringData)) };
 	m_Velocity = Vector2f{ velocityPos.x, velocityPos.y };
 }
-Pickup::Pickup(const Pickup& other)
-	: Item(ItemType::pickup, other.m_Posistion, other.m_Velocity)
-	, m_Type{ other.m_Type }
-	, m_EffectDuration{ other.m_EffectDuration }
-	, m_EffectTimer{ 0 }
-	, m_pAffectedPlayer{ nullptr }
-	, m_pTexture{ other.m_pTexture }
-	, m_EffectActive{ false }
-	, m_pPickupSound{ SoundManager::GetInstance()->GetSoundEffect("Resources/Sound/Pickup.wav") }
-{
-}
+//Pickup::Pickup(const Pickup& other)
+//	: Item(ItemType::pickup, other.m_Posistion, other.m_Velocity)
+//	, m_Type{ other.m_Type }
+//	, m_EffectDuration{ other.m_EffectDuration }
+//	, m_EffectTimer{ 0 }
+//	, m_pAffectedPlayer{ nullptr }
+//	, m_pTexture{ other.m_pTexture }
+//	, m_EffectActive{ false }
+//	, m_pPickupSound{ other.m_pPickupSound }
+//{
+//}
 Pickup::~Pickup()
 {
 	m_pAffectedPlayer = nullptr;
@@ -150,7 +150,10 @@ void Pickup::StartEffect()
 			effectToBeApplied = SpecialEffect::Type::warp;
 			break;
 		case Pickup::PickupType::health:
-			m_pAffectedPlayer->m_CurrentHp++;
+			if (m_pAffectedPlayer->m_CurrentHp < m_pAffectedPlayer->m_MaxHP)
+			{
+				m_pAffectedPlayer->m_CurrentHp++;
+			}
 			ItemManager::GetInstance()->QueueForDestroy(this);
 			return;
 			break;
@@ -185,4 +188,8 @@ const float Pickup::GetEffectTimer() const
 const Texture* Pickup::GetTexture() const
 {
 	return m_pTexture;
+}
+const Pickup::PickupType Pickup::GetPickupType() const
+{
+	return m_Type;
 }

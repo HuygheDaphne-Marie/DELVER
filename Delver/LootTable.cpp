@@ -40,8 +40,9 @@ std::vector<Item*> LootTable::RollTable()
 		{
 			if (entry.item->m_ItemType == Item::ItemType::pickup)
 			{
-				Pickup* tablePickup{ static_cast<Pickup*>(entry.item) };
-				droppedItems.push_back(new Pickup(*tablePickup));
+				Pickup* basePickup{ static_cast<Pickup*>(entry.item) };
+				Pickup* tablePickup{ new Pickup(basePickup->GetPickupType(), basePickup->GetEffectDuration(), basePickup->m_Posistion, basePickup->m_Velocity) };
+				droppedItems.push_back(tablePickup);
 			}
 
 		}

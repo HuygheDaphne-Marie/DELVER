@@ -6,7 +6,7 @@
 RestartButton::RestartButton(Game* game, const Rectf& btnRect)
 	: m_pGame{ game }
 	, m_BtnRect{ btnRect }
-	, m_Printer{ "Resources/Textures/UI/VT323-Regular.ttf", btnRect.height/2 }
+	, m_Printer{ "Resources/Textures/UI/VT323-Regular.ttf", int(btnRect.height / 2) }
 	, m_Text{ "Restart" }
 	, m_pBtnTexture{ TextureManager::GetInstance()->GetTexture("Resources/Textures/UI/button_base.png") }
 {
